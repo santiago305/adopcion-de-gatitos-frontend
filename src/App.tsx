@@ -1,10 +1,10 @@
 import './globals.css'
+import AppRouter from './Router/AppRouter'
 function App() {
   return (
-    <div
-    className='text-red-500'>
-      hola
-    </div>
+    <>
+      <AppRouter />
+    </>
   )
 }
 

@@ -1,0 +1,8 @@
+export {default as Home } from './Home'
+export {default as About } from './About'
+export {default as Contact } from './Contact'
+export {default as Products } from './Product'
+export {default as ProductShow} from './Product.show'
+// export {default as Profile } from './Profile'
+// export {default as Order } from './Order'
+// export {default as NotFound } from './NotFound'
