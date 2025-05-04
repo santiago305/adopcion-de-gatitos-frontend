@@ -1,16 +1,21 @@
 import React from 'react';  // Necesario en algunos casos
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { UrlPage } from './Router';
-import { About, Home, Products, ProductShow } from '../pages';
+import { About, Dashboard, Home, Login, Products, ProductShow, Register } from '../pages';
 import Contact from '../pages/Contact';
 
 
 type RouteComponentName = 
-"Home" | 
-"About me" | 
-"Products" | 
-"Product.Show" | 
-"Contact";
+"Home" 
+| "About me" 
+| "Products" 
+| "Product.Show"
+| "Contact"
+// | "Profile" 
+| "Login"
+| "Register"
+| "Dashboard" 
+//| "Settings";
 
 const routeComponents: Record<RouteComponentName, React.ComponentType> = {
   Home: Home,
@@ -18,6 +23,9 @@ const routeComponents: Record<RouteComponentName, React.ComponentType> = {
   Products: Products,
   Contact: Contact,
   "Product.Show": ProductShow,
+  Dashboard: Dashboard,
+  Login: Login,
+  Register: Register,
 };
 
 export default function AppRouter() {

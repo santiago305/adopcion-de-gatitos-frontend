@@ -53,6 +53,10 @@ export const UrlPage: {
         url: "/register",
     },
     {
+        name: "Dashboard",
+        url: "/dashboard",
+    },
+    {
         name: "404",
         url: "*",
     }
