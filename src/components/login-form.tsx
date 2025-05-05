@@ -9,13 +9,14 @@ import { Link } from "react-router-dom";
 import { UrlPage } from "@/Router/Router";
 import { validateLogin } from "@/validations/validateAuth";
 import { useFlashMessage } from "@/context/FlashMessageContext";
+import { LoginValidationErrors } from "@/validations/validationstype";
 
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<LoginValidationErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
 
@@ -81,7 +82,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   placeholder="m@e123.com"
                 />
                 <div
-                className="h-2"
+                className="min-h-2 h-auto"
                 >
                 {errors.email && (
                   <p className="text-sm text-red-500">{errors.email}</p>
@@ -98,7 +99,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <div
-                className="h-2"
+                className="min-h-2 h-auto"
                 >
                 {errors.password && (
                   <p className="text-sm text-red-500">{errors.password}</p>

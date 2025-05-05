@@ -1,9 +1,17 @@
 import { isRequired, isEmail, minLength } from "./validations";
-import { LoginCredentials, LoginValidationErrors } from "./validationstype";
+import { RegisterCredentials, RegisterValidationErrors } from "./validationstype";
 
 
-export function validateLogin({ email, password }: LoginCredentials): LoginValidationErrors {
-  const errors: LoginValidationErrors = {};
+
+export function validateRegister({ email, password, name }: RegisterCredentials): RegisterValidationErrors {
+  const errors: RegisterValidationErrors = {};
+
+  const nameRequired = isRequired(name, "nombre");
+  if (nameRequired) errors.name = nameRequired;
+  else {
+    const nameMin = minLength(name, 5, 'nombre');
+    if (nameMin) errors.name = nameMin;
+  }
 
   const emailRequired = isRequired(email, "correo");
   if (emailRequired) errors.email = emailRequired;
