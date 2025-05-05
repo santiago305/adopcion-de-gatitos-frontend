@@ -80,9 +80,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="m@e123.com"
                 />
+                <div
+                className="h-2"
+                >
                 {errors.email && (
                   <p className="text-sm text-red-500">{errors.email}</p>
                 )}
+                </div>
               </div>
 
               <div className="grid gap-1">
@@ -93,9 +97,13 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <div
+                className="h-2"
+                >
                 {errors.password && (
                   <p className="text-sm text-red-500">{errors.password}</p>
                 )}
+                </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={submitting}>
