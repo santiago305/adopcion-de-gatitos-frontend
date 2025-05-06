@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { UrlPage } from "@/Router/Router";
+import { UrlPage } from "@/router/RouterTypes";
 import { useFlashMessage } from "@/context/FlashMessageContext";
 import { validateRegister } from "@/validations/validateRegister";
 import { RegisterValidationErrors } from "@/validations/validationstype";
@@ -129,14 +129,14 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
               </div>
 
               <Button type="submit" className="w-full" disabled={submitting}>
-                {submitting ? "Cargando..." : "Login"}
+                {submitting ? "Cargando..." : "Register"}
               </Button>
             </div>
 
             <div className="mt-4 text-center text-sm">
-              ¿No tienes una cuenta?{" "}
+              ¿ya tienes una cuenta?{" "}
               <Link to={LoginRoute.url} className="underline underline-offset-4">
-                Regístrate
+                Iniciar sesión
               </Link>
             </div>
           </form>

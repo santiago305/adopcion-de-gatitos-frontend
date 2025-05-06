@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { loginUser } from "@/api/auth";
 import { cn } from "@/lib/utils";
+import { UrlPage } from "@/router/RouterTypes";
+import { validateLogin } from "@/validations/validateAuth";
+import { useFlashMessage } from "@/context/FlashMessageContext";
+import { LoginValidationErrors } from "@/validations/validationstype";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { UrlPage } from "@/Router/Router";
-import { validateLogin } from "@/validations/validateAuth";
-import { useFlashMessage } from "@/context/FlashMessageContext";
-import { LoginValidationErrors } from "@/validations/validationstype";
 
-export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
+function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
 
   const [email, setEmail] = useState("");
@@ -61,6 +62,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
+
         <CardHeader>
           <CardTitle className="text-center text-2xl">
             Inicia sesión en tu cuenta
@@ -69,6 +71,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             Ingrese su correo electrónico a continuación para iniciar sesión
           </CardDescription>
         </CardHeader>
+
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
@@ -120,7 +123,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             </div>
           </form>
         </CardContent>
+        
       </Card>
     </div>
   );
 }
+export default LoginForm

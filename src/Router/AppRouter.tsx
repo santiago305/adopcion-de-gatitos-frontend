@@ -1,8 +1,15 @@
-import React from 'react';  // Necesario en algunos casos
+import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { UrlPage } from './Router';
-import { About, Dashboard, Home, Login, Products, ProductShow, Register } from '../pages';
-import Contact from '../pages/Contact';
+import { UrlPage } from './RouterTypes';
+
+const Home = lazy(() => import("@/pages/Home"));
+const About = lazy(() => import("@/pages/About"));
+const Products = lazy(() => import("@/pages/Product"));
+const ProductShow = lazy(() => import("@/pages/Product.show"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+const Login = lazy(() => import("@/pages/Auth/Login"));
+const Register = lazy(() => import("@/pages/Auth/Register"));
 
 
 type RouteComponentName = 
@@ -31,16 +38,18 @@ const routeComponents: Record<RouteComponentName, React.ComponentType> = {
 export default function AppRouter() {
   return (
     <Router>
-      <Routes>
-        {UrlPage.map((route) => {
-          // Asegurarse de que route.name sea una clave válida de routeComponents
-          const Component = routeComponents[route.name as RouteComponentName]; 
-          if (!Component) {
-            return null;
-          }
-          return <Route key={route.name} path={route.url} element={<Component />} />;
-        })}
-      </Routes>
+      <Suspense fallback={<div className="text-white p-4">Cargando página...</div>}>
+        <Routes>
+          {UrlPage.map((route) => {
+            // Asegurarse de que route.name sea una clave válida de routeComponents
+            const Component = routeComponents[route.name as RouteComponentName]; 
+            if (!Component) {
+              return null;
+            }
+            return <Route key={route.name} path={route.url} element={<Component />} />;
+          })}
+        </Routes>
+      </Suspense>
     </Router>
   );
 }
