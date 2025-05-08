@@ -1,47 +1,38 @@
 import { useState } from "react";
-import { registerUser } from "@/services/authService";
 import { cn } from "@/lib/utils";
+import { UrlPage } from "@/router/RouterTypes";
+import { registerUser } from "@/services/authService";
+import { errorResponse, successResponse } from "@/common/utils/response";
+import { RegisterCredentials } from "@/types/auth";
+import { RegisterSchema } from "@/schemas/authSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import { UrlPage } from "@/router/RouterTypes";
 import { useFlashMessage } from "@/context/FlashMessageContext";
-import { validateRegister } from "@/validations/validateRegister";
-import { RegisterValidationErrors } from "@/validations/validationstype";
-import { errorResponse, successResponse } from "@/common/utils/response";
+import FieldError from "./ui/FieldError";
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const LoginRoute = UrlPage.find(route => route.name === "Login");
   const ClientsRegisterRoute = UrlPage.find(route => route.name === "ClientRegister");
   const navigate = useNavigate();
-
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<RegisterValidationErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
+  const { register, handleSubmit, formState: { errors } } = useForm<RegisterCredentials>({
+    resolver: zodResolver(RegisterSchema),
+  });
 
   if (!LoginRoute) return null;
 
-  const validate = () => {
-    const validationErrors = validateRegister({ email, password, name });
-    setErrors(validationErrors);
-    return Object.keys(validationErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit =  async (data: RegisterCredentials) => {
     clearFlash(); 
-
-    if (!validate()) return;
-
     setSubmitting(true);
     try {
-      await registerUser({ email, password, name });
+      await registerUser(data);
       if (!ClientsRegisterRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;
@@ -52,7 +43,6 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
         },
       });
       
-      
     } catch (error: any) {
       const message = error.response?.data?.message;
       showFlash({ type: message.type, message: message.message });
@@ -60,7 +50,9 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
     } finally {
       setSubmitting(false);
     }
-  };
+  }
+
+  
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -76,58 +68,29 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
             <div className="grid gap-1">
                 <Label htmlFor="email">Nombre</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="jose mauricio"
-                />
-                <div
-                className="min-h-3 h-auto"
-                >
-                {errors.name && (
-                  <p className="text-sm text-red-500">{errors.name}</p>
-                )}
+                <Input {...register('name')}   placeholder="jose mauricio"/>
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.name?.message} />
                 </div>
               </div>
 
               <div className="grid gap-1">
                 <Label htmlFor="email">Correo Electrónico</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="m@e123.com"
-                />
-                <div
-                className="min-h-3 h-auto"
-                >
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email}</p>
-                )}
+                <Input {...register('email')} placeholder="m@e123.com"/>
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.email?.message} />
                 </div>
               </div>
 
               <div className="grid gap-1">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <div
-                className="min-h-3 h-auto"
-                >
-                {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password}</p>
-                )}
+                <Input {...register('password')}/>
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.password?.message} />
                 </div>
               </div>
 

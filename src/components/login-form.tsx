@@ -2,9 +2,7 @@ import { useState } from "react";
 import { loginUser } from "@/services/authService";
 import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
-import { validateLogin } from "@/validations/validateAuth";
 import { useFlashMessage } from "@/context/FlashMessageContext";
-import { LoginValidationErrors } from "@/validations/validationstype";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,34 +10,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { errorResponse, successResponse } from "@/common/utils/response";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginCredentials } from "@/types/auth";
+import { LoginSchema } from "@/schemas/authSchemas";
+import FieldError from "./ui/FieldError";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
   const HomeRoute = UrlPage.find(route => route.name === "Home");
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<LoginValidationErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
-
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>({
+    resolver: zodResolver(LoginSchema),
+  });
+  
   if (!RegisterRoute) return null;
 
-  const validate = () => {
-    const validationErrors = validateLogin({ email, password });
-    setErrors(validationErrors);
-    return Object.keys(validationErrors).length === 0;
-  };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: LoginCredentials) => {
     clearFlash(); 
-
-    if (!validate()) return;
-
     setSubmitting(true);
     try {
-      await loginUser({ email, password });
+      await loginUser(data);
       if (!HomeRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;
@@ -58,7 +51,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
       setSubmitting(false);
     }
   };
-
+  
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -73,40 +66,22 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
+              
               <div className="grid gap-1">
                 <Label htmlFor="email">Correo Electrónico</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="m@e123.com"
-                />
-                <div
-                className="min-h-2 h-auto"
-                >
-                {errors.email && (
-                  <p className="text-sm text-red-500">{errors.email}</p>
-                )}
+                <Input {...register('email')} placeholder="m@e123.com"/>
+                <div className="min-h-2 h-auto">
+                  <FieldError error={errors.email?.message} />
                 </div>
               </div>
 
               <div className="grid gap-1">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <div
-                className="min-h-2 h-auto"
-                >
-                {errors.password && (
-                  <p className="text-sm text-red-500">{errors.password}</p>
-                )}
+                <Input {...register('password')}/>
+                <div className="min-h-2 h-auto">
+                  <FieldError error={errors.password?.message} />
                 </div>
               </div>
 
