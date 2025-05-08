@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "@/api/auth";
-import { parseApiError } from "@/utils/handleApiError";
-import { flashMessage } from "@/utils/flashEvent";
+import { parseApiError } from "@/common/utils/handleApiError";
+import { flashMessage } from "@/common/utils/flashEvent";
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);

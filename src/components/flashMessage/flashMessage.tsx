@@ -38,10 +38,10 @@ export const FlashMessage = ({ data, onClear }: FlashMessageProps) => {
             className="absolute bottom-0 right-0 p-4 z-50"
             >
               <Message
-                type={flashTypes[data.message.type].title}
-                text={data.message.text}
-                icon={flashTypes[data.message.type].icon}
-                color={flashTypes[data.message.type].color}
+                type={flashTypes[data.type].title}
+                text={data.message}
+                icon={flashTypes[data.type].icon}
+                color={flashTypes[data.type].color}
               />
             </div>
           </div>

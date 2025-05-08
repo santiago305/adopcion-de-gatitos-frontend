@@ -10,6 +10,7 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const Login = lazy(() => import("@/pages/Auth/Login"));
 const Register = lazy(() => import("@/pages/Auth/Register"));
+const ClientsRegister = lazy(() => import("@/pages/clients/ClientsRegister"));
 
 
 type RouteComponentName = 
@@ -22,6 +23,7 @@ type RouteComponentName =
 | "Login"
 | "Register"
 | "Dashboard" 
+| "ClientRegister"
 //| "Settings";
 
 const routeComponents: Record<RouteComponentName, React.ComponentType> = {
@@ -33,6 +35,7 @@ const routeComponents: Record<RouteComponentName, React.ComponentType> = {
   Dashboard: Dashboard,
   Login: Login,
   Register: Register,
+  ClientRegister: ClientsRegister
 };
 
 export default function AppRouter() {

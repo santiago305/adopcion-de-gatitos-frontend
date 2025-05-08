@@ -6,11 +6,11 @@ import {
 } from "@/validations/validationstype";
 
 export const loginUser = async (payload: LoginCredentials) => {
-  const response = await axios.post(API_AUTH_GROUP.authentication, payload);
+  const response = await axios.post(API_AUTH_GROUP.authentication, payload,{withCredentials: true,});
   return response.data;
 };
 
 export const registerUser = async (payload: RegisterCredentials) => {
-  const response = await axios.post(API_AUTH_GROUP.register, payload)
+  const response = await axios.post(API_AUTH_GROUP.register, payload,{withCredentials: true,})
   return response.data;
 }

@@ -10,10 +10,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { errorResponse, successResponse } from "@/common/utils/response";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
+  const HomeRoute = UrlPage.find(route => route.name === "Home");
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +31,6 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     setErrors(validationErrors);
     return Object.keys(validationErrors).length === 0;
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     clearFlash(); 
@@ -37,23 +39,21 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
     setSubmitting(true);
     try {
-      const data = await loginUser({ email, password });
-      console.log("Login exitoso:", data);
-      showFlash({ message: { type: "success", text: "Inicio de sesión exitoso" } });
-      
-    } catch (error: any) {
-      const message = error.response?.data?.message;
-
-      if (
-        message &&
-        typeof message === "object" &&
-        typeof message.type === "string" &&
-        typeof message.text === "string"
-      ) {
-        showFlash({ message: { type: message.type, text: message.text } });
-      } else {
-        showFlash({ message: { type: "error", text: "Correo o clave incorrectos" } });
+      await loginUser({ email, password });
+      if (!HomeRoute) {
+        showFlash(errorResponse("no se encontro la url"));
+        return;
       }
+      navigate(HomeRoute.url, {
+        state: {
+          flashMessage: successResponse("Inicio de sesión exitoso"),
+        },
+      });
+      
+    } catch (error:any) {
+      const message = error.response?.data;
+      showFlash({ type: message.type, message: message.message });
+      
     } finally {
       setSubmitting(false);
     }

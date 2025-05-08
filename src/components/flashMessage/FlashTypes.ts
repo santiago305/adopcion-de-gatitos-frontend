@@ -5,10 +5,8 @@ export type FlashType =
 | "info";
 
 export interface FlashMessageType {
-    message: {
-      type: FlashType;
-      text: string;
-    };
+    type: FlashType;
+    message: string;
   }
 
 export interface MessageProps {

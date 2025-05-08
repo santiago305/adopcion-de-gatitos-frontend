@@ -5,14 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UrlPage } from "@/router/RouterTypes";
 import { useFlashMessage } from "@/context/FlashMessageContext";
 import { validateRegister } from "@/validations/validateRegister";
 import { RegisterValidationErrors } from "@/validations/validationstype";
+import { errorResponse, successResponse } from "@/common/utils/response";
 
 export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const LoginRoute = UrlPage.find(route => route.name === "Login");
+  const ClientsRegisterRoute = UrlPage.find(route => route.name === "ClientRegister");
+  const navigate = useNavigate();
+
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,23 +41,22 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
 
     setSubmitting(true);
     try {
-      const data = await registerUser({ email, password, name });
-      console.log("Login exitoso:", data);
-      showFlash({ message: { type: "success", text: "Inicio de sesión exitoso" } });
+      await registerUser({ email, password, name });
+      if (!ClientsRegisterRoute) {
+        showFlash(errorResponse("no se encontro la url"));
+        return;
+      }
+      navigate(ClientsRegisterRoute.url, {
+        state: {
+          flashMessage: successResponse("Inicio de sesión exitoso"),
+        },
+      });
+      
       
     } catch (error: any) {
       const message = error.response?.data?.message;
-
-      if (
-        message &&
-        typeof message === "object" &&
-        typeof message.type === "string" &&
-        typeof message.text === "string"
-      ) {
-        showFlash({ message: { type: message.type, text: message.text } });
-      } else {
-        showFlash({ message: { type: "error", text: "error al enviar los datos" } });
-      }
+      showFlash({ type: message.type, message: message.message });
+      
     } finally {
       setSubmitting(false);
     }
