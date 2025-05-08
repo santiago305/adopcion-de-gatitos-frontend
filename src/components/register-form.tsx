@@ -12,7 +12,7 @@ import { validateRegister } from "@/validations/validateRegister";
 import { RegisterValidationErrors } from "@/validations/validationstype";
 import { errorResponse, successResponse } from "@/common/utils/response";
 
-export function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
+function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const LoginRoute = UrlPage.find(route => route.name === "Login");
   const ClientsRegisterRoute = UrlPage.find(route => route.name === "ClientRegister");
   const navigate = useNavigate();
@@ -148,3 +148,4 @@ export function RegisterForm({ className, ...props }: React.ComponentProps<"div"
     </div>
   );
 }
+export default RegisterForm
