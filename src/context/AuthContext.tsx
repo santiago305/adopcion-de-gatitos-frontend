@@ -1,59 +1,79 @@
-import { createContext, useEffect, useState } from 'react';
-import { isTokenStructurallyValid, isTokenValidWithServer } from '@/utils/authJsCookie';
-import Cookies from 'js-cookie';
-import {jwtDecode} from 'jwt-decode';
-
-interface User {
-  id: string;
-}
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { LoginCredentials, RegisterCredentials } from "@/validations/validationstype";
+import { checkTokenValidity, loginUser, registerUser } from "@/services/authService";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: User | null;
+  userRole: string | null;
+  login: (payload: LoginCredentials) => Promise<void>;
+  register: (payload: RegisterCredentials) => Promise<void>;
   logout: () => void;
+  checkAuth: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType>({
-  isAuthenticated: false,
-  user: null,
-  logout: () => {},
-});
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider: React.FC = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  // Verificar token en el inicio
+  const checkAuth = async () => {
+    const valid = await checkTokenValidity();
+    if (valid) {
+      const response = await fetch("/auth/me", { credentials: "include" });
+      const data = await response.json();
+      setUserRole(data.role);
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  };
 
   useEffect(() => {
-    const initializeAuth = async () => {
-      const structurallyValid = isTokenStructurallyValid();
-      if (!structurallyValid) return;
-
-      const validWithServer = await isTokenValidWithServer();
-      if (!validWithServer) return;
-
-      // Obtener ID del token
-      const token = Cookies.get('access_token');
-      if (token) {
-        const decoded: any = jwtDecode(token);
-        setUser({ id: decoded.sub });
-        setIsAuthenticated(true);
-      }
-    };
-
-    initializeAuth();
+    checkAuth(); 
   }, []);
 
+  const login = async (payload: LoginCredentials) => {
+    const data = await loginUser(payload);
+    if (data?.access_token) {
+      setIsAuthenticated(true);
+      // También puedes guardar el rol aquí si lo deseas
+    }
+  };
+
+  const register = async (payload: RegisterCredentials) => {
+    const data = await registerUser(payload);
+    if (data?.access_token) {
+      setIsAuthenticated(true);
+    }
+  };
+
   const logout = () => {
-    Cookies.remove('access_token');
-    Cookies.remove('refresh_token');
     setIsAuthenticated(false);
-    setUser(null);
-    window.location.href = '/login';
+    setUserRole(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, logout }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        userRole,
+        login,
+        register,
+        logout,
+        checkAuth
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };

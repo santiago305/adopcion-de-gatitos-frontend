@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "@/api/auth";
+import { loginUser } from "@/services/authService";
 import { parseApiError } from "@/common/utils/handleApiError";
 import { flashMessage } from "@/common/utils/flashEvent";
 

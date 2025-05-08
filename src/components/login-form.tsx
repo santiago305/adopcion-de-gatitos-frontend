@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginUser } from "@/api/auth";
+import { loginUser } from "@/services/authService";
 import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
 import { validateLogin } from "@/validations/validateAuth";
