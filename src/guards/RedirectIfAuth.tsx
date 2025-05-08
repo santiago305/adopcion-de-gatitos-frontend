@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { isAuthenticated } from '@/utils/authJsCookie';
+import { isAuthenticated } from '@/common/utils/authJsCookie';
 import { PropsUrl } from './typeGuards';
 
 const RedirectIfAuth = ({ children }: PropsUrl) => {

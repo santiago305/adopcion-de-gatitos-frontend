@@ -1,4 +1,4 @@
-import axiosInstance from "@/utils/axios";
+import axiosInstance from "@/common/utils/axios";
 import { API_AUTH_GROUP } from "./APIs"
 import { 
   LoginCredentials, 
