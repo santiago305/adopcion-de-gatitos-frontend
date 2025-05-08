@@ -1,16 +1,15 @@
 import { Navigate } from 'react-router-dom';
-import { isAuthenticated } from '@/common/utils/authJsCookie';
+import { useAuth } from '@/hooks/useAuth';
 import { PropsUrl } from './typeGuards';
 
 const RedirectIfAuth = ({ children }: PropsUrl) => {
-  const auth = isAuthenticated();
-  console.log("RedirectIfAuth → isAuthenticated:", auth);
+  const { isAuthenticated } = useAuth();
 
-  if (auth) {
-    return <Navigate to="/dashboard" replace />;
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />; 
   }
 
-  return children;
+  return children; 
 };
 
 export default RedirectIfAuth;
