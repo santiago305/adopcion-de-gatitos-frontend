@@ -1,9 +1,6 @@
 import axiosInstance from "@/common/utils/axios";
 import { API_AUTH_GROUP } from "./APIs"
-import { 
-  LoginCredentials, 
-  RegisterCredentials 
-} from "@/validations/validationstype";
+import { LoginCredentials, RegisterCredentials } from "@/types/auth";
 
 export const loginUser = async (payload: LoginCredentials) => {
   const response = await axiosInstance.post(API_AUTH_GROUP.authentication, payload,{withCredentials: true,});

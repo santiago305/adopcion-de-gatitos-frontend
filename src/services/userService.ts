@@ -1,6 +1,6 @@
 import axiosInstance from "@/common/utils/axios"
 import { API_USERS_GROUP } from "./APIs"
-import { CreateUserDto, UpdateUserDto } from "@/validations/validationUser"
+import { CreateUserDto, UpdateUserDto } from "@/types/user"
 
 export const createUser = async (payload: CreateUserDto) => {
   const response = await axiosInstance.post(API_USERS_GROUP.createUser, payload)
