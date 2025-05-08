@@ -1,11 +1,17 @@
-import { Navigate } from "react-router-dom";
-import { isTokenStructurallyValid } from "@/utils/auth";
-import { PropsUrl } from "./typeGuards";
+import { Navigate } from 'react-router-dom';
+import { isAuthenticated } from '@/utils/authJsCookie';
+import { PropsUrl } from './typeGuards';
 
-export default function PrivateRoute({ children, redirectTo = "/login" }: PropsUrl) {
-  if (!isTokenStructurallyValid()) {
-    return <Navigate to={redirectTo} replace />;
+const PrivateRoute = ({ children }: PropsUrl) => {
+  const auth = isAuthenticated();
+  console.log("PrivateRoute → isAuthenticated:", auth);
+
+  if (!auth) {
+    return <Navigate to="/login" replace />;
   }
 
   return children;
-}
+};
+
+
+export default PrivateRoute;

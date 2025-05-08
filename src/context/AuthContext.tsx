@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
-import { isTokenStructurallyValid, isTokenValidWithServer } from '@/utils/auth';
+import { isTokenStructurallyValid, isTokenValidWithServer } from '@/utils/authJsCookie';
 import Cookies from 'js-cookie';
 import {jwtDecode} from 'jwt-decode';
 

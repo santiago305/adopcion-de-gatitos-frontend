@@ -5,12 +5,12 @@ import './globals.css'
 import AppRouter from "./router/AppRouter"
 function App() {
   return (
-    <AuthProvider>
+    // <AuthProvider>
       <FlashMessageProvider>
         <FlashMessageRoot />
         <AppRouter />
       </FlashMessageProvider>
-    </AuthProvider>
+    // </AuthProvider>
   )
 }
 
