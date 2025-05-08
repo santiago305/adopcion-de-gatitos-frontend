@@ -61,7 +61,7 @@ export const UrlPage: {
         url: "*",
     },
     {
-        name: "ClientRegister",
-        url: "/clientRegister",
+        name: "ClientsRegister",
+        url: "/clientsregister",
     }
 ]
