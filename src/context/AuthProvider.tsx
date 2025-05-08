@@ -3,6 +3,8 @@ import { checkTokenValidity, loginUser, registerUser } from "@/services/authServ
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
 import { PropsUrl } from "@/guards/typeGuards";
 import { AuthContext } from "./AuthContext";
+import axiosInstance from "@/common/utils/axios";
+import { API_USERS_GROUP } from "@/services/APIs";
 
 export const AuthProvider = ({ children }:PropsUrl) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -12,9 +14,9 @@ export const AuthProvider = ({ children }:PropsUrl) => {
   const checkAuth = async () => {
     const valid = await checkTokenValidity();
     if (valid) {
-      const response = await fetch("/auth/me", { credentials: "include" });
-      const data = await response.json();
-      setUserRole(data.role);
+      const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
+      const data = response.data;
+      setUserRole(data.rol);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);

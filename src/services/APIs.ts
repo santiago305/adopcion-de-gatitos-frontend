@@ -8,14 +8,14 @@ export const API_AUTH_GROUP = {
     validateToken: `${API_AUTH}/validate-token`
   };
 
-const API_USERS = '/user';
+const API_USERS = '/users';
 
 export const API_USERS_GROUP = {
   createUser : `${API_USERS}/create`,
   findAll : `${API_USERS}/findAll`,
   findActives : `${API_USERS}/actives`,
   findOwnUser: `${API_USERS}/me`,
-  findById: (id: string) => `${API_USERS}/${id}`,
+  findById: (id: string) => `${API_USERS}/search/${id}`,
   findByEmail: (email: string) => `${API_USERS}/email/${email}`,
   updateUser: (id: string) => `${API_USERS}/update/${id}`,
   deleteUser: (id: string) => `${API_USERS}/delete/${id}`,

@@ -70,7 +70,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
             <div className="flex flex-col gap-6">
               
               <div className="grid gap-1">
-                <Label htmlFor="email">Correo Electrónico</Label>
+                <Label>Correo Electrónico</Label>
                 <Input {...register('email')} placeholder="m@e123.com"/>
                 <div className="min-h-2 h-auto">
                   <FieldError error={errors.email?.message} />
@@ -78,7 +78,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
               </div>
 
               <div className="grid gap-1">
-                <Label htmlFor="password">Contraseña</Label>
+                <Label>Contraseña</Label>
                 <Input {...register('password')}/>
                 <div className="min-h-2 h-auto">
                   <FieldError error={errors.password?.message} />

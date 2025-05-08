@@ -3,12 +3,12 @@ import { API_AUTH_GROUP } from "./APIs"
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
 
 export const loginUser = async (payload: LoginCredentials) => {
-  const response = await axiosInstance.post(API_AUTH_GROUP.authentication, payload,{withCredentials: true,});
+  const response = await axiosInstance.post(API_AUTH_GROUP.authentication, payload);
   return response.data;
 };
 
 export const registerUser = async (payload: RegisterCredentials) => {
-  const response = await axiosInstance.post(API_AUTH_GROUP.register, payload,{withCredentials: true,})
+  const response = await axiosInstance.post(API_AUTH_GROUP.register, payload)
   return response.data;
 }
 
