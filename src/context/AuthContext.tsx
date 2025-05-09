@@ -8,6 +8,7 @@ interface AuthContextType {
   register: (payload: RegisterCredentials) => Promise<void>;
   logout: () => void;
   checkAuth: () => void;
+  loading: boolean
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

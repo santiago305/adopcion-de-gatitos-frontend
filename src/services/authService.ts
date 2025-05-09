@@ -20,4 +20,4 @@ export const checkTokenValidity = async () => {
     console.error("Token no válido o expirado", error);
     return false;
   }
-};
+}

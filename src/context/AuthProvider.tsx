@@ -6,21 +6,27 @@ import { AuthContext } from "./AuthContext";
 import axiosInstance from "@/common/utils/axios";
 import { API_USERS_GROUP } from "@/services/APIs";
 
-export const AuthProvider = ({ children }:PropsUrl) => {
+export const AuthProvider = ({ children }: PropsUrl) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); 
 
-  // Verificar token en el inicio
   const checkAuth = async () => {
     const valid = await checkTokenValidity();
     if (valid) {
-      const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
-      const data = response.data;
-      setUserRole(data.rol);
-      setIsAuthenticated(true);
+      try {
+        const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
+        const data = response.data;
+        setUserRole(data.rol);
+        setIsAuthenticated(true); 
+      } catch (error) {
+        console.error("Error al verificar el usuario:", error);
+        setIsAuthenticated(false); 
+      }
     } else {
-      setIsAuthenticated(false);
+      setIsAuthenticated(false); 
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -31,7 +37,7 @@ export const AuthProvider = ({ children }:PropsUrl) => {
     const data = await loginUser(payload);
     if (data?.access_token) {
       setIsAuthenticated(true);
-      // También puedes guardar el rol aquí si lo deseas
+      setUserRole(data.role);
     }
   };
 
@@ -55,6 +61,7 @@ export const AuthProvider = ({ children }:PropsUrl) => {
         login,
         register,
         logout,
+        loading, 
         checkAuth
       }}
     >
@@ -62,4 +69,3 @@ export const AuthProvider = ({ children }:PropsUrl) => {
     </AuthContext.Provider>
   );
 };
-

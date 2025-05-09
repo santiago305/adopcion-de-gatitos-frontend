@@ -46,6 +46,7 @@ export default function AppRouter() {
             const Component = routeComponents[route.name as RouteComponentName];
             if (!Component) return null;
 
+            // Rutas públicas (login y registro)
             if (route.url === "/login" || route.url === "/register") {
               return (
                 <Route
@@ -60,7 +61,6 @@ export default function AppRouter() {
               );
             }
 
-            // Resto de rutas públicas
             return <Route key={route.name} path={route.url} element={<Component />} />;
           })}
 
@@ -75,10 +75,10 @@ export default function AppRouter() {
             <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />
             <Route path="products/:id" element={<ProductShow />} />
-            {/* Puedes seguir agregando más subrutas aquí */}
           </Route>
         </Routes>
       </Suspense>
     </Router>
   );
 }
+
