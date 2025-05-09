@@ -1,52 +1,39 @@
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
-import { useAuth } from "@/hooks/useAuth"
+import * as React from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { useAuth } from "@/hooks/useAuth";
+const NavDocuments = lazy(() => import("@/components/nav-documents"));
+const NavMain = lazy(() => import("@/components/nav-main"));
+const NavSecondary = lazy(() => import("@/components/nav-secondary"));
+const NavUser = lazy(() => import("@/components/nav-user"));
 
-import { IconInnerShadowTop } from "@tabler/icons-react"
-import { useEffect, useState } from "react"
-
-
-
+import { IconInnerShadowTop } from "@tabler/icons-react";
+import { adminData } from "@/pages/dashboard/app-dashboard/admin-data";
+import { userData } from "@/pages/dashboard/app-dashboard/user-data";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import ShimmerLoader from "./loadings.tsx/ShimmerLoader";
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { userRole } = useAuth(); 
+  const { userRole } = useAuth();
   const [data, setData] = useState<any>(null);
 
-
   useEffect(() => {
-    if (userRole === "user") {
-      import("@/pages/dashboard/app-dashboard/user-data").then((mod) => {
-        setData(mod.userData);
-      });
-    } else if (userRole === "admin") {
-      import("@/pages/dashboard/app-dashboard/admin-data").then((mod) => {
-        setData(mod.adminData);
-      });
+    if (userRole === "admin") {
+      setData(adminData);
+    } else if (userRole === "user") {
+      setData(userData);
     }
   }, [userRole]);
 
-
+  if (!data) {
+    return <div>Cargando...</div>; // Mostrar mientras se cargan los datos
+  }
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
+            <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">Acme Inc.</span>
@@ -56,13 +43,17 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {/* <NavMain items={data.navMain} /> */}
-        {/* <NavDocuments items={data.documents} /> */}
-        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
+        <Suspense fallback={<div className="w-full h-full"><ShimmerLoader/></div>}>
+          <NavMain items={data.navMain} />
+          <NavDocuments items={data.documents} />
+          <NavSecondary items={data.navSecondary} className="mt-auto" />
+        </Suspense>
       </SidebarContent>
       <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
+        <Suspense fallback={<div className="w-full h-[50px]"><ShimmerLoader/></div>}>
+          <NavUser user={data.user} />
+        </Suspense>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: PropsUrl) => {
     if (valid) {
       try {
         const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
-        const data = response.data;
+        const data = response.data.data;
         setUserRole(data.rol);
         setIsAuthenticated(true); 
       } catch (error) {
