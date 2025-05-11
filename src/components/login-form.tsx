@@ -3,7 +3,6 @@ import { loginUser } from "@/services/authService";
 import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
 import { useFlashMessage } from "@/context/FlashMessageContext";
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -33,6 +32,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     setSubmitting(true);
     try {
       await loginUser(data);
+      
       if (!HomeRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;

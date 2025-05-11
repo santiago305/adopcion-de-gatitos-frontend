@@ -27,9 +27,11 @@ export const API_CLIENTS_GROUP = {
   createClients : `${API_CLIENTS}/create`,
   findAll : `${API_CLIENTS}/findAll`,
   findActives : `${API_CLIENTS}/actives`,
-  findOwnUser: `${API_CLIENTS}/me`,
+  findOwnUser: `${API_CLIENTS}/client-me`,
+  checkExistingClient: `${API_CLIENTS}/check-existing-clients/me`,
   findById: (id: string) => `${API_CLIENTS}/search/${id}`,
   findByEmail: (email: string) => `${API_CLIENTS}/email/${email}`,
   updateUser: (id: string) => `${API_CLIENTS}/update/${id}`,
   deleteUser: (id: string) => `${API_CLIENTS}/delete/${id}`,
+
 }
