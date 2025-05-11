@@ -5,6 +5,7 @@ import RedirectIfAuth from "@/guards/RedirectIfAuth";
 import PrivateRoute from "@/guards/PrivateRoute";
 
 const Home = lazy(() => import("@/pages/Home"));
+const Error404 = lazy(() => import("@/pages/Error404"));
 const About = lazy(() => import("@/pages/About"));
 const Products = lazy(() => import("@/pages/Product"));
 const ProductShow = lazy(() => import("@/pages/Product.show"));
@@ -23,7 +24,7 @@ type RouteComponentName =
   | "Login"
   | "Register"
   | "Dashboard"
-  | "ClientsRegister";
+  | "ClientsRegister"
 
 const routeComponents: Record<RouteComponentName, React.ComponentType> = {
   Home,
@@ -76,6 +77,8 @@ export default function AppRouter() {
             <Route path="products" element={<Products />} />
             <Route path="products/:id" element={<ProductShow />} />
           </Route>
+
+          <Route path="*" element={<Error404 />} />
         </Routes>
       </Suspense>
     </Router>

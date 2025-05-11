@@ -57,10 +57,6 @@ export const UrlPage: {
         url: "/dashboard",
     },
     {
-        name: "404",
-        url: "*",
-    },
-    {
         name: "ClientsRegister",
         url: "/clientsregister",
     }
