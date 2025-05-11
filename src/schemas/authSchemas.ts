@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { createClientsSchema } from './clientsSchemas';
 
 // Base schema para crear usuario
 export const LoginSchema = z.object({
@@ -10,3 +11,5 @@ export const LoginSchema = z.object({
 export const RegisterSchema = LoginSchema.extend({
   name: z.string().min(1, 'El nombre es obligatorio'),
 });
+
+export const fullRegisterSchema = RegisterSchema.merge(createClientsSchema);

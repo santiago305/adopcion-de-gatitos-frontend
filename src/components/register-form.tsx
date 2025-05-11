@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
 import { registerUser } from "@/services/authService";
 import { errorResponse, successResponse } from "@/common/utils/response";
-import { RegisterCredentials } from "@/types/auth";
-import { RegisterSchema } from "@/schemas/authSchemas";
+import { fullRegisterCredentials, RegisterCredentials } from "@/types/auth";
+import { fullRegisterSchema } from "@/schemas/authSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -15,29 +15,46 @@ import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 import { useFlashMessage } from "@/context/FlashMessageContext";
 import FieldError from "./ui/FieldError";
+import { CreateClientsDto } from "@/types/clients";
+import { createClients } from "@/services/clientsService";
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const LoginRoute = UrlPage.find(route => route.name === "Login");
-  const ClientsRegisterRoute = UrlPage.find(route => route.name === "ClientRegister");
+  const homeRoute = UrlPage.find(route => route.name === "Home");
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
-  const { register, handleSubmit, formState: { errors } } = useForm<RegisterCredentials>({
-    resolver: zodResolver(RegisterSchema),
+  const { register, handleSubmit, formState: { errors } } = useForm<fullRegisterCredentials>({
+    resolver: zodResolver(fullRegisterSchema), 
   });
 
   if (!LoginRoute) return null;
 
-  const onSubmit =  async (data: RegisterCredentials) => {
+  const onSubmit =  async (data: fullRegisterCredentials) => {
     clearFlash(); 
     setSubmitting(true);
+
     try {
-      await registerUser(data);
-      if (!ClientsRegisterRoute) {
+      const userData:RegisterCredentials = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+      const userResponse = await registerUser(userData);
+      if (userResponse) {
+        const clientData: CreateClientsDto = {
+          phone: data.phone, 
+          gender: data.gender, 
+          birth_date: data.birth_date, 
+        };
+        await createClients(clientData);
+
+      }
+      if (!homeRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;
       }
-      navigate(ClientsRegisterRoute.url, {
+      navigate(homeRoute.url, {
         state: {
           flashMessage: successResponse("Inicio de sesión exitoso"),
         },
@@ -88,9 +105,37 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
 
               <div className="grid gap-1">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input {...register('password')}/>
+                <Input {...register('password')} type="password"/>
                 <div className="min-h-3 h-auto">
                   <FieldError error={errors.password?.message} />
+                </div>
+              </div>
+
+              <div className="grid gap-1">
+                <Label htmlFor="phone">Teléfono</Label>
+                <Input {...register('phone')} placeholder="987654321" />
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.phone?.message} />
+                </div>
+              </div>
+
+              <div className="grid gap-1">
+                <Label htmlFor="birth_date">Fecha de Nacimiento</Label>
+                <Input type="date" {...register('birth_date')} />
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.birth_date?.message} />
+                </div>
+              </div>
+
+              <div className="grid gap-1">
+                <Label>Género</Label>
+                <select {...register('gender')}>
+                  <option value="male">Masculino</option>
+                  <option value="female">Femenino</option>
+                  <option value="other">Otro</option>
+                </select>
+                <div className="min-h-3 h-auto">
+                  <FieldError error={errors.gender?.message} />
                 </div>
               </div>
 

@@ -21,3 +21,15 @@ export const API_USERS_GROUP = {
   deleteUser: (id: string) => `${API_USERS}/delete/${id}`,
   restoreUser: (id: string) => `${API_USERS}/restore/${id}`,
 }
+
+const API_CLIENTS = '/clients'
+export const API_CLIENTS_GROUP = {
+  createClients : `${API_CLIENTS}/create`,
+  findAll : `${API_CLIENTS}/findAll`,
+  findActives : `${API_CLIENTS}/actives`,
+  findOwnUser: `${API_CLIENTS}/me`,
+  findById: (id: string) => `${API_CLIENTS}/search/${id}`,
+  findByEmail: (email: string) => `${API_CLIENTS}/email/${email}`,
+  updateUser: (id: string) => `${API_CLIENTS}/update/${id}`,
+  deleteUser: (id: string) => `${API_CLIENTS}/delete/${id}`,
+}

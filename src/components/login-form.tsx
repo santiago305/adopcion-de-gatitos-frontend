@@ -79,7 +79,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
               <div className="grid gap-1">
                 <Label>Contraseña</Label>
-                <Input {...register('password')}/>
+                <Input {...register('password')} type="password"/>
                 <div className="min-h-2 h-auto">
                   <FieldError error={errors.password?.message} />
                 </div>
