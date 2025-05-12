@@ -12,7 +12,7 @@ const PrivateRoute = ({ children }: PropsUrl) => {
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
-
+//  state={{ from: location.pathname }} 
   return children; 
 };
 

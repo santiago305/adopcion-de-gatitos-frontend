@@ -38,15 +38,17 @@ export const AuthProvider = ({ children }: PropsUrl) => {
   const login = async (payload: LoginCredentials) => {
     const data = await loginUser(payload);
     if (data?.access_token) {
-      setIsAuthenticated(true);
-      setUserRole(data.role);
+      await checkAuth();
+      // setIsAuthenticated(true);
+      // setUserRole(data.role);
     }
   };
 
   const register = async (payload: RegisterCredentials) => {
     const data = await registerUser(payload);
     if (data?.access_token) {
-      setIsAuthenticated(true);
+      // setIsAuthenticated(true);
+      await checkAuth();
     }
   };
 
