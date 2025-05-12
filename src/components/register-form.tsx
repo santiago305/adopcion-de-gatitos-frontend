@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
-import { registerUser } from "@/services/authService";
-import { errorResponse, successResponse } from "@/common/utils/response";
 import { fullRegisterCredentials, RegisterCredentials } from "@/types/auth";
 import { fullRegisterSchema } from "@/schemas/authSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,13 +15,16 @@ import { useFlashMessage } from "@/context/FlashMessageContext";
 import FieldError from "./ui/FieldError";
 import { CreateClientsDto } from "@/types/clients";
 import { createClients } from "@/services/clientsService";
+import { useAuth } from "@/hooks/useAuth";
+import { errorResponse, successResponse } from "@/common/utils/response";
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const LoginRoute = UrlPage.find(route => route.name === "Login");
-  const homeRoute = UrlPage.find(route => route.name === "Home");
-  const navigate = useNavigate();
+  const HomeRoute = UrlPage.find(route => route.name === "Home");
+  const { clientUserRegister } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
+  const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<fullRegisterCredentials>({
     resolver: zodResolver(fullRegisterSchema), 
   });
@@ -40,7 +41,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
         email: data.email,
         password: data.password,
       };
-      const userResponse = await registerUser(userData);
+      const userResponse = await clientUserRegister(userData);
       if (userResponse) {
         const clientData: CreateClientsDto = {
           phone: data.phone, 
@@ -48,18 +49,18 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
           birth_date: data.birth_date, 
         };
         await createClients(clientData);
-        
-      }
-      
-      if (!homeRoute) {
+
+        if (!HomeRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;
+        }
+        navigate(HomeRoute.url, {
+          state: {
+            flashMessage: successResponse("Te has registrado correctamente"),
+          },
+        });
       }
-      navigate(homeRoute.url, {
-        state: {
-          flashMessage: successResponse("Inicio de sesión exitoso"),
-        },
-      });
+      
       
     } catch (error: any) {
       const message = error.response?.data?.message;

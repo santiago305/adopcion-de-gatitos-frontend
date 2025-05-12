@@ -11,14 +11,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials } from "@/types/auth";
 import { LoginSchema } from "@/schemas/authSchemas";
 import FieldError from "./ui/FieldError";
-
 import AfterLoginRedirect from "@/guards/AfterLoginRedirect";
 import { useAuth } from "@/hooks/useAuth";
+import { useFlashMessage } from "@/context/FlashMessageContext";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
-  const { isAuthenticated, login } = useAuth();
   const [submitting, setSubmitting] = useState(false)
+  const { showFlash, clearFlash } = useFlashMessage();
+  const { isAuthenticated, login } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>({
     resolver: zodResolver(LoginSchema),
   });
@@ -29,12 +30,16 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
 
   const onSubmit = async (data: LoginCredentials) => {
+    clearFlash(); 
     setSubmitting(true);
     try {
       await login(data); 
     } catch (error: any) {
       const message = error.response?.data;
-      console.log(message)
+      showFlash({ 
+        type: message.type || "error",
+        message: message.message || "Credenciales inválidas o error de red" 
+        });
     } finally {
       setSubmitting(false);
     }

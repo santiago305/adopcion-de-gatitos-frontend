@@ -57,13 +57,20 @@ export const AuthProvider = ({ children }: PropsUrl) => {
     }
   };
 
-  const register = async (payload: RegisterCredentials) => {
-    const data = await registerUser(payload);
-    if (data?.access_token) {
-      // setIsAuthenticated(true);
-      await checkAuth();
+  const clientUserRegister = async (payload: RegisterCredentials) => {
+     try {
+      const data = await registerUser(payload);
+      if (data?.access_token) {
+        await checkAuth();
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Error en el registro de usuario:", error);
+      return false;
     }
   };
+
 
   const logout = () => {
     setIsAuthenticated(false);
@@ -78,7 +85,7 @@ export const AuthProvider = ({ children }: PropsUrl) => {
         userRole,
         hasClient,
         login,
-        register,
+        clientUserRegister,
         logout,
         loading, 
         checkAuth

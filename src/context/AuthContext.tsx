@@ -6,7 +6,7 @@ interface AuthContextType {
   userRole: string | null;
   hasClient: boolean | null;
   login: (payload: LoginCredentials) => Promise<void>;
-  register: (payload: RegisterCredentials) => Promise<void>;
+  clientUserRegister: (payload: RegisterCredentials) => Promise<boolean>;
   logout: () => void;
   checkAuth: () => void;
   loading: boolean
