@@ -48,8 +48,9 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
           birth_date: data.birth_date, 
         };
         await createClients(clientData);
-
+        
       }
+      
       if (!homeRoute) {
         showFlash(errorResponse("no se encontro la url"));
         return;

@@ -37,11 +37,11 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
         showFlash(errorResponse("no se encontro la url"));
         return;
       }
-      navigate(HomeRoute.url, {
-        state: {
-          flashMessage: successResponse("Inicio de sesión exitoso"),
-        },
-      });
+      // navigate(HomeRoute.url, {
+      //   state: {
+      //     flashMessage: successResponse("Inicio de sesión exitoso"),
+      //   },
+      // });
       
     } catch (error:any) {
       const message = error.response?.data;

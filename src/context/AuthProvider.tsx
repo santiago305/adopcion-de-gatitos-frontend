@@ -5,6 +5,7 @@ import { PropsUrl } from "@/guards/typeGuards";
 import { AuthContext } from "./AuthContext";
 import axiosInstance from "@/common/utils/axios";
 import { API_USERS_GROUP } from "@/services/APIs";
+import { checkExistingClient } from "@/services/clientsService";
 
 export const AuthProvider = ({ children }: PropsUrl) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -17,8 +18,17 @@ export const AuthProvider = ({ children }: PropsUrl) => {
       try {
         const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
         const data = response.data.data;
-        setUserRole(data.rol);
+        const role = data.rol
+        setUserRole(role);
         setIsAuthenticated(true); 
+        
+        if (role === "user") {
+          const hasClient = await checkExistingClient();
+          if (!hasClient) {
+            console.log("Usuario de nivel 3 sin cliente, redirigir a /register-client");
+          }
+        }
+
       } catch (error) {
         console.error("Error al verificar el usuario:", error);
         setIsAuthenticated(false); 

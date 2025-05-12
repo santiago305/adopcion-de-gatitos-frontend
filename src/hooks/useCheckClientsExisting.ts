@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { checkExistingClient } from '@/services/clientsService';
 
 export const useCheckExistingClient = () => {
-  const [isClient, setIsClient] = useState<boolean | null>(null); // null mientras se carga
+  const [isClient, setIsClient] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,7 +11,7 @@ export const useCheckExistingClient = () => {
         const exists = await checkExistingClient();
         setIsClient(exists); 
       } catch (error) {
-        console.error('Error checking client existence:', error);
+        console.error('Error al comprobar la existencia del cliente:', error);
         setIsClient(false); 
       } finally {
         setLoading(false);

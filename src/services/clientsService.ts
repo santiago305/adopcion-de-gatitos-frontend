@@ -7,6 +7,6 @@ export const createClients = async (payload: CreateClientsDto) => {
   return response.data;
 }
 export const checkExistingClient = async () => {
-  const response = await axiosInstance.post(API_CLIENTS_GROUP.checkExistingClient);
+  const response = await axiosInstance.get(API_CLIENTS_GROUP.checkExistingClient);
   return response.data;
 }
