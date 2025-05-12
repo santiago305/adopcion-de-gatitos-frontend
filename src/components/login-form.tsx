@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { loginUser } from "@/services/authService";
 import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
-import { useFlashMessage } from "@/context/FlashMessageContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,27 +17,24 @@ import { useAuth } from "@/hooks/useAuth";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
-  const { isAuthenticated } = useAuth();
-  const [submitting, setSubmitting] = useState(false);
-  const { showFlash, clearFlash } = useFlashMessage();
+  const { isAuthenticated, login } = useAuth();
+  const [submitting, setSubmitting] = useState(false)
   const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>({
     resolver: zodResolver(LoginSchema),
   });
 
   if (isAuthenticated) {
-    console.log('redireccion')
-  return <AfterLoginRedirect />;
+    return <AfterLoginRedirect />; 
   }
 
 
   const onSubmit = async (data: LoginCredentials) => {
-    clearFlash();
     setSubmitting(true);
     try {
-      await loginUser(data); 
+      await login(data); 
     } catch (error: any) {
       const message = error.response?.data;
-      showFlash({ type: message?.type || "error", message: message?.message || "Error inesperado" });
+      console.log(message)
     } finally {
       setSubmitting(false);
     }

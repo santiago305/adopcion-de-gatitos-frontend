@@ -4,6 +4,7 @@ import { LoginCredentials, RegisterCredentials } from "@/types/auth";
 interface AuthContextType {
   isAuthenticated: boolean;
   userRole: string | null;
+  hasClient: boolean | null;
   login: (payload: LoginCredentials) => Promise<void>;
   register: (payload: RegisterCredentials) => Promise<void>;
   logout: () => void;

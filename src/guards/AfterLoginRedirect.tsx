@@ -1,29 +1,27 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useCheckExistingClient } from "@/hooks/useCheckClientsExisting";
-
 
 const AfterLoginRedirect = () => {
-  const { isAuthenticated, userRole } = useAuth();
-  const { isClient, loading } = useCheckExistingClient();
+  const { isAuthenticated, userRole, hasClient, loading } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated || loading) return;
 
     if (userRole === "user") {
-      if (isClient === false) {
+      if (hasClient === false) {
         navigate("/clientsregister", { replace: true });
-      } else if (isClient === true) {
+      } else {
         navigate("/", { replace: true });
       }
     } else {
-      navigate("/", { replace: true });
+      navigate("/", { replace: true }); 
     }
-  }, [isAuthenticated, userRole, isClient, loading, navigate]);
+  }, [isAuthenticated, userRole, hasClient, loading, navigate]);
 
-  return null; 
+  return null;
 };
 
 export default AfterLoginRedirect;
+
