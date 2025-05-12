@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UrlPage } from "./RouterTypes";
 import RedirectIfAuth from "@/guards/RedirectIfAuth";
 import PrivateRoute from "@/guards/PrivateRoute";
+import RequireClientRegister from "@/guards/RequireClientRegister"
 
 const Home = lazy(() => import("@/pages/Home"));
 const Error404 = lazy(() => import("@/pages/Error404"));
@@ -15,6 +16,7 @@ const Register = lazy(() => import("@/pages/Auth/Register"));
 const ClientsRegister = lazy(() => import("@/pages/clients/ClientsRegister"));
 const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
 const DashboardLayout = lazy(() => import("@/pages/dashboard/DashboardLayout"));
+
 type RouteComponentName = 
   | "Home"
   | "About me"
@@ -64,6 +66,10 @@ export default function AppRouter() {
 
             return <Route key={route.name} path={route.url} element={<Component />} />;
           })}
+
+          <Route element={<RequireClientRegister />}>
+            <Route path="/clientsregister" element={<ClientsRegister />} />
+          </Route>
 
           <Route
             path="/dashboard/*"
