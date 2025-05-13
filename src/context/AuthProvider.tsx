@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { checkTokenValidity, loginUser, registerUser } from "@/services/authService";
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
-import { PropsUrl } from "@/router/guards/typeGuards";
+import { PropsUrl } from "@/guards/typeGuards";
 import { AuthContext } from "./AuthContext";
 import axiosInstance from "@/common/utils/axios";
 import { API_USERS_GROUP } from "@/services/APIs";

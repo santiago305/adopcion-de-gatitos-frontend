@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { UrlPage } from "@/router/RouterTypes";
+import { UrlPage } from "@/router/types/RouterTypes";
 import { fullRegisterCredentials, RegisterCredentials } from "@/types/auth";
 import { fullRegisterSchema } from "@/schemas/authSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";

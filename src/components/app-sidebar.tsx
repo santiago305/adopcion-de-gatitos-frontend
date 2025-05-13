@@ -12,7 +12,7 @@ import { userData } from "@/pages/dashboard/app-dashboard/user-data";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import ShimmerLoader from "./loadings.tsx/ShimmerLoader";
 import { Link } from "react-router-dom";
-import { UrlPage } from "@/router/RouterTypes";
+import { UrlPage } from "@/router/types/RouterTypes";
 
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userRole } = useAuth();

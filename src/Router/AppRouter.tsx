@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { UrlPage } from "./RouterTypes";
+import { UrlPage } from "./types/RouterTypes";
 import RedirectIfAuth from "@/router/guards/RedirectIfAuth";
 import PrivateRoute from "@/router/guards/PrivateRoute";
 import RequireClientRegister from "@/router/guards/RequireClientRegister"

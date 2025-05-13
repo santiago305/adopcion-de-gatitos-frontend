@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import { PropsUrl } from './typeGuards';
+import { PropsUrl } from '../../guards/typeGuards';
 
 const PrivateRoute = ({ children }: PropsUrl) => {
   const { isAuthenticated, loading } = useAuth(); 
