@@ -1,12 +1,12 @@
-
-import { ComponentType } from "react";
-
-export interface RouteConfig {
+/**
+ * Metadata de las rutas de la aplicación para control de navegación y permisos.
+ */
+export interface RouteMetadata {
   path: string;
   name: string;
-  component: ComponentType;
-  layout?: ComponentType<{ children:  React.ReactElement }>
-  guard?: ComponentType<{ children:  React.ReactElement }>;
-  children?: RouteConfig[]; // NUEVO: Rutas hijas anidadas
-  roles?: string[]; // Si en el futuro agregas control de roles
+  isPublic?: boolean;               // Ruta pública accesible sin autenticación
+  isAuthRoute?: boolean;            // Ruta de login o registro
+  isProtected?: boolean;            // Ruta protegida (requiere autenticación)
+  requiresClientRegister?: boolean; // Ruta para usuarios que no han completado su registro de cliente
+  rolesAllowed?: string[];          // Roles permitidos para acceder (futuro control de roles)
 }

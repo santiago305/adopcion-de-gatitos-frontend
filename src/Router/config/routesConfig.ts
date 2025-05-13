@@ -1,54 +1,31 @@
-import { lazy } from "react";
-import PrivateRoute from "../guards/PrivateRoute";
-import RedirectIfAuth from "../guards/RedirectIfAuth";
-import RequireClientRegister from "../guards/RequireClientRegister";
-import { RouteConfig } from "../types/RouterTypes";
+
+import { RouteMetadata } from "../types/RouterTypes";
 
 // Carga dinámica de componentes
-const Home = lazy(() => import("@/pages/Home"));
-const About = lazy(() => import("@/pages/About"));
-const Contact = lazy(() => import("@/pages/Contact"));
-const Products = lazy(() => import("@/pages/Product"));
-const ProductShow = lazy(() => import("@/pages/Product.show"));
-const Login = lazy(() => import("@/pages/Auth/Login"));
-const Register = lazy(() => import("@/pages/Auth/Register"));
-const ClientsRegister = lazy(() => import("@/pages/clients/ClientsRegister"));
-const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
-const DashboardLayout = lazy(() => import("@/pages/dashboard/DashboardLayout"));
-const Error404 = lazy(() => import("@/pages/Error404"));
 
-export const routesConfig: RouteConfig[] = [
+export const routesConfig: RouteMetadata[] = [
 
-   // 📄 Rutas públicas
-  { path: "/", name: "Home", component: Home },
-  { path: "/about", name: "About", component: About },
-  { path: "/contact", name: "Contact", component: Contact },
-  { path: "/products", name: "Products", component: Products },
-  { path: "/products/:product", name: "Product.Show", component: ProductShow },
+  // 📄 Rutas públicas
+  { path: "/", name: "Home", isPublic: true },
+  { path: "/about", name: "About", isPublic: true },
+  { path: "/contact", name: "Contact", isPublic: true },
+  { path: "/products", name: "Products", isPublic: true },
+  { path: "/products/:product", name: "Product.Show", isPublic: true },
 
   // 🔐 Rutas de autenticación
-  { path: "/login", name: "Login", component: Login, guard: RedirectIfAuth },
-  { path: "/register", name: "Register", component: Register, guard: RedirectIfAuth },
+  { path: "/login", name: "Login", isAuthRoute: true },
+  { path: "/register", name: "Register", isAuthRoute: true },
 
   // 👤 Registro de cliente (protegido)
-  { path: "/clientsregister", name: "ClientsRegister", component: ClientsRegister, guard: RequireClientRegister },
+  { path: "/clientsregister", name: "ClientsRegister", requiresClientRegister: true },
 
   // 📊 Dashboard y rutas anidadas bajo DashboardLayout
-   { 
-    path: "/dashboard", 
-    name: "Dashboard", 
-    component: Dashboard, //index del /dashboard
-    guard: PrivateRoute, 
-    layout: DashboardLayout, 
-    children: [
-      // cambiar estas rutas por los componetes de dashboard vrd
-      // { path: "products", name: "Products", component: Products },
-      // { path: "products/:id", name: "Product.Show", component: ProductShow },
-      // { path: "profile", name: "Profile", component: Profile },
-      // { path: "settings", name: "Settings", component: Settings }
-    ] 
-  },
+  { path: "/dashboard", name: "Dashboard", isProtected: true },
+  { path: "/dashboard/products", name: "Dashboard.Products", isProtected: true },
+  { path: "/dashboard/products/:id", name: "Dashboard.Product.Show", isProtected: true },
+  { path: "/dashboard/profile", name: "Dashboard.Profile", isProtected: true },
+  { path: "/dashboard/settings", name: "Dashboard.Settings", isProtected: true },
   
    // 🌐 Ruta de error 404
-  { path: "*", name: "Error404", component: Error404 }
+  { path: "*", name: "Error404", isPublic: true }
 ];
