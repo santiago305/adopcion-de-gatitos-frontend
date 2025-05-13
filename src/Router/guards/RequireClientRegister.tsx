@@ -1,18 +1,21 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { PropsUrl } from "@/guards/typeGuards";
 
-const RequireClientRegister = () => {
+/**
+ * Protege rutas específicas para usuarios que aún no han registrado un cliente.
+ * 
+ * @returns {ReactElement} Componente protegido o redirecciones correspondientes.
+ */
+const RequireClientRegister = ({ children }: PropsUrl) => {
   const { isAuthenticated, userRole, hasClient, loading } = useAuth();
 
-  if (loading || hasClient === null) {
-    return <div className="text-center p-4">Cargando...</div>;
-  }
-
+  if (loading || hasClient === null) return <div className="text-center p-4">Cargando...</div>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (userRole !== "user") return <Navigate to="/" replace />;
-  if (hasClient) return <Navigate to="/" replace />; // Bloquea si ya tiene cliente
+  if (hasClient) return <Navigate to="/" replace />; // Si ya tiene cliente, no puede acceder
 
-  return <Outlet />;
+  return children;
 };
 
 export default RequireClientRegister;
