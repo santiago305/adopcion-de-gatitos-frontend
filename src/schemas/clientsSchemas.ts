@@ -1,6 +1,9 @@
 import { z } from 'zod';
 
-// Base schema para crear usuario
+
+/**
+ * Esquema de validación para la creacion de un cliente.
+ */
 export const createClientsSchema = z.object({
   phone: z.string()
     .min(10, 'El teléfono debe tener al menos 9 dígitos, incluyendo el prefijo +51.')
@@ -13,7 +16,9 @@ export const createClientsSchema = z.object({
   }),
 });
 
-// Schema para editar usuario (hereda del anterior, pero password es opcional)
+/**
+ * Esquema de validación para la modificacion de un cliente.
+ */
 export const updateClientsSchema = createClientsSchema.extend({
 
 });

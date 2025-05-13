@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
-// Base schema para crear usuario
+/**
+ * Esquema de validación para la creeacion de un usuario.
+ */
 export const createUserSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
   email: z.string().email('Email inválido'),
@@ -8,7 +10,9 @@ export const createUserSchema = z.object({
   roleId: z.string().optional(),
 });
 
-// Schema para editar usuario (hereda del anterior, pero password es opcional)
+/**
+ * Esquema de validación para la modificacion de un usuario.
+ */
 export const updateUserSchema = createUserSchema.partial({
   password: true, // Solo se vuelve opcional el campo que quieras
 });
