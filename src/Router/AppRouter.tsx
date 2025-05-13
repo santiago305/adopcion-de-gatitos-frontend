@@ -1,9 +1,9 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UrlPage } from "./RouterTypes";
-import RedirectIfAuth from "@/guards/RedirectIfAuth";
-import PrivateRoute from "@/guards/PrivateRoute";
-import RequireClientRegister from "@/guards/RequireClientRegister"
+import RedirectIfAuth from "@/router/guards/RedirectIfAuth";
+import PrivateRoute from "@/router/guards/PrivateRoute";
+import RequireClientRegister from "@/router/guards/RequireClientRegister"
 
 const Home = lazy(() => import("@/pages/Home"));
 const Error404 = lazy(() => import("@/pages/Error404"));
