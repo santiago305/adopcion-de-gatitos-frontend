@@ -1,14 +1,15 @@
 
 import { RouteMetadata } from "../types/RouterTypes";
+import { RoutesPaths } from "./routesPaths";
 
 // Carga dinámica de componentes
 
 export const routesConfig: RouteMetadata[] = [
 
   // 📄 Rutas públicas
-  { path: "/", name: "Home", isPublic: true },
-  { path: "/about", name: "About", isPublic: true },
-  { path: "/contact", name: "Contact", isPublic: true },
+  { path: RoutesPaths.home, name: "Home", isPublic: true },
+  { path: RoutesPaths.about, name: "About", isPublic: true },
+  { path: RoutesPaths.contact, name: "Contact", isPublic: true },
   { path: "/products", name: "Products", isPublic: true },
   { path: "/products/:product", name: "Product.Show", isPublic: true },
 
