@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import { useFlashMessage } from "@/context/FlashMessageContext";
+import { useFlashMessage } from "@/context/FlashMessageProvider";
 import FieldError from "./ui/FieldError";
 import { CreateClientsDto } from "@/types/clients";
 import { createClients } from "@/services/clientsService";

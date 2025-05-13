@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials } from "@/types/auth";
 import { LoginSchema } from "@/schemas/authSchemas";
 import { useAuth } from "@/hooks/useAuth";
-import { useFlashMessage } from "@/context/FlashMessageContext";
+import { useFlashMessage } from "@/context/FlashMessageProvider";
 import FormField from "./ui/formField";
 import { useAfterLoginRedirect } from "@/hooks/useAfterLoginRedirect";
 

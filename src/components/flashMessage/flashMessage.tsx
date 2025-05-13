@@ -1,4 +1,3 @@
-// components/flashMessage/FlashMessage.tsx
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Message from "./Message";
@@ -10,6 +9,13 @@ interface FlashMessageProps {
   onClear: () => void;
 }
 
+/**
+ * Componente que gestiona la animación y visualización del mensaje flash.
+ * 
+ * @param {FlashMessageType | null} data Datos del mensaje.
+ * @param {Function} onClear Función para limpiar el mensaje.
+ * @returns {JSX.Element} Vista animada del mensaje.
+ */
 export const FlashMessage = ({ data, onClear }: FlashMessageProps) => {
   const [visible, setVisible] = useState(false);
 
@@ -34,9 +40,7 @@ export const FlashMessage = ({ data, onClear }: FlashMessageProps) => {
           className="fixed inset-0 h-screen w-full pointer-events-none select-none overflow-hidden z-50"
         >
           <div className="h-full w-full relative">
-            <div
-            className="absolute bottom-0 right-0 p-4 z-50"
-            >
+            <div className="absolute bottom-0 right-0 p-4 z-50">
               <Message
                 type={flashTypes[data.type].title}
                 text={data.message}
