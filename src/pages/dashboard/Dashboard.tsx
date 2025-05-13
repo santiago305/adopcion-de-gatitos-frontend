@@ -6,7 +6,7 @@ import data from "./data.json"
 import { lazy, Suspense } from "react"
 import ShimmerLoader from "@/components/loadings.tsx/ShimmerLoader"
 const ChartAreaInteractive = lazy(() => import("@/components/chart-area-interactive"))
-export default function Page() {
+export default function Dashboard() {
   return (
     <>
       {/* <SectionCards /> */}
