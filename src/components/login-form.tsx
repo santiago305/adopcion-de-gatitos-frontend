@@ -3,31 +3,26 @@ import { cn } from "@/lib/utils";
 import { UrlPage } from "@/router/RouterTypes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials } from "@/types/auth";
 import { LoginSchema } from "@/schemas/authSchemas";
-import FieldError from "./ui/FieldError";
-import AfterLoginRedirect from "@/guards/AfterLoginRedirect";
 import { useAuth } from "@/hooks/useAuth";
 import { useFlashMessage } from "@/context/FlashMessageContext";
+import FormField from "./ui/formField";
+import { useAfterLoginRedirect } from "@/hooks/useAfterLoginRedirect";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const RegisterRoute = UrlPage.find(route => route.name === "Register");
   const [submitting, setSubmitting] = useState(false)
   const { showFlash, clearFlash } = useFlashMessage();
-  const { isAuthenticated, login } = useAuth();
+  const { login } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>({
     resolver: zodResolver(LoginSchema),
   });
 
-  if (isAuthenticated) {
-    return <AfterLoginRedirect />; 
-  }
-
+  useAfterLoginRedirect();
 
   const onSubmit = async (data: LoginCredentials) => {
     clearFlash(); 
@@ -58,17 +53,22 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
-              <div className="grid gap-1">
-                <Label>Correo Electrónico</Label>
-                <Input {...register('email')} placeholder="m@e123.com" />
-                <FieldError error={errors.email?.message} />
-              </div>
+              <FormField
+                name="email" 
+                label="Correo Electrónico" 
+                placeholder="m@e123.com" 
+                register={register} 
+                error={errors.email?.message} 
+              />
 
-              <div className="grid gap-1">
-                <Label>Contraseña</Label>
-                <Input {...register('password')} type="password" />
-                <FieldError error={errors.password?.message} />
-              </div>
+              <FormField 
+                name="password" 
+                label="Contraseña" 
+                placeholder="m@e123.com"
+                type="password" 
+                register={register} 
+                error={errors.password?.message} 
+              />
 
               <Button type="submit" className="w-full" disabled={submitting}>
                 {submitting ? "Cargando..." : "Login"}
