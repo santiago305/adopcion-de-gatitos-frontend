@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { UrlPage } from "@/router/types/RouterTypes";
 import { fullRegisterCredentials, RegisterCredentials } from "@/types/auth";
 import { fullRegisterSchema } from "@/schemas/authSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,17 +10,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-import { useFlashMessage } from "@/context/FlashMessageProvider";
 import FieldError from "./ui/FieldError";
 import { CreateClientsDto } from "@/types/clients";
 import { createClients } from "@/services/clientsService";
 import { useAuth } from "@/hooks/useAuth";
-import { errorResponse, successResponse } from "@/common/utils/response";
+import { successResponse } from "@/common/utils/response";
 import FormField from "./ui/formField";
+import { RoutesPaths } from "@/router/config/routesPaths";
+import { useFlashMessage } from "@/hooks/useFlashMessage";
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
-  const LoginRoute = UrlPage.find(route => route.name === "Login");
-  const HomeRoute = UrlPage.find(route => route.name === "Home");
   const { clientUserRegister } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
@@ -29,8 +27,6 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const { register, handleSubmit, formState: { errors } } = useForm<fullRegisterCredentials>({
     resolver: zodResolver(fullRegisterSchema), 
   });
-
-  if (!LoginRoute) return null;
 
   const onSubmit =  async (data: fullRegisterCredentials) => {
     clearFlash(); 
@@ -51,11 +47,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
         };
         await createClients(clientData);
 
-        if (!HomeRoute) {
-        showFlash(errorResponse("no se encontro la url"));
-        return;
-        }
-        navigate(HomeRoute.url, {
+        navigate(RoutesPaths.home, {
           state: {
             flashMessage: successResponse("Te has registrado correctamente"),
           },
@@ -151,7 +143,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
 
             <div className="mt-4 text-center text-sm">
               ¿ya tienes una cuenta?{" "}
-              <Link to={LoginRoute.url} className="underline underline-offset-4">
+              <Link to={RoutesPaths.login} className="underline underline-offset-4">
                 Iniciar sesión
               </Link>
             </div>

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { UrlPage } from "@/router/types/RouterTypes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -12,9 +11,9 @@ import { useAuth } from "@/hooks/useAuth";
 import FormField from "./ui/formField";
 import { useAfterLoginRedirect } from "@/hooks/useAfterLoginRedirect";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
+import { RoutesPaths } from "@/router/config/routesPaths";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
-  const RegisterRoute = UrlPage.find(route => route.name === "Register");
   const [submitting, setSubmitting] = useState(false)
   const { showFlash, clearFlash } = useFlashMessage();
   const { login } = useAuth();
@@ -40,7 +39,6 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     }
   };
 
-  if (!RegisterRoute) return null;
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -77,7 +75,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
             <div className="mt-4 text-center text-sm">
               ¿No tienes una cuenta?{" "}
-              <Link to={RegisterRoute.url} className="underline underline-offset-4">
+              <Link to={RoutesPaths.register} className="underline underline-offset-4">
                 Regístrate
               </Link>
             </div>

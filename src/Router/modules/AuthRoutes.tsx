@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import RedirectIfAuth from "../guards/RedirectIfAuth";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
@@ -9,7 +9,7 @@ import Register from "@/pages/Auth/Register";
  */
 export default function AuthRoutes() {
   return (
-    <Routes>
+    <>
       <Route path="/login" element={
         <RedirectIfAuth>
           <Login />
@@ -20,6 +20,6 @@ export default function AuthRoutes() {
           <Register />
         </RedirectIfAuth>
       } />
-    </Routes>
+    </>
   );
 }

@@ -11,13 +11,13 @@ import Error404 from "@/pages/Error404";
  */
 export default function PublicRoutes() {
   return (
-    <Routes>
+    <>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:product" element={<ProductShow />} />
       <Route path="*" element={<Error404 />} />
-    </Routes>
+    </>
   );
 }

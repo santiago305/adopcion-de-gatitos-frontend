@@ -2,7 +2,7 @@ import ShimmerLoader from "@/components/loadings.tsx/ShimmerLoader";
 import { useLocationFlashMessage } from "@/hooks/useLocationFlashMessage";
 
 
-export function Home() {
+export default function Home() {
   useLocationFlashMessage();
     return (
         
@@ -18,4 +18,3 @@ export function Home() {
         </div>
     );
 }
-export default Home;

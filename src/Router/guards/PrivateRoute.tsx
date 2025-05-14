@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+
 import { PropsUrl } from "@/guards/typeGuards";
 
 /**
@@ -9,7 +10,7 @@ import { PropsUrl } from "@/guards/typeGuards";
  * @returns {ReactElement} El componente protegido o redirección al login.
  */
 const PrivateRoute = ({ children }: PropsUrl) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading,  } = useAuth();
 
   if (loading) return <div>Cargando...</div>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;

@@ -1,4 +1,4 @@
-export default function Error404() {
+export default function ErrorPage() {
     return (
         
         <div className="flex flex-col items-center justify-center min-h-screen py-2">

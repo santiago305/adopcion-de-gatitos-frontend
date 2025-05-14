@@ -2,7 +2,6 @@ import { FlashMessageRoot } from './components/flashMessage/FlashMessageRoot'
 import { AuthProvider } from './context/AuthProvider'
 import { FlashMessageProvider } from './context/FlashMessageProvider'
 import './globals.css'
-import AppRouter from "./router/AppRouter"
 /**
  * Componente raíz de la aplicación.
  * 
@@ -15,12 +14,12 @@ import AppRouter from "./router/AppRouter"
  * 
  * @returns {JSX.Element} La estructura principal de la aplicación.
  */
-function App() {
+function App({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <FlashMessageProvider>
         <FlashMessageRoot />
-        <AppRouter />
+          {children}
       </FlashMessageProvider>
     </AuthProvider>
   )
