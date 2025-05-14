@@ -1,30 +1,29 @@
-import { Routes, Route } from "react-router-dom";
+import ErrorPage from "@/pages/Error404";
+import { RouteObject } from "react-router-dom";
 import PrivateRoute from "../guards/PrivateRoute";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
-import Dashboard from "@/pages/dashboard/Dashboard";
-import Products from "@/pages/Product";
-import ProductShow from "@/pages/Product.show";
-// import Profile from "@/pages/Profile";
-// import Settings from "@/pages/Settings";
+import { Dashboard } from "@/pages";
+import { dashboardPublicRoutes } from "./dashboard/publicDashboardRoutes";
+import { adminRoutes } from "./dashboard/adminRoutes";
+import { monitorRoutes } from "./dashboard/monitorRoutes";
+import { usersRoutes } from "./dashboard/usersRoutes";
 
-/**
- * Rutas protegidas bajo el DashboardLayout. 
- * Solo accesibles si el usuario está autenticado.
- */
-export default function DashboardRoutes() {
-  return (
-    <Routes>
-      <Route path="/dashboard/*" element={
-        <PrivateRoute>
-          <DashboardLayout />
-        </PrivateRoute>
-      }>
-        <Route index element={<Dashboard />} /> {/* /dashboard */}
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<ProductShow />} />
-        {/* <Route path="profile" element={<Profile />} />
-        <Route path="settings" element={<Settings />} /> */}
-      </Route>
-    </Routes>
-  );
-}
+export const dashboardRoutes: RouteObject[] = [
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Dashboard /> }, 
+      ...dashboardPublicRoutes,
+      ...adminRoutes,
+      ...monitorRoutes,
+      ...usersRoutes
+    ]
+  },
+];
+

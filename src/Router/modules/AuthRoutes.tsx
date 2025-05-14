@@ -1,25 +1,26 @@
-import { Route } from "react-router-dom";
+import { Login, Register } from "@/pages";
+import ErrorPage from "@/pages/Error404";
+import { RouteObject } from "react-router-dom";
 import RedirectIfAuth from "../guards/RedirectIfAuth";
-import Login from "@/pages/Auth/Login";
-import Register from "@/pages/Auth/Register";
+import { RoutesPaths } from "../config/routesPaths";
 
-/**
- * Rutas relacionadas con la autenticación (login y registro).
- * Accesibles solo si NO estás autenticado.
- */
-export default function AuthRoutes() {
-  return (
-    <>
-      <Route path="/login" element={
-        <RedirectIfAuth>
-          <Login />
-        </RedirectIfAuth>
-      } />
-      <Route path="/register" element={
-        <RedirectIfAuth>
-          <Register />
-        </RedirectIfAuth>
-      } />
-    </>
-  );
-}
+export const authRoutes: RouteObject[] = [
+  {
+    path: RoutesPaths.login,
+    element: (
+      <RedirectIfAuth>
+        <Login />
+      </RedirectIfAuth>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    path: RoutesPaths.register,
+    element: (
+      <RedirectIfAuth>
+        <Register />
+      </RedirectIfAuth>
+    ),
+    errorElement: <ErrorPage />
+  },
+];

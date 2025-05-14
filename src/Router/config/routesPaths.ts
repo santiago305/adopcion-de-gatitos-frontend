@@ -11,7 +11,7 @@ export const RoutesPaths = {
   // auth Routes
   login: "/login",
   register: "/register",
-  clientsRegister: "/clientsregister",
+  clientsRegister: "/clients-register",
   
   // Dashboard Routes
   dashboard: "/dashboard",

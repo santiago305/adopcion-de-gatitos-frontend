@@ -1,28 +1,18 @@
 // routes/router.ts
-import { Dashboard, Home, Login } from "@/pages";
+import { Dashboard } from "@/pages";
 import ErrorPage from "@/pages/Error404";
 import { createBrowserRouter } from "react-router-dom";
 import PrivateRoute from "./guards/PrivateRoute";
 import DashboardLayout from "@/pages/dashboard/DashboardLayout";
-import RedirectIfAuth from "./guards/RedirectIfAuth";
-import RequireClientRegister from "./guards/RequireClientRegister";
-import ClientsRegister from "@/pages/clients/ClientsRegister";
+import { publicRoutes } from "./modules/PublicRoutes";
+import { clientsRoutes } from "./modules/ClientRoutes";
+import { authRoutes } from "./modules/AuthRoutes";
 
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/login",
-    element: (
-      <RedirectIfAuth>
-        <Login />
-      </RedirectIfAuth>
-    )
-  },
+  ...publicRoutes,
+  ...authRoutes,
+  ...clientsRoutes,
   {
     path: "/dashboard",
     element: (
@@ -37,15 +27,7 @@ export const router = createBrowserRouter([
       // { path: "profile", element: <Profile /> }  // /dashboard/profile
     ]
   },
-  {
-    path: "/clients-register",
-    element: (
-      <RequireClientRegister>
-        <ClientsRegister />
-      </RequireClientRegister>
-    ),
-    errorElement: <ErrorPage />,
-  },
+  
   {
     path: "*",
     element: <ErrorPage />,

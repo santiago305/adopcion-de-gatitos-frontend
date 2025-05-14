@@ -1,23 +1,23 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "@/pages/Home";
-import About from "@/pages/About";
-import Contact from "@/pages/Contact";
-import Products from "@/pages/Product";
-import ProductShow from "@/pages/Product.show";
-import Error404 from "@/pages/Error404";
+import { About, Contact, Home, } from "@/pages";
+import ErrorPage from "@/pages/Error404";
+import { RouteObject } from "react-router-dom";
+import { RoutesPaths } from "../config/routesPaths";
 
-/**
- * Rutas públicas accesibles sin autenticación.
- */
-export default function PublicRoutes() {
-  return (
-    <>
-      <Route path="/" element={<Home />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/products" element={<Products />} />
-      <Route path="/products/:product" element={<ProductShow />} />
-      <Route path="*" element={<Error404 />} />
-    </>
-  );
-}
+export const publicRoutes: RouteObject[] = [
+  {
+    path: RoutesPaths.home,
+    element: <Home />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: RoutesPaths.about,
+    element: <About />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: RoutesPaths.contact,
+    element: <Contact />,
+    errorElement: <ErrorPage />,
+  },  
+];
+

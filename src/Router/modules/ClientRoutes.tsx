@@ -1,18 +1,18 @@
-import { Routes, Route } from "react-router-dom";
+import ErrorPage from "@/pages/Error404";
+import { RouteObject } from "react-router-dom";
+import { RoutesPaths } from "../config/routesPaths";
 import RequireClientRegister from "../guards/RequireClientRegister";
 import ClientsRegister from "@/pages/clients/ClientsRegister";
 
-/**
- * Rutas específicas para usuarios en proceso de registro como cliente.
- */
-export default function ClientRoutes() {
-  return (
-    <Routes>
-      <Route path="/clientsregister" element={
-        <RequireClientRegister>
-          <ClientsRegister />
-        </RequireClientRegister>
-      } />
-    </Routes>
-  );
-}
+export const clientsRoutes: RouteObject[] = [
+  {
+    path: RoutesPaths.clientsRegister,
+    element: (
+      <RequireClientRegister>
+        <ClientsRegister />
+      </RequireClientRegister>
+    ),
+    errorElement: <ErrorPage />,
+  },
+];
+
