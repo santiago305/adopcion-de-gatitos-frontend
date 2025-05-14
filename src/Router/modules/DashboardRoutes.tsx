@@ -6,13 +6,14 @@ import { dashboardPublicRoutes } from "./dashboard/publicDashboardRoutes";
 import { adminRoutes } from "./dashboard/adminRoutes";
 import { monitorRoutes } from "./dashboard/monitorRoutes";
 import { usersRoutes } from "./dashboard/usersRoutes";
+import { RoutesPaths } from "../config/routesPaths";
 
 const DashboardLayout = lazy(()=> import("@/pages/dashboard/DashboardLayout"))
 const Dashboard = lazy(()=> import("@/pages/dashboard/Dashboard"))
 
 export const dashboardRoutes: RouteObject[] = [
   {
-    path: "/dashboard",
+    path: RoutesPaths.dashboard,
     element: (
       <PrivateRoute>
         <DashboardLayout />

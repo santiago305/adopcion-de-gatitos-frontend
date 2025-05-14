@@ -5,7 +5,7 @@ import { RouteObject } from "react-router-dom";
 
 export const dashboardPublicRoutes: RouteObject[] = [
   {
-    path: '/public-dashboard',
+    path: 'public-dashboard',
     element: (
         <Login />
     ),

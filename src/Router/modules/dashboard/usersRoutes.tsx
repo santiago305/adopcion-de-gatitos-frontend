@@ -5,7 +5,7 @@ import { RouteObject } from "react-router-dom";
 
 export const usersRoutes: RouteObject[] = [
   {
-    path: '/users',
+    path: 'users',
     element: (
         <Login />
     ),

@@ -5,7 +5,7 @@ import { RouteObject } from "react-router-dom";
 
 export const monitorRoutes: RouteObject[] = [
   {
-    path: '/monitor',
+    path: 'monitor',
     element: (
         <Login />
     ),
