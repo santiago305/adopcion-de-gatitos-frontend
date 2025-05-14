@@ -1,8 +1,11 @@
-import { Login, Register } from "@/pages";
-import ErrorPage from "@/pages/Error404";
+import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 import RedirectIfAuth from "../guards/RedirectIfAuth";
 import { RoutesPaths } from "../config/routesPaths";
+
+const Login = lazy(()=>import("@/pages/Auth/Login"))
+const Register = lazy(()=>import("@/pages/Auth/Register"))
+const ErrorPage = lazy(()=>import("@/pages/Error404"))
 
 export const authRoutes: RouteObject[] = [
   {
