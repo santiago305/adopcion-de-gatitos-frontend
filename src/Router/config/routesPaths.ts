@@ -1,19 +1,33 @@
 /**
- * Rutas de la aplicación centralizadas y tipadas.
+ * Definición centralizada y tipada de las rutas de la aplicación.
+ * 
+ * - Evita el uso de strings "mágicos" al definir rutas.
+ * - Permite realizar cambios de rutas en un solo lugar.
+ * - Proporciona autocompletado y seguridad de tipos en todo el proyecto.
+ * - Facilita el manejo de rutas con parámetros a través de funciones.
+ * 
+ * @example
+ * import { RoutesPaths } from "@/routes/config/routesPaths";
+ * 
+ * // Uso en navegación o Links:
+ * navigate(RoutesPaths.dashboard);
+ * navigate(RoutesPaths.dashboardProductShow("123"));
  */
+
 export const RoutesPaths = {
+  // 📖 Rutas públicas
   home: "/",
   about: "/about",
   contact: "/contact",
   products: "/products",
   productShow: (productId: string) => `/products/${productId}`,
 
-  // auth Routes
+  // 🔐 Rutas de autenticación
   login: "/login",
   register: "/register",
   clientsRegister: "/clients-register",
-  
-  // Dashboard Routes
+
+  // 📊 Rutas de Dashboard
   dashboard: "/dashboard",
   dashboardProducts: "/dashboard/products",
   dashboardProductShow: (id: string) => `/dashboard/products/${id}`,
@@ -22,6 +36,9 @@ export const RoutesPaths = {
 } as const;
 
 /**
- * Tipos de rutas disponibles.
+ * Tipo que representa los nombres válidos de rutas.
+ * 
+ * @example
+ * const routeName: RouteName = "dashboard";
  */
 export type RouteName = keyof typeof RoutesPaths;

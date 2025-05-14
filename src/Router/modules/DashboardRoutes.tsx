@@ -1,5 +1,14 @@
+/**
+ * Definición de rutas protegidas bajo el Dashboard.
+ * 
+ * - Se utiliza `PrivateRoute` para proteger las rutas que requieren autenticación.
+ * - Las rutas están anidadas bajo `DashboardLayout`.
+ * - Soporta subrutas específicas para roles (admin, monitor, users).
+ * 
+ * @module DashboardRoutes
+ */
+
 import { lazy } from "react";
-import ErrorPage from "@/pages/Error404";
 import { RouteObject } from "react-router-dom";
 import PrivateRoute from "../guards/PrivateRoute";
 import { dashboardPublicRoutes } from "./dashboard/publicDashboardRoutes";
@@ -8,8 +17,9 @@ import { monitorRoutes } from "./dashboard/monitorRoutes";
 import { usersRoutes } from "./dashboard/usersRoutes";
 import { RoutesPaths } from "../config/routesPaths";
 
-const DashboardLayout = lazy(()=> import("@/pages/dashboard/DashboardLayout"))
-const Dashboard = lazy(()=> import("@/pages/dashboard/Dashboard"))
+const DashboardLayout = lazy(() => import("@/pages/dashboard/DashboardLayout"));
+const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+const ErrorPage = lazy(() => import("@/pages/Error404"));
 
 export const dashboardRoutes: RouteObject[] = [
   {
@@ -21,12 +31,11 @@ export const dashboardRoutes: RouteObject[] = [
     ),
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Dashboard /> }, 
+      { index: true, element: <Dashboard /> }, // /dashboard
       ...dashboardPublicRoutes,
       ...adminRoutes,
       ...monitorRoutes,
-      ...usersRoutes
-    ]
+      ...usersRoutes,
+    ],
   },
 ];
-

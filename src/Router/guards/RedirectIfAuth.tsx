@@ -3,15 +3,27 @@ import { useAuth } from "@/hooks/useAuth";
 import { PropsUrl } from "@/guards/typeGuards";
 
 /**
- * Redirige a la página principal si el usuario ya está autenticado.
+ * Guardián de Rutas de Autenticación.
  * 
- * @param {ReactElement} children - Componente a renderizar si NO está autenticado.
- * @returns {ReactElement} El componente o redirección a la home.
+ * Este componente se utiliza para proteger las rutas de autenticación, 
+ * evitando que usuarios ya autenticados accedan a páginas como Login o Registro.
+ * 
+ * - Si el usuario ya está autenticado, es redirigido a la página principal (Home).
+ * - Si no está autenticado, permite el acceso al componente hijo (como Login o Register).
+ * 
+ * @param {PropsUrl} children - El componente o grupo de componentes a renderizar si NO está autenticado.
+ * @returns {JSX.Element} El componente protegido o una redirección a Home.
+ * 
+ * @example
+ * <RedirectIfAuth>
+ *   <Login />
+ * </RedirectIfAuth>
  */
 const RedirectIfAuth = ({ children }: PropsUrl) => {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) return <Navigate to="/" replace />;
+  
   return children;
 };
 
