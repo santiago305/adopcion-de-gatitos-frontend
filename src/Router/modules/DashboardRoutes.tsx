@@ -1,12 +1,14 @@
+import { lazy } from "react";
 import ErrorPage from "@/pages/Error404";
 import { RouteObject } from "react-router-dom";
 import PrivateRoute from "../guards/PrivateRoute";
-import DashboardLayout from "@/pages/dashboard/DashboardLayout";
-import { Dashboard } from "@/pages";
 import { dashboardPublicRoutes } from "./dashboard/publicDashboardRoutes";
 import { adminRoutes } from "./dashboard/adminRoutes";
 import { monitorRoutes } from "./dashboard/monitorRoutes";
 import { usersRoutes } from "./dashboard/usersRoutes";
+
+const DashboardLayout = lazy(()=> import("@/pages/dashboard/DashboardLayout"))
+const Dashboard = lazy(()=> import("@/pages/dashboard/Dashboard"))
 
 export const dashboardRoutes: RouteObject[] = [
   {

@@ -1,7 +1,11 @@
-import { About, Contact, Home, } from "@/pages";
-import ErrorPage from "@/pages/Error404";
-import { RouteObject } from "react-router-dom";
 import { RoutesPaths } from "../config/routesPaths";
+import { RouteObject } from "react-router-dom";
+import { lazy } from "react";
+
+const Home = lazy(()=>import("@/pages/Home"))
+const About = lazy(()=>import("@/pages/About"))
+const Contact = lazy(()=>import("@/pages/Contact"))
+const ErrorPage = lazy(()=>import("@/pages/Error404"))
 
 export const publicRoutes: RouteObject[] = [
   {
