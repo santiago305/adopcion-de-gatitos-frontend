@@ -34,43 +34,39 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
     setSubmitting(true);
 
     try {
-    const userData: RegisterCredentials = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    };
-
-    const userResponse = await clientUserRegister(userData);
-    console.log(userResponse)
-    if (userResponse) {
-      const clientData: CreateClientsDto = {
-        phone: data.phone,
-        gender: data.gender,
-        birth_date: data.birth_date,
+      const userData: RegisterCredentials = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
       };
 
-      const clientResponse = await createClients(clientData);
-      console.log(clientResponse)
-      if (clientResponse.type === statusMessage.SUCCESS) {
+      const userResponse = await clientUserRegister(userData);
 
-        const fashmessage = successResponse(clientResponse.message)
-        console.log(fashmessage)
-        navigate(RoutesPaths.home, {
-          state: {
-            flashMessage: fashmessage,
-          },
-        });
+      if (userResponse.success) {
+        const clientData: CreateClientsDto = {
+          phone: data.phone,
+          gender: data.gender,
+          birth_date: data.birth_date,
+        };
+
+        const clientResponse = await createClients(clientData);
+
+        if (clientResponse.type === statusMessage.SUCCESS) {
+          navigate(RoutesPaths.home, {
+            state: {
+              flashMessage: successResponse(clientResponse.message),
+            },
+          });
+        } else {
+        showFlash({ type: clientResponse.status, message: clientResponse.message || "Error al crear cliente." });
+        }
       } else {
-      showFlash({ type: clientResponse.status, message: clientResponse.message || "Error al crear cliente." });
+        showFlash(errorResponse("Error al crear el usuario"));
       }
-    } else {
-      showFlash(errorResponse("Error al crear el usuario"));
-    }
 
     } catch (error: any) {
-      const message = error.response?.data?.message;
-      showFlash({ type: message.type, message: message.message });
-      
+      const message = error.response?.data?.message || "Error inesperado";
+      showFlash(errorResponse(message));
     } finally {
       setSubmitting(false);
     }

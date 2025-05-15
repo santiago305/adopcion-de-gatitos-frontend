@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import FormField from "./ui/formField";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
 import { RoutesPaths } from "@/router/config/routesPaths";
-import { successResponse } from "@/common/utils/response";
+import { errorResponse, successResponse } from "@/common/utils/response";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [submitting, setSubmitting] = useState(false)
@@ -22,23 +22,19 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
     resolver: zodResolver(LoginSchema),
   });
 
-  // useAfterLoginRedirect();
-  
   const onSubmit = async (data: LoginCredentials) => {
     clearFlash(); 
     setSubmitting(true);
     try {
-      await login(data); 
-      navigate("/", {
-        replace: true,
-        state: { flashMessage: successResponse("Inicio de sesión exitoso") },
-      });
-    } catch (error: any) {
-      const message = error.response?.data;
-      showFlash({ 
-        type: message.type || "error",
-        message: message.message || "Credenciales inválidas o error de red" 
-        });
+      const response = await login(data); 
+      if (response.success){
+        showFlash(successResponse(response.message));
+        navigate(RoutesPaths.home, { replace: true });
+      } else {
+        showFlash(errorResponse(response.message));
+      }
+    } catch (error) {
+      showFlash(errorResponse("Credenciales inválidas o error de red"));
     } finally {
       setSubmitting(false);
     }
