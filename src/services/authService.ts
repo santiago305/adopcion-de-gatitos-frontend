@@ -52,7 +52,14 @@ export const checkTokenValidity = async () => {
     return false;
   }
 }
-
+export const refresh_token = async () => {
+  try {
+    const response = await axiosInstance.get(API_AUTH_GROUP.refreshToken)
+    return response.data
+  } catch (error) {
+    return false 
+  }
+}
 export const logoutUser = async () => {
   try {
     const response = await axiosInstance.post(API_AUTH_GROUP.logout)
