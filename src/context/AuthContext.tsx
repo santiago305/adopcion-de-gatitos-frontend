@@ -1,5 +1,6 @@
 import { createContext } from "react";
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
+import { AuthResponse } from "@/types/AuthResponse";
 
 /**
  * Tipo de contexto de autenticación.
@@ -11,10 +12,10 @@ interface AuthContextType {
   isAuthenticated: boolean;
   userRole: string | null;
   hasClient: boolean | null;
-  login: (payload: LoginCredentials) => Promise<void>;
-  clientUserRegister: (payload: RegisterCredentials) => Promise<boolean>;
+  login: (payload: LoginCredentials) => Promise<AuthResponse>;
+  clientUserRegister: (payload: RegisterCredentials) => Promise<AuthResponse>;
   logout: () => void;
-  checkAuth: () => void;
+  checkAuth: () => Promise<AuthResponse>;
   loading: boolean;
 }
 

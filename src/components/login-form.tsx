@@ -2,32 +2,37 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginCredentials } from "@/types/auth";
 import { LoginSchema } from "@/schemas/authSchemas";
 import { useAuth } from "@/hooks/useAuth";
 import FormField from "./ui/formField";
-import { useAfterLoginRedirect } from "@/hooks/useAfterLoginRedirect";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
 import { RoutesPaths } from "@/router/config/routesPaths";
+import { successResponse } from "@/common/utils/response";
 
 function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [submitting, setSubmitting] = useState(false)
+  const navigate = useNavigate()
   const { showFlash, clearFlash } = useFlashMessage();
   const { login } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginCredentials>({
     resolver: zodResolver(LoginSchema),
   });
 
-  useAfterLoginRedirect();
-
+  // useAfterLoginRedirect();
+  
   const onSubmit = async (data: LoginCredentials) => {
     clearFlash(); 
     setSubmitting(true);
     try {
       await login(data); 
+      navigate("/", {
+        replace: true,
+        state: { flashMessage: successResponse("Inicio de sesión exitoso") },
+      });
     } catch (error: any) {
       const message = error.response?.data;
       showFlash({ 

@@ -52,3 +52,12 @@ export const checkTokenValidity = async () => {
     return false;
   }
 }
+
+export const logoutUser = async () => {
+  try {
+    const response = await axiosInstance.post(API_AUTH_GROUP.logout)
+    return response.data
+  } catch (error) {
+    return false 
+  }
+}

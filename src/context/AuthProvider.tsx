@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { checkTokenValidity, loginUser, registerUser } from "@/services/authService";
+import { checkTokenValidity, loginUser, logoutUser, registerUser } from "@/services/authService";
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
-import { PropsUrl } from "@/guards/typeGuards";
+import { PropsUrl } from "@/router/guards/typeGuards";
 import { AuthContext } from "./AuthContext";
-import axiosInstance from "@/common/utils/axios";
-import { API_USERS_GROUP } from "@/services/APIs";
 import { checkExistingClient } from "@/services/clientsService";
+import { findOwnUser } from "@/services/userService";
+import { AuthResponse } from "@/types/AuthResponse";
 
 /**
  * Proveedor de autenticación.
@@ -28,48 +28,62 @@ export const AuthProvider = ({ children }: PropsUrl) => {
    * También determina si el usuario tiene un cliente asociado (para el rol 'user').
    */
   const checkAuth = async () => {
-    const valid = await checkTokenValidity();
-
-    if (valid) {
-      try {
-        const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser);
-        const data = response.data.data;
-        const role = data.rol;
-
-        setUserRole(role);
-        setIsAuthenticated(true);
-
-        if (role === 'user') {
-          const exists = await checkExistingClient();
-          setHasClient(exists);
-        } else {
-          setHasClient(null);
-        }
-      } catch (error) {
-        console.error("Error al verificar el usuario:", error);
+    try {
+      const valid = await checkTokenValidity();
+  
+      if (!valid) {
         setIsAuthenticated(false);
+        setUserRole(null);
+        setHasClient(null);
+        setLoading(false);
+        return { success: false, message: "Token inválido o expirado" };
+      }
+      const response = await findOwnUser();
+      const role = response.rol;
+  
+      setUserRole(role);
+      setIsAuthenticated(true);
+  
+      if (role === 'user') {
+        const exists = await checkExistingClient();
+        setHasClient(exists);
+      } else {
         setHasClient(null);
       }
-    } else {
+      setLoading(false);
+      return { success: true, message: "Autenticación validada" };
+    } catch (error: any) {
+      console.error("Error en checkAuth:", error);
       setIsAuthenticated(false);
+      setUserRole(null);
       setHasClient(null);
+      setLoading(false);
+      const message = error.response?.data?.message || "Error inesperado en autenticación";
+      return { success: false, message };
     }
-    setLoading(false);
   };
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   /**
    * Inicia sesión del usuario.
    * 
    * @param {LoginCredentials} payload Credenciales del usuario.
    */
-  const login = async (payload: LoginCredentials) => {
-    const data = await loginUser(payload);
-    if (data?.access_token) {
-      await checkAuth();
+  const login = async (payload: LoginCredentials): Promise<AuthResponse> => {
+    try {
+      const data = await loginUser(payload);
+      if (data?.access_token) {
+        await checkAuth();
+        return { success: true, message: "Inicio de sesión exitoso" };
+      } else {
+        return { success: false, message: "No se pudo iniciar sesión" };
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Error en la autenticación";
+      return { success: false, message };
     }
   };
 
@@ -79,17 +93,18 @@ export const AuthProvider = ({ children }: PropsUrl) => {
    * @param {RegisterCredentials} payload Datos de registro.
    * @returns {Promise<boolean>} `true` si el registro fue exitoso.
    */
-  const clientUserRegister = async (payload: RegisterCredentials) => {
+  const clientUserRegister = async (payload: RegisterCredentials): Promise<AuthResponse> => {
     try {
       const data = await registerUser(payload);
       if (data?.access_token) {
         await checkAuth();
-        return true;
+        return { success: true, message: "Registro exitoso" };
+      } else {
+        return { success: false, message: "Error al registrar usuario" };
       }
-      return false;
-    } catch (error) {
-      console.error("Error en el registro de usuario:", error);
-      return false;
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Error en el registro";
+      return { success: false, message };
     }
   };
 
@@ -97,11 +112,14 @@ export const AuthProvider = ({ children }: PropsUrl) => {
    * Cierra la sesión actual del usuario.
    */
   const logout = () => {
+    logoutUser()
     setIsAuthenticated(false);
     setUserRole(null);
     setHasClient(null);
   };
-
+  useEffect(() => {
+    checkAuth();
+  }, []);
   return (
     <AuthContext.Provider
       value={{

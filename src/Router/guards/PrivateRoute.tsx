@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { PropsUrl } from "@/guards/typeGuards";
+import { PropsUrl } from "@/router/guards/typeGuards";
 import { RoleType } from "@/types/role";
 import { RoutesPaths } from "../config/routesPaths";
 
@@ -32,7 +32,7 @@ const PrivateRoute = ({ children }: PropsUrl) => {
   }
 
   if (userRole === RoleType.USER && !hasClient) {
-    return <Navigate to={RoutesPaths.home} replace />;
+    return <Navigate to={RoutesPaths.clientsRegister} replace />;
   }
 
   return children;

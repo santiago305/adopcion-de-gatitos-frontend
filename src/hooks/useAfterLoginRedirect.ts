@@ -9,7 +9,8 @@ export const useAfterLoginRedirect = () => {
 
   useEffect(() => {
     if (!isAuthenticated || loading) return;
-
+    const msg = successResponse("Inicio de sesión exitoso");
+    console.log("Mensaje a enviar:", msg);
     if (userRole === "user") {
       if (hasClient === false) {
         navigate("/clientsregister", { replace: true, state: { flashMessage: infoResponse("Completa tu registro de cliente.") } });
