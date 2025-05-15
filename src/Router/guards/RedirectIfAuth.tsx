@@ -21,7 +21,6 @@ import { PropsUrl } from "@/router/guards/typeGuards";
  */
 const RedirectIfAuth = ({ children }: PropsUrl) => {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated)
 
   if (isAuthenticated) return <Navigate to="/" replace />;
   
