@@ -14,10 +14,11 @@ import FieldError from "./ui/FieldError";
 import { CreateClientsDto } from "@/types/clients";
 import { createClients } from "@/services/clientsService";
 import { useAuth } from "@/hooks/useAuth";
-import { successResponse } from "@/common/utils/response";
+import { errorResponse, successResponse } from "@/common/utils/response";
 import FormField from "./ui/formField";
 import { RoutesPaths } from "@/router/config/routesPaths";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
+import { statusMessage } from "@/common/interfaces/statusMesage";
 
 function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
   const { clientUserRegister } = useAuth();
@@ -33,28 +34,39 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
     setSubmitting(true);
 
     try {
-      const userData:RegisterCredentials = {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-      };
-      const userResponse = await clientUserRegister(userData);
-      if (userResponse) {
-        const clientData: CreateClientsDto = {
-          phone: data.phone, 
-          gender: data.gender, 
-          birth_date: data.birth_date, 
-        };
-        await createClients(clientData);
+    const userData: RegisterCredentials = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    };
 
+    const userResponse = await clientUserRegister(userData);
+    console.log(userResponse)
+    if (userResponse) {
+      const clientData: CreateClientsDto = {
+        phone: data.phone,
+        gender: data.gender,
+        birth_date: data.birth_date,
+      };
+
+      const clientResponse = await createClients(clientData);
+      console.log(clientResponse)
+      if (clientResponse.type === statusMessage.SUCCESS) {
+
+        const fashmessage = successResponse(clientResponse.message)
+        console.log(fashmessage)
         navigate(RoutesPaths.home, {
           state: {
-            flashMessage: successResponse("Te has registrado correctamente"),
+            flashMessage: fashmessage,
           },
         });
+      } else {
+      showFlash({ type: clientResponse.status, message: clientResponse.message || "Error al crear cliente." });
       }
-      
-      
+    } else {
+      showFlash(errorResponse("Error al crear el usuario"));
+    }
+
     } catch (error: any) {
       const message = error.response?.data?.message;
       showFlash({ type: message.type, message: message.message });

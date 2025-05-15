@@ -16,7 +16,7 @@ export function useLocationFlashMessage() {
 
   useEffect(() => {
     const state = location.state as { flashMessage?: FlashMessageType };
-
+    console.log("Location state", location.state, " y ", state);
     if (state?.flashMessage) {
       showFlash(state.flashMessage);
       navigate(location.pathname, { replace: true, state: {} });
