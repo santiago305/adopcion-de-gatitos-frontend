@@ -1,10 +1,10 @@
+import { RoutesPaths } from "@/router/config/routesPaths";
 import { Link } from "react-router-dom";
 
 const links = [
-  { to: "/", label: "Inicio" },
-  { to: "/about", label: "Nosotros" },
-  { to: "/services", label: "Servicios" },
-  { to: "/contact", label: "Contacto" },
+  { to: RoutesPaths.about, label: "Nosotros" },
+  { to: "/animales", label: "Animales" },
+  { to: RoutesPaths.contact, label: "Contacto" },
 ];
 
 export default function HeaderNav() {
