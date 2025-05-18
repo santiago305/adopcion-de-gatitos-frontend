@@ -9,7 +9,7 @@ const links = [
 
 export default function HeaderNav() {
   return (
-    <nav className="flex gap-8">
+    <nav className=" gap-8 hidden md:flex">
       {links.map((link) => (
         <Link
           key={link.to}

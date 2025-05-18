@@ -6,7 +6,7 @@ const Footer = lazy(()=> import("@/components/footer/Footer"))
 
 export default function Layout() {
   return (
-    <div className="w-full min-h-screen flex flex-col">
+    <div className="w-full min-h-screen flex flex-col overflow-hidden">
       <Header />
       <main className="w-full h-1000 ">
         <Outlet/>
