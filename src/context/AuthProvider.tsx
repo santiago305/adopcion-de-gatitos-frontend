@@ -30,12 +30,11 @@ export const AuthProvider = ({ children }: PropsUrl) => {
   const checkAuth = async () => {
     try {
       const valid = await checkTokenValidity();
-  
       if (!valid) {
         setIsAuthenticated(false);
         setUserRole(null);
         setHasClient(null);
-        setLoading(false);
+        setLoading(false); 
         return { success: false, message: "Token inválido o expirado" };
       }
       const response = await findOwnUser();
@@ -60,13 +59,12 @@ export const AuthProvider = ({ children }: PropsUrl) => {
       setLoading(false);
       const message = error.response?.data?.message || "Error inesperado en autenticación";
       return { success: false, message };
-    }
+    } 
   };
 
-  // useEffect(() => {
-  //   checkAuth();
-  // }, []);
-
+  useEffect(() => {
+    checkAuth();
+  }, []);
   /**
    * Inicia sesión del usuario.
    * 
@@ -117,9 +115,7 @@ export const AuthProvider = ({ children }: PropsUrl) => {
     setUserRole(null);
     setHasClient(null);
   };
-  useEffect(() => {
-    checkAuth();
-  }, []);
+
   return (
     <AuthContext.Provider
       value={{

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000/api',
-  withCredentials: true, 
+  withCredentials: true,
 });
 
 let isRefreshing = false;
@@ -19,33 +19,31 @@ const processQueue = (error: any, token: string | null = null) => {
     } else {
       prom.resolve(token);
     }
-  })
+  });
   failedQueue = [];
-}
+};
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    const isAuthEndpoint = originalRequest.url.includes('/auth/refresh');
+    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
       if (isRefreshing) {
-        // Si ya se está refrescando, mete esta petición en cola para resolver después
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
-        }).then(() => {
-          return axiosInstance(originalRequest);
-        }).catch(err => {
-          return Promise.reject(err);
-        });
+        }).then(() => axiosInstance(originalRequest));
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
 
       try {
-        await refresh_token();
-        processQueue(null);
+        const newToken = await refresh_token(); 
+
+        processQueue(null, newToken);
+
         return axiosInstance(originalRequest);
       } catch (refreshError) {
         processQueue(refreshError, null);
@@ -59,6 +57,5 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
 
 export default axiosInstance;

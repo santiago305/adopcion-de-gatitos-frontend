@@ -26,21 +26,17 @@ import { RoutesPaths } from "../config/routesPaths";
 const RequireClientRegister = ({ children }: PropsUrl) => {
   const { isAuthenticated, userRole, hasClient, loading } = useAuth();
 
-  if (loading) {
-    return <div className="text-center p-4">Guard de clients register...</div>;
-  }
+  if (loading) return <div className="text-center p-4">Guard de clients register...</div>;
 
-  if (!isAuthenticated) {
-    return <Navigate to={RoutesPaths.login} replace />;
-  }
 
-  if (userRole !== RoleType.USER) {
-    return <Navigate to={RoutesPaths.home} replace />;
-  }
+  if (!isAuthenticated)   return <Navigate to={RoutesPaths.login} replace />;
 
-  if (userRole === RoleType.USER && hasClient) {
-    return <Navigate to={RoutesPaths.home} replace />;
-  }
+
+  if (userRole !== RoleType.USER) return <Navigate to={RoutesPaths.home} replace />;
+
+
+  if (userRole === RoleType.USER && hasClient) return <Navigate to={RoutesPaths.home} replace />;
+  
 
   return children;
 };
