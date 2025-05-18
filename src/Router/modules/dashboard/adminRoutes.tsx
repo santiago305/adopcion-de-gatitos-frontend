@@ -1,4 +1,5 @@
-import { Login } from "@/pages";
+
+import Login from "@/pages/Auth/Login";
 import ErrorPage from "@/pages/Error404";
 import { RouteObject } from "react-router-dom";
 

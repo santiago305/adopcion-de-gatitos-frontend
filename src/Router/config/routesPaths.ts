@@ -19,8 +19,6 @@ export const RoutesPaths = {
   home: "/",
   about: "/about",
   contact: "/contact",
-  products: "/products",
-  productShow: (productId: string) => `/products/${productId}`,
 
   // 🔐 Rutas de autenticación
   login: "/login",
@@ -29,8 +27,6 @@ export const RoutesPaths = {
 
   // 📊 Rutas de Dashboard
   dashboard: "/dashboard",
-  dashboardProducts: "/dashboard/products",
-  dashboardProductShow: (id: string) => `/dashboard/products/${id}`,
   dashboardProfile: "/dashboard/profile",
   dashboardSettings: "/dashboard/settings",
 } as const;

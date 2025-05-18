@@ -7,13 +7,14 @@
  * @module PublicRoutes
  */
 
-import { RoutesPaths } from "../config/routesPaths";
+
 import { RouteObject } from "react-router-dom";
 import { lazy } from "react";
+import { RoutesPaths } from "../config/routesPaths";
 
-const Home = lazy(() => import("@/pages/Home"));
-const About = lazy(() => import("@/pages/About"));
-const Contact = lazy(() => import("@/pages/Contact"));
+const Home = lazy(() => import("@/pages/public/Home"));
+const About = lazy(() => import("@/pages/public/About"));
+const Contact = lazy(() => import("@/pages/public/Contact"));
 const ErrorPage = lazy(() => import("@/pages/Error404"));
 
 export const publicRoutes: RouteObject[] = [
