@@ -17,8 +17,8 @@
 export const RoutesPaths = {
   // 📖 Rutas públicas
   home: "/",
-  about: "/about",
-  contact: "/contact",
+  about: "about",
+  contact: "contact",
 
   // 🔐 Rutas de autenticación
   login: "/login",
