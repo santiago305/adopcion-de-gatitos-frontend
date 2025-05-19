@@ -10,7 +10,7 @@ export default function MobileMenuButton({ isOpen, toggle }: Props) {
     <button
       id="mobile-menu-button" // <-- Esto es la clave para identificarlo
       onClick={toggle}
-      className="relative w-8 h-8 flex flex-col justify-center items-start gap-1 z-50"
+      className="relative w-6 h-6 flex flex-col justify-center items-start gap-1 z-50"
     >
       {/* Líneas */}
       <motion.span

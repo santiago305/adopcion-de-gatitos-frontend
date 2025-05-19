@@ -45,7 +45,7 @@ export default function MobileMenu({ isOpen, close }: Props) {
       initial={{ x: '-100%' }}
       animate={{ x: isOpen ? '0%' : '-100%' }}
       transition={{ duration: 0.3 }}
-      className="fixed top-20 left-0 bg-blue-500 shadow-md p-8 z-40 rounded-r-2xl md:hidden 
+      className="fixed top-20 left-0 bg-white/70 backdrop-blur-md shadow-md p-8 z-40 rounded-r-2xl md:hidden 
                  flex flex-col gap-6 max-w-[80%]"
     >
       {links.map((link) => (

@@ -12,9 +12,9 @@ export default function HeaderUserAction() {
       className="flex items-center gap-2 text-gray-800 dark:text-gray-200 hover:text-primary transition-transform duration-500 hover:scale-105"
     >
       {isAuthenticated ? (
-        <LayoutDashboard className="w-5 h-5" />
+        <LayoutDashboard className="w-6 h-6" />
       ) : (
-        <User className="w-5 h-5" /> 
+        <User className="w-6 h-6" /> 
       )}
     </Link>
   );

@@ -38,7 +38,7 @@ export default function Header() {
         )}
       >
         <section
-          className="w-full h-full max-w-[1200px] m-auto flex bg-blue-500 
+          className="w-full h-full max-w-[1200px] m-auto flex bg-white/80 
                      backdrop-blur-md rounded-4xl px-10"
         >
           <div className="w-full h-full flex items-center justify-between">
