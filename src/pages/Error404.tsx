@@ -1,9 +1,26 @@
+import FuzzyText from "@/components/404/404Text";
+
 export default function ErrorPage() {
-    return (
-        
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <h1 className="text-4xl font-bold">Error 404</h1>
-            <p className="mt-4 text-lg">Not existing page!</p>
-        </div>
-    );
+  return (
+    <div
+    className="w-full h-full min-h-[80vh] flex flex-col justify-center items-center gap-5"
+    >
+      <FuzzyText 
+      baseIntensity={0.2} 
+      hoverIntensity={0.5} 
+      enableHover={true}
+      fontSize="clamp(15rem, 8vw, 8rem)"
+      >
+        400
+      </FuzzyText>
+      <FuzzyText 
+      baseIntensity={0.2} 
+      hoverIntensity={0.5} 
+      enableHover={true}
+      fontSize="clamp(2rem, 8vw, 8rem)"
+      >
+        not found
+      </FuzzyText>
+    </div>
+  );
 }

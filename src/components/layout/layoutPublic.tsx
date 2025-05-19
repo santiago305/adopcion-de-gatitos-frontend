@@ -8,8 +8,10 @@ export default function Layout() {
   return (
     <div className="w-full min-h-screen flex flex-col overflow-hidden">
       <Header />
-      <main className="w-full h-1000 ">
-        <Outlet/>
+      <main className="w-full flex-1 flex">
+        <div className="w-full">
+          <Outlet/>
+        </div>
       </main>
       <Footer />
     </div>
