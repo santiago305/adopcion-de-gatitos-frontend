@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import HeaderLogo from "./HeaderLogo";
+import HeaderLogo from "./logo";
 import HeaderNav from "./HeaderNav";
 import HeaderUserAction from "./HeaderUserAction";
 import MobileMenuButton from "./MobileMenuButton";
