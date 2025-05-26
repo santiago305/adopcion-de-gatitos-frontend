@@ -1,28 +1,34 @@
-import React from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import useVisibilityAnimation from '@/hooks/useVisibilityAnimation';
-
+import { useEffect } from 'react';
 import LogoFooter from "./LogoFooter";
 import FooterNavSection from "./FooterNavSection";
 import { LinksNav1, LinksNetworks } from "./LinksFooter";
 import FooterNavNetworks from "./FooterNavNetworks";
+import { useSectionObserver } from '@/hooks/useSectionObserver';
 
 export default function Footer() {
-  const { ref, entry } = useVisibilityAnimation();
+  const { sectionRef, isVisible } = useSectionObserver(0.3);
   const controls = useAnimation();
 
-  React.useEffect(() => {
-    const ratio = entry?.intersectionRatio ?? 0;
-    if (ratio >= 0.5) {
-      controls.start({ opacity: 1, y: 0, transition: { duration: 0.5 } });
+  useEffect(() => {
+    if (isVisible) {
+      controls.start({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: 'easeOut' }
+      });
     } else {
-      controls.start({ opacity: 0, y: 30, transition: { duration: 0.5 } });
+      controls.start({
+        opacity: 0,
+        y: 30,
+        transition: { duration: 0.4, ease: 'easeInOut' }
+      });
     }
-  }, [entry, controls]);
+  }, [isVisible, controls]);
 
   return (
     <motion.footer
-      ref={ref}
+      ref={sectionRef}
       initial={{ opacity: 0, y: 30 }}
       animate={controls}
       className="w-full bg-secondary"
