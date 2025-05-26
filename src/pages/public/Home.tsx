@@ -6,7 +6,7 @@ export default function Home() {
   useLocationFlashMessage();
     return (
       <>
-      home
+      hola
       </> 
     );
 }
