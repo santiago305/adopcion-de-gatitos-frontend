@@ -50,6 +50,7 @@ export default function Header() {
               <MobileMenuButton isOpen={menuOpen} toggle={toggleMenu} />
             </div>
             <motion.div
+            className="flex items-center justify-center"
             initial={{ opacity: 0, x: -30 }}  
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
