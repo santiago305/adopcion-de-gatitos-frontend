@@ -14,7 +14,9 @@ interface FooterNavSectionProps {
 
 export default function FooterNavSection({ title, links }: FooterNavSectionProps) {
   return (
-    <div>
+    <div
+    className="md:flex flex-col hidden"
+    >
       <h5 className="mb-4 font-montserrat font-bold text-lg text-center text-primary">{title}</h5>
       <ul className="space-y-2">
         {links.map(({ icon, label, to, external }, index) => (
