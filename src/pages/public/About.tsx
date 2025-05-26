@@ -1,9 +1,19 @@
-export function About() {
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen py-2">
-            <h1 className="text-4xl font-bold">About</h1>
-            <p className="mt-4 text-lg">Welcome to the About page!</p>
+import SidebarSticky from "@/components/SidebarSticky";
+
+ export default function About() {
+  return (
+    <div className="relative flex  min-h-screen">
+
+      <SidebarSticky imageSrc="/assets/perritoabout.png" imageAlt="MIAUU" />
+
+      <div className="relative w-3/5 bg-amber-500 p-4 z-20">
+        <div className="h-[200vh]">
+          <p>Contenido extenso que genera scroll...</p>
         </div>
-    );
-}
-export default About;
+      </div>
+      <SidebarSticky imageSrc="/assets/gatitoabout.png" imageAlt="MIAUU" />
+
+
+    </div>
+  );
+} 
