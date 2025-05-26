@@ -7,7 +7,7 @@ import { headerLinks } from "@/Router/config/routesConfig";
 export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar className="" collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
