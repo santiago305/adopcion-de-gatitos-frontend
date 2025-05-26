@@ -19,6 +19,7 @@ export const RoutesPaths = {
   home: "/",
   about: "about",
   contact: "contact",
+  animals: "/animals",
 
   // 🔐 Rutas de autenticación
   login: "/login",

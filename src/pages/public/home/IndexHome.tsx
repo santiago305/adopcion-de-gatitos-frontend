@@ -1,5 +1,7 @@
 import HeaderDIV from "@/components/header/HeaderDIV"
 import HeroMessage from "@/components/HeroMessage"
+import SmartButton from "@/components/SmartButton"
+import { RoutesPaths } from "@/router/config/routesPaths"
 
 export default function IndexHome() {
   return (
@@ -16,13 +18,12 @@ export default function IndexHome() {
         description="Descubre cientos de animales que sueñan con un hogar lleno de amor. Adopta, cambia una vida… y deja que la tuya también se llene de alegría."
         className="text-center items-center"
         />
-
-        <button 
-        type="button"
-        className="px-4 py-2 rounded-full border border-black font-montserrat bg-[#b3b3b3] select-none cursor-pointer"
-        >
-            Conoce más
-        </button>
+        
+        <SmartButton
+        className="bg-[#b3b3b3]"
+        text="Adopta un amigo"
+        to={RoutesPaths.animals}
+        />
       </div>
     </div>
   )
