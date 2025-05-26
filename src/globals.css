@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./styles/font/stylesheet.css";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +119,38 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@theme {
+  --color-primary: #be185d;
+  --color-secondary: #fbcfe8;
+
+  --font-cindie-E: 'Cindie 2 E', sans-serif;
+  --font-cindie-H: 'Cindie 2 H', sans-serif;
+  --font-cindie-A: 'Cindie 2 A', sans-serif;
+  --font-cindie-M: 'Cindie 2 M', sans-serif;
+  --font-cindie-I: 'Cindie 2 I', sans-serif;
+  --font-cindie-K: 'Cindie 2 K', sans-serif;
+  --font-cindie-J: 'Cindie 2 J', sans-serif;
+  --font-cindie-B: 'Cindie 2 B', sans-serif;
+  --font-cindie-F: 'Cindie 2 F', sans-serif;
+  --font-cindie-N: 'Cindie 2 N', sans-serif;
+  --font-cindie-D: 'Cindie 2 D', sans-serif;
+  --font-cindie-C: 'Cindie 2 C', sans-serif;
+  --font-cindie-L: 'Cindie 2 L', sans-serif;
+  --font-cindie-G: 'Cindie 2 G', sans-serif;
+  --font-cindie-V: 'Cindie 2 V', sans-serif;
+  --font-cindie-P: 'Cindie 2 P', sans-serif;
+  --font-cindie-S: 'Cindie 2 S', sans-serif;
+  --font-cindie-Z: 'Cindie 2 Z', sans-serif;
+  --font-cindie-X: 'Cindie 2 X', sans-serif;
+  --font-cindie-W: 'Cindie 2 W', sans-serif;
+  --font-cindie-O: 'Cindie 2 O', sans-serif;
+  --font-cindie-Y: 'Cindie 2 Y', sans-serif;
+  --font-cindie-Q: 'Cindie 2 Q', sans-serif;
+  --font-cindie-R: 'Cindie 2 R', sans-serif;
+  --font-cindie-T: 'Cindie 2 T', sans-serif;
+  --font-cindie-U: 'Cindie 2 U', sans-serif;
+  --font-cindie-Script: 'Cindie 2 Script', cursive;
+  --font-montserrat: 'Montserrat', sans-serif;
 }

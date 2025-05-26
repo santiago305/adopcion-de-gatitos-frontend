@@ -1,0 +1,324 @@
+@font-face {
+    font-family: 'Cindie 2 E';
+    src: url('Cindie2-E.eot');
+    src: local('Cindie 2 E'), local('Cindie2-E'),
+        url('Cindie2-E.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-E.woff2') format('woff2'),
+        url('Cindie2-E.woff') format('woff'),
+        url('Cindie2-E.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 H';
+    src: url('Cindie2-H.eot');
+    src: local('Cindie 2 H'), local('Cindie2-H'),
+        url('Cindie2-H.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-H.woff2') format('woff2'),
+        url('Cindie2-H.woff') format('woff'),
+        url('Cindie2-H.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 A';
+    src: url('Cindie2-A.eot');
+    src: local('Cindie 2 A'), local('Cindie2-A'),
+        url('Cindie2-A.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-A.woff2') format('woff2'),
+        url('Cindie2-A.woff') format('woff'),
+        url('Cindie2-A.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 M';
+    src: url('Cindie2-M.eot');
+    src: local('Cindie 2 M'), local('Cindie2-M'),
+        url('Cindie2-M.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-M.woff2') format('woff2'),
+        url('Cindie2-M.woff') format('woff'),
+        url('Cindie2-M.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 I';
+    src: url('Cindie2-I.eot');
+    src: local('Cindie 2 I'), local('Cindie2-I'),
+        url('Cindie2-I.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-I.woff2') format('woff2'),
+        url('Cindie2-I.woff') format('woff'),
+        url('Cindie2-I.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 K';
+    src: url('Cindie2-K.eot');
+    src: local('Cindie 2 K'), local('Cindie2-K'),
+        url('Cindie2-K.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-K.woff2') format('woff2'),
+        url('Cindie2-K.woff') format('woff'),
+        url('Cindie2-K.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 J';
+    src: url('Cindie2-J.eot');
+    src: local('Cindie 2 J'), local('Cindie2-J'),
+        url('Cindie2-J.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-J.woff2') format('woff2'),
+        url('Cindie2-J.woff') format('woff'),
+        url('Cindie2-J.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 B';
+    src: url('Cindie2-B.eot');
+    src: local('Cindie 2 B'), local('Cindie2-B'),
+        url('Cindie2-B.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-B.woff2') format('woff2'),
+        url('Cindie2-B.woff') format('woff'),
+        url('Cindie2-B.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 F';
+    src: url('Cindie2-F.eot');
+    src: local('Cindie 2 F'), local('Cindie2-F'),
+        url('Cindie2-F.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-F.woff2') format('woff2'),
+        url('Cindie2-F.woff') format('woff'),
+        url('Cindie2-F.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 N';
+    src: url('Cindie2-N.eot');
+    src: local('Cindie 2 N'), local('Cindie2-N'),
+        url('Cindie2-N.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-N.woff2') format('woff2'),
+        url('Cindie2-N.woff') format('woff'),
+        url('Cindie2-N.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 D';
+    src: url('Cindie2-D.eot');
+    src: local('Cindie 2 D'), local('Cindie2-D'),
+        url('Cindie2-D.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-D.woff2') format('woff2'),
+        url('Cindie2-D.woff') format('woff'),
+        url('Cindie2-D.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 C';
+    src: url('Cindie2-C.eot');
+    src: local('Cindie 2 C'), local('Cindie2-C'),
+        url('Cindie2-C.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-C.woff2') format('woff2'),
+        url('Cindie2-C.woff') format('woff'),
+        url('Cindie2-C.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 L';
+    src: url('Cindie2-L.eot');
+    src: local('Cindie 2 L'), local('Cindie2-L'),
+        url('Cindie2-L.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-L.woff2') format('woff2'),
+        url('Cindie2-L.woff') format('woff'),
+        url('Cindie2-L.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 G';
+    src: url('Cindie2-G.eot');
+    src: local('Cindie 2 G'), local('Cindie2-G'),
+        url('Cindie2-G.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-G.woff2') format('woff2'),
+        url('Cindie2-G.woff') format('woff'),
+        url('Cindie2-G.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 V';
+    src: url('Cindie2-V.eot');
+    src: local('Cindie 2 V'), local('Cindie2-V'),
+        url('Cindie2-V.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-V.woff2') format('woff2'),
+        url('Cindie2-V.woff') format('woff'),
+        url('Cindie2-V.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 P';
+    src: url('Cindie2-P.eot');
+    src: local('Cindie 2 P'), local('Cindie2-P'),
+        url('Cindie2-P.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-P.woff2') format('woff2'),
+        url('Cindie2-P.woff') format('woff'),
+        url('Cindie2-P.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 S';
+    src: url('Cindie2-S.eot');
+    src: local('Cindie 2 S'), local('Cindie2-S'),
+        url('Cindie2-S.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-S.woff2') format('woff2'),
+        url('Cindie2-S.woff') format('woff'),
+        url('Cindie2-S.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 Z';
+    src: url('Cindie2-Z.eot');
+    src: local('Cindie 2 Z'), local('Cindie2-Z'),
+        url('Cindie2-Z.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-Z.woff2') format('woff2'),
+        url('Cindie2-Z.woff') format('woff'),
+        url('Cindie2-Z.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 X';
+    src: url('Cindie2-X.eot');
+    src: local('Cindie 2 X'), local('Cindie2-X'),
+        url('Cindie2-X.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-X.woff2') format('woff2'),
+        url('Cindie2-X.woff') format('woff'),
+        url('Cindie2-X.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 W';
+    src: url('Cindie2-W.eot');
+    src: local('Cindie 2 W'), local('Cindie2-W'),
+        url('Cindie2-W.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-W.woff2') format('woff2'),
+        url('Cindie2-W.woff') format('woff'),
+        url('Cindie2-W.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 O';
+    src: url('Cindie2-O.eot');
+    src: local('Cindie 2 O'), local('Cindie2-O'),
+        url('Cindie2-O.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-O.woff2') format('woff2'),
+        url('Cindie2-O.woff') format('woff'),
+        url('Cindie2-O.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 Y';
+    src: url('Cindie2-Y.eot');
+    src: local('Cindie 2 Y'), local('Cindie2-Y'),
+        url('Cindie2-Y.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-Y.woff2') format('woff2'),
+        url('Cindie2-Y.woff') format('woff'),
+        url('Cindie2-Y.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 Q';
+    src: url('Cindie2-Q.eot');
+    src: local('Cindie 2 Q'), local('Cindie2-Q'),
+        url('Cindie2-Q.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-Q.woff2') format('woff2'),
+        url('Cindie2-Q.woff') format('woff'),
+        url('Cindie2-Q.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 R';
+    src: url('Cindie2-R.eot');
+    src: local('Cindie 2 R'), local('Cindie2-R'),
+        url('Cindie2-R.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-R.woff2') format('woff2'),
+        url('Cindie2-R.woff') format('woff'),
+        url('Cindie2-R.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 T';
+    src: url('Cindie2-T.eot');
+    src: local('Cindie 2 T'), local('Cindie2-T'),
+        url('Cindie2-T.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-T.woff2') format('woff2'),
+        url('Cindie2-T.woff') format('woff'),
+        url('Cindie2-T.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 U';
+    src: url('Cindie2-U.eot');
+    src: local('Cindie 2 U'), local('Cindie2-U'),
+        url('Cindie2-U.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-U.woff2') format('woff2'),
+        url('Cindie2-U.woff') format('woff'),
+        url('Cindie2-U.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cindie 2 Script';
+    src: url('Cindie2-Script.eot');
+    src: local('Cindie 2 Script'), local('Cindie2-Script'),
+        url('Cindie2-Script.eot?#iefix') format('embedded-opentype'),
+        url('Cindie2-Script.woff2') format('woff2'),
+        url('Cindie2-Script.woff') format('woff'),
+        url('Cindie2-Script.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+

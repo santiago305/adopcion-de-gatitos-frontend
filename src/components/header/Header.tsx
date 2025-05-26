@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import clsx from "clsx";
-import HeaderLogo from "./logo";
+import Logo from "./logo";
 import HeaderNav from "./HeaderNav";
 import HeaderUserAction from "./HeaderUserAction";
 import MobileMenuButton from "./MobileMenuButton";
@@ -46,7 +46,7 @@ export default function Header() {
               <MobileMenuButton isOpen={menuOpen} toggle={toggleMenu} />
             </div>
 
-            <HeaderLogo />
+            <Logo className="w-[80px]" />
 
             <div className="flex gap-10">
               <HeaderNav />

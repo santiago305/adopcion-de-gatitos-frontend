@@ -9,7 +9,7 @@ const LogoIcon: React.FC<LogoIconProps> = ({ className, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1025.68 565.68"
       fill="currentColor"
-      className={cn("w-12 h-12", className)}
+      className={cn(className)}
       {...props}
     >
       <g data-name="Capa 1">
