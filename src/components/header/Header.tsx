@@ -55,11 +55,6 @@ export default function Header() {
           </div>
         </section>
       </div>
-      <div
-      className="h-20 w-full"
-      >
-      </div>
-
       <MobileMenu isOpen={menuOpen} close={closeMenu} />
     </>
   );
