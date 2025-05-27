@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const links = [
   { to: RoutesPaths.about, label: "Nosotros" },
-  { to: "/animales", label: "Animales" },
+  { to: RoutesPaths.animals, label: "Animales" },
   { to: RoutesPaths.contact, label: "Contacto" },
 ];
 

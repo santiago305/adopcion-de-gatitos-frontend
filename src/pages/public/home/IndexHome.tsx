@@ -2,11 +2,12 @@ import HeaderDIV from "@/components/header/HeaderDIV"
 import HeroMessage from "@/components/HeroMessage"
 import SmartButton from "@/components/SmartButton"
 import { RoutesPaths } from "@/router/config/routesPaths"
+import { motion } from 'framer-motion';
 
 export default function IndexHome() {
   return (
     <div
-    className="w-full h-screen bg-cover bg-center bg-amber-300 flex flex-col"
+    className="w-full h-screen bg-cover bg-center flex flex-col"
     style={{ backgroundImage: "url('/assets/fondohome.webp')" }}
     >
       <HeaderDIV />
@@ -19,11 +20,17 @@ export default function IndexHome() {
         className="text-center items-center"
         />
         
-        <SmartButton
-        className="bg-[#b3b3b3]"
-        text="Adopta un amigo"
-        to={RoutesPaths.animals}
-        />
+        <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
+          <SmartButton
+          className="bg-[#b3b3b3]"
+          text="Adopta un amigo"
+          to={RoutesPaths.animals}
+          />
+        </motion.div>
       </div>
     </div>
   )

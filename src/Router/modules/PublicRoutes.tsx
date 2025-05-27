@@ -15,6 +15,7 @@ import Layout from "@/components/layout/layoutPublic";
 
 const Home = lazy(() => import("@/pages/public/Home"));
 const About = lazy(() => import("@/pages/public/About"));
+const Animals = lazy(() => import("@/pages/public/Animals"));
 const Contact = lazy(() => import("@/pages/public/Contact"));
 const ErrorPage = lazy(() => import("@/pages/Error404"));
 
@@ -31,6 +32,10 @@ export const publicRoutes: RouteObject[] = [
       {
         path: RoutesPaths.contact,
         element: <Contact />,
+      },
+      {
+        path: RoutesPaths.animals,
+        element: <Animals />,
       },
     {
       path: "*",
