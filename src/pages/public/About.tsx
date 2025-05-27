@@ -16,7 +16,7 @@ export default function About() {
         <HeaderDIV />
         <div className="flex flex-col m-auto max-w-[600px]">
           <motion.h1 
-          className="text-5xl font-cindie-L mb-4"
+          className="text-4xl md:text-5xl font-cindie-L mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

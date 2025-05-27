@@ -7,7 +7,7 @@ import { motion, useAnimation } from 'framer-motion';
 import { useEffect } from 'react';
 
 export default function AboutHome() {
-  const { sectionRef, isVisible } = useSectionObserver(0.3);
+  const { sectionRef, isVisible } = useSectionObserver(0.4);
   const controls = useAnimation();
 
   useEffect(() => {

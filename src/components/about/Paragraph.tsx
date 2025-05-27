@@ -27,7 +27,7 @@ const Paragraph = forwardRef<HTMLParagraphElement, ParagraphProps>(
         animate={getVariants(position)}
         initial={{ opacity: 0.3, y: 20 }}
         transition={{ duration: 0.4 }}
-        className="font-montserrat text-3xl leading-relaxed mb-6"
+        className="font-montserrat text-2xl md:text-3xl leading-relaxed mb-6"
       >
         {children}
       </motion.p>
