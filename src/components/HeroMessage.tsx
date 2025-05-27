@@ -20,8 +20,8 @@ const HeroMessage: React.FC<HeroMessageProps> = ({ title, description, className
       transition={{ duration: 0.5, ease: 'easeInOut' }}
       exit={{ opacity: 0, y: "50%" }}
     >
-      <h1 className="font-cindie-L text-5xl">{title}</h1>
-      <p className="max-w-[750px] font-montserrat text-lg">{description}</p>
+      <h1 className="font-cindie-L sm:text-5xl text-4xl">{title}</h1>
+      <p className="max-w-[750px] font-montserrat text-lg hidden md:inline">{description}</p>
     </motion.div>
   );
 };
