@@ -26,7 +26,7 @@ const TextBlockWithButton: React.FC<TextBlockWithButtonProps> = ({
         </p>
       ))}
 
-      <div className="w-full h-auto mt-10">
+      <div className="w-full h-auto mt-0 sm:mt-10 flex justify-center items-center lg:block">
         <SmartButton
           className="bg-secondary mt-5"
           text={buttonText}
