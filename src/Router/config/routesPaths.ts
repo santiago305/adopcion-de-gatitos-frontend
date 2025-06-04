@@ -30,6 +30,25 @@ export const RoutesPaths = {
   dashboard: "/dashboard",
   dashboardProfile: "/dashboard/profile",
   dashboardSettings: "/dashboard/settings",
+
+  // 🐾 Rutas de Animales
+  animalsList: "/dashboard/animals/list",
+  animalsRegister: "/dashboard/animals/register",
+  animalsUpdate: "/dashboard/animals/update/:id", // :id for dynamic animal ID
+  animalsDelete: "/dashboard/animals/delete/:id", // :id for dynamic animal ID
+
+  // 🐶 Rutas de Adopción
+  adopcionList: "/dashboard/adopcion",
+  adopcionSolicitar: "/dashboard/adopcion/solicitar",
+  adopcionVersolicutud: "/dashboard/adopcion/ver-solicitud/:id", // :id for dynamic request ID
+  adopcionEvaluar: "/dashboard/adopcion/evaluar/:id", // :id for dynamic request ID
+  adopcionAprobarRechazar: "/dashboard/adopcion/aprobar-rechazar/:id", // :id for dynamic request ID
+  adopcionExportar: "/dashboard/adopcion/exportar",
+
+  // 🐾 Rutas de Características
+  caracteristicasVer: "/dashboard/caracteristicas/ver",
+  caracteristicasUpdate: "/dashboard/caracteristicas/update/:id", // :id for dynamic characteristic ID
+
 } as const;
 
 /**

@@ -13,4 +13,5 @@ export interface RouteMetadata {
   requiresClientRegister?: boolean;  // Ruta para usuarios que no han completado su registro de cliente
   roles?: string[];                  // Roles permitidos para acceder (admin, moderator, user, etc.)
   showInNavigation?: boolean;        // Controla si se debe mostrar en la UI
+  subItems?: Omit<RouteMetadata, "icon" | "subItems">[];
 }
