@@ -12,16 +12,26 @@ interface NavSectionProps {
 export default function NavSection({ links }: NavSectionProps) {
   const { userRole } = useAuth();
   const location = useLocation();
-  const [openItems, setOpenItems] = React.useState<string[]>([]);
+  const [openItem, setOpenItem] = React.useState<string | null>(null);
 
   const toggleOpen = (path: string) => {
-    setOpenItems((prev) =>
-      prev.includes(path) ? prev.filter((item) => item !== path) : [...prev, path] 
-    );
+    setOpenItem((prev) => (prev === path ? null : path));
   };
 
+  // Sincronizar el estado del menú con la ruta actual
+  React.useEffect(() => {
+    const currentMainRoute = links.find((link) =>
+      link.subItems?.some((subItem) => subItem.path === location.pathname)
+    );
+    if (currentMainRoute) {
+      setOpenItem(currentMainRoute.path);
+    } else {
+      setOpenItem(null);
+    }
+  }, [location.pathname, links]);
+
   return (
-    <nav className="flex flex-col gap-4" >
+    <nav className="flex flex-col gap-4">
       {links
         .filter((link) => !link.roles || link.roles.includes(userRole || ""))
         .map((link) => (
@@ -39,13 +49,13 @@ export default function NavSection({ links }: NavSectionProps) {
                     {link.icon && <link.icon className="w-5 h-5" />}
                     <span>{link.name}</span>
                   </div>
-                  {openItems.includes(link.path) ? (
+                  {openItem === link.path ? (
                     <ChevronDown className="w-4 h-4" />
                   ) : (
                     <ChevronRight className="w-4 h-4" />
                   )}
                 </button>
-                {openItems.includes(link.path) && (
+                {openItem === link.path && (
                   <div className="flex flex-col gap-2 mt-2 pl-6">
                     {link.subItems
                       .filter((subItem) => !subItem.roles || subItem.roles.includes(userRole || ""))
@@ -54,7 +64,7 @@ export default function NavSection({ links }: NavSectionProps) {
                           key={subItem.path}
                           to={subItem.path}
                           className={clsx(
-                            "flex items-center gap-2 px-4 py-2 rounded  transition-colors",
+                            "flex items-center gap-2 px-4 py-2 rounded transition-colors",
                             location.pathname === subItem.path && "bg-gray-100 text-primary"
                           )}
                         >
@@ -68,7 +78,7 @@ export default function NavSection({ links }: NavSectionProps) {
               <Link
                 to={link.path}
                 className={clsx(
-                  "flex items-center gap-2 px-4 py-2 rounded  transition-colors",
+                  "flex items-center gap-2 px-4 py-2 rounded transition-colors",
                   location.pathname === link.path && "bg-gray-100 text-primary"
                 )}
               >

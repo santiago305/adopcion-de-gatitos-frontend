@@ -49,6 +49,18 @@ export const RoutesPaths = {
   caracteristicasVer: "/dashboard/caracteristicas/ver",
   caracteristicasUpdate: "/dashboard/caracteristicas/update/:id", // :id for dynamic characteristic ID
 
+  // 👤 Rutas de Usuarios (solo para admin)
+  usersList: "/dashboard/users/list",
+  usersRegister: "/dashboard/users/register",
+  usersUpdate: "/dashboard/users/update/:id", // :id for dynamic user ID
+  usersDelete: "/dashboard/users/delete/:id", // :id for dynamic user ID
+
+  // ⚙️ Rutas de Configuración
+  configSettings: "/dashboard/config",
+  configProfile: "/dashboard/config/profile",
+  configGestion: "/dashboard/config/gestion",
+
+
 } as const;
 
 /**

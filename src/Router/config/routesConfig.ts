@@ -33,6 +33,24 @@ export const headerLinks: RouteMetadata[] = [
       { path: RoutesPaths.caracteristicasUpdate, name: "Actualizar caracteristicas", isPublic: true },
     ],
   },
+
+  {
+    path: RoutesPaths.usersList, name: "Usuarios", isProtected: true, icon: User,
+    subItems: [
+      { path: RoutesPaths.usersList, name: "Lista de adoptantes", isProtected: true},
+      { path: RoutesPaths.usersRegister, name: "Registrar Usuarios", isProtected: true},
+      { path: RoutesPaths.usersUpdate, name: "Actualizar Usuarios", isProtected: true},
+      { path: RoutesPaths.usersDelete, name: "Eliminar Usuarios", isProtected: true},
+    ],
+  },
+
+  {
+    path: RoutesPaths.configSettings, name: "Configuración", isPublic: true, icon: Settings,
+    subItems: [
+      { path: RoutesPaths.configProfile, name: "Perfil", isProtected: true},
+      { path: RoutesPaths.configGestion, name: "Gestión de cuentas", isProtected: true},
+    ],
+  }
 //   { path: RoutesPaths.profile, name: "Perfil", isProtected: true, roles: ["admin", "moderator", "user"], icon: User },
 //   { path: RoutesPaths.settings, name: "Configuración", isProtected: true, roles: ["admin"], icon: Settings },
 ];
