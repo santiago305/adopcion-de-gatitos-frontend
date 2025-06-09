@@ -11,8 +11,6 @@ export const headerLinks: RouteMetadata[] = [
     subItems: [
       { path: RoutesPaths.animalsList, name: "Listar Animales", isPublic: true },
       { path: RoutesPaths.animalsRegister, name: "Registrar Animales", isPublic: true },
-      { path: RoutesPaths.animalsUpdate, name: "Actualizar Animales", isPublic: true },
-      { path: RoutesPaths.animalsDelete, name: "Eliminar Animales", isPublic: true },
     ],
   },
 
@@ -27,20 +25,11 @@ export const headerLinks: RouteMetadata[] = [
     ],
   },
 
-  { path: RoutesPaths.caracteristicasVer, name: "Caracteristicas", isPublic: true, icon: Home,
-    subItems: [
-      { path: RoutesPaths.caracteristicasVer, name: "Ver caracteristicas", isPublic: true },
-      { path: RoutesPaths.caracteristicasUpdate, name: "Actualizar caracteristicas", isPublic: true },
-    ],
-  },
-
   {
     path: RoutesPaths.usersList, name: "Usuarios", isProtected: true, icon: User,
     subItems: [
-      { path: RoutesPaths.usersList, name: "Lista de adoptantes", isProtected: true},
+      { path: RoutesPaths.usersList, name: "Lista Usuarios", isProtected: true},
       { path: RoutesPaths.usersRegister, name: "Registrar Usuarios", isProtected: true},
-      { path: RoutesPaths.usersUpdate, name: "Actualizar Usuarios", isProtected: true},
-      { path: RoutesPaths.usersDelete, name: "Eliminar Usuarios", isProtected: true},
     ],
   },
 

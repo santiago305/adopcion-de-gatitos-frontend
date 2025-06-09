@@ -34,8 +34,6 @@ export const RoutesPaths = {
   // 🐾 Rutas de Animales
   animalsList: "/dashboard/animals/list",
   animalsRegister: "/dashboard/animals/register",
-  animalsUpdate: "/dashboard/animals/update/:id", // :id for dynamic animal ID
-  animalsDelete: "/dashboard/animals/delete/:id", // :id for dynamic animal ID
 
   // 🐶 Rutas de Adopción
   adopcionList: "/dashboard/adopcion",
@@ -45,15 +43,9 @@ export const RoutesPaths = {
   adopcionAprobarRechazar: "/dashboard/adopcion/aprobar-rechazar/:id", // :id for dynamic request ID
   adopcionExportar: "/dashboard/adopcion/exportar",
 
-  // 🐾 Rutas de Características
-  caracteristicasVer: "/dashboard/caracteristicas/ver",
-  caracteristicasUpdate: "/dashboard/caracteristicas/update/:id", // :id for dynamic characteristic ID
-
   // 👤 Rutas de Usuarios (solo para admin)
   usersList: "/dashboard/users/list",
   usersRegister: "/dashboard/users/register",
-  usersUpdate: "/dashboard/users/update/:id", // :id for dynamic user ID
-  usersDelete: "/dashboard/users/delete/:id", // :id for dynamic user ID
 
   // ⚙️ Rutas de Configuración
   configSettings: "/dashboard/config",

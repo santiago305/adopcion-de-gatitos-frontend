@@ -2,72 +2,68 @@ import { RouteObject } from "react-router-dom";
 import { RoutesPaths } from "../../config/routesPaths";
 import ErrorPage from "@/pages/Error404";
 import RegisterForm from "@/components/register-form";
-import Login from "@/pages/Auth/Login";
+import Perfil from "@/pages/dashboard/Perfil";
+import GestionCuenta from "@/pages/dashboard/GestionCuenta";
+import FormularioNuevaMascota from "@/pages/dashboard/FormularioNuevaMascota";
+import ListaUsuarios from "@/pages/dashboard/ListaUsuarios";
+import SolicitudesAdopcion from "@/pages/dashboard/SolicitudesAdopcion";
+import Mascotas from "@/pages/dashboard/Mascotas";
+import AnimalForm from "@/pages/dashboard/AnimalForm";
+import ImageList from "@/pages/dashboard/ImageList";
 
 export const dashboardPublicRoutes: RouteObject[] = [
   {
     path: RoutesPaths.animalsList,
     element: 
-    <div>Aqui va el componente</div>,
+    <Mascotas/>,
     errorElement: <ErrorPage />,
   },
   {
     path: RoutesPaths.animalsRegister,
     element: 
-    <div>Aqui va el componente de registrar animales</div>,
+    <FormularioNuevaMascota/>,
     errorElement: <ErrorPage />,
   },
-  {
-    path: RoutesPaths.animalsUpdate,
-    element:
-    <div>Aqui va el componente</div>,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: RoutesPaths.animalsDelete,
-    element:
-    <div>Aqui va el componente</div>,
-    errorElement: <ErrorPage />,
-  },
+  
   {
     path: RoutesPaths.adopcionList,
     element:
-    <div>Aqui va el componente</div>,
+    <SolicitudesAdopcion/>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.adopcionSolicitar,
     element:
-    <div>Aqui va el componente</div>,
+    <div>d</div>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.adopcionVersolicutud,
     element:
-    <div>Aqui va el componente</div>,
+    <div>s</div>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.adopcionEvaluar,
     element:
-    <div>Aqui va el componente</div>,
+    <AnimalForm/>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.adopcionAprobarRechazar,
     element:
-    <div>Aqui va el componente</div>,
+    <ImageList/>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.usersList,
     element:
-    <Login />,
+    <ListaUsuarios />,
     errorElement: <ErrorPage />,
   },
   {
@@ -76,44 +72,18 @@ export const dashboardPublicRoutes: RouteObject[] = [
     <RegisterForm/>,
     errorElement: <ErrorPage />,
   },
-  {
-    path: RoutesPaths.usersUpdate,
-    element:
-    <div>Aqui va el componente de actualizar usuarios</div>,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: RoutesPaths.usersDelete,
-    element:
-    <div>Aqui va el componente de eliminar usuarios</div>,
-    errorElement: <ErrorPage />,
-  },
-
-  {
-    path: RoutesPaths.caracteristicasVer,
-    element:
-    <div>Aqui va el componente de ver caracteristicas</div>,
-    errorElement: <ErrorPage />,
-  },
-
-  {
-    path: RoutesPaths.caracteristicasUpdate,
-    element:
-    <div>Aqui va el componente de actualizar caracteristicas</div>,
-    errorElement: <ErrorPage />,
-  },
 
   {
     path: RoutesPaths.configProfile,
     element:
-    <div>Aqui va el componente de perfil</div>,
+    <Perfil/>,
     errorElement: <ErrorPage />,
   },
 
   {
     path: RoutesPaths.configGestion,
     element:
-    <div>Aqui va el componente de gestion</div>,
+    <GestionCuenta/>,
     errorElement: <ErrorPage />,
   },
 
