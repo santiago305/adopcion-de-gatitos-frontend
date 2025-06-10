@@ -18,7 +18,7 @@ import { RoutesPaths } from "../config/routesPaths";
 import PrivateRoute from "../guards/PrivateRoute";
 
 const DashboardLayout = lazy(() => import("@/pages/dashboard/DashboardLayout"));
-const Dashboard = lazy(() => import("@/pages/dashboard/Dashboard"));
+const Dashboard = lazy(() => import("@/components/layout/Dashboard"));
 const ErrorPage = lazy(() => import("@/pages/Error404"));
 
 export const dashboardRoutes: RouteObject[] = [

@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
 import { AuthResponse } from "@/types/AuthResponse";
+import { User } from "@/types/User";
 
 /**
  * Tipo de contexto de autenticación.
@@ -8,9 +9,10 @@ import { AuthResponse } from "@/types/AuthResponse";
  * Define la estructura de los valores que estarán disponibles 
  * a través del AuthContext.
  */
-interface AuthContextType {
+
+export interface AuthContextType {
   isAuthenticated: boolean;
-  userRole: string | null;
+  user: User | null; // ✅ ya contiene el rol
   hasClient: boolean | null;
   login: (payload: LoginCredentials) => Promise<AuthResponse>;
   clientUserRegister: (payload: RegisterCredentials) => Promise<AuthResponse>;
@@ -18,6 +20,7 @@ interface AuthContextType {
   checkAuth: () => Promise<AuthResponse>;
   loading: boolean;
 }
+
 
 /**
  * Contexto de autenticación de la aplicación.

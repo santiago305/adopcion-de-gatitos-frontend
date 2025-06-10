@@ -1,74 +1,64 @@
 import { useState, useEffect } from "react";
 import { checkTokenValidity, loginUser, logoutUser, registerUser } from "@/services/authService";
 import { LoginCredentials, RegisterCredentials } from "@/types/auth";
-import { PropsUrl } from "@/router/guards/typeGuards";
 import { AuthContext } from "./AuthContext";
 import { checkExistingClient } from "@/services/clientsService";
 import { findOwnUser } from "@/services/userService";
 import { AuthResponse } from "@/types/AuthResponse";
+import { PropsUrl } from "@/router/guards/typeGuards";
+import { User } from "@/types/User";
 
-/**
- * Proveedor de autenticación.
- * 
- * Maneja la lógica de autenticación, almacenamiento de tokens, 
- * verificación de roles y control de estados relacionados a 
- * la sesión del usuario. 
- * 
- * @param {PropsUrl} props Contiene los elementos hijos a renderizar.
- * @returns {JSX.Element} Contexto de autenticación aplicado a los componentes hijos.
- */
 export const AuthProvider = ({ children }: PropsUrl) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null); 
   const [hasClient, setHasClient] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
 
   /**
-   * Verifica la validez del token y actualiza los estados de autenticación.
-   * También determina si el usuario tiene un cliente asociado (para el rol 'user').
+   * Verifica si el token es válido y actualiza los estados.
    */
-  const checkAuth = async () => {
+  const checkAuth = async (): Promise<AuthResponse> => {
     try {
       const valid = await checkTokenValidity();
       if (!valid) {
         setIsAuthenticated(false);
-        setUserRole(null);
+        setUser(null);
         setHasClient(null);
-        setLoading(false); 
+        setLoading(false);
         return { success: false, message: "Token inválido o expirado" };
       }
-      const response = await findOwnUser();
-      const role = response.rol;
-  
-      setUserRole(role);
+
+      const userData = await findOwnUser();
+      console.log(userData)
+      setUser(userData);
       setIsAuthenticated(true);
-  
-      if (role === 'user') {
+
+      if (userData.rol === "user") {
         const exists = await checkExistingClient();
         setHasClient(exists);
       } else {
         setHasClient(null);
       }
+
       setLoading(false);
       return { success: true, message: "Autenticación validada" };
     } catch (error: any) {
       console.error("Error en checkAuth:", error);
       setIsAuthenticated(false);
-      setUserRole(null);
+      setUser(null);
       setHasClient(null);
       setLoading(false);
       const message = error.response?.data?.message || "Error inesperado en autenticación";
       return { success: false, message };
-    } 
+    }
   };
 
   useEffect(() => {
     checkAuth();
   }, []);
+
   /**
    * Inicia sesión del usuario.
-   * 
-   * @param {LoginCredentials} payload Credenciales del usuario.
    */
   const login = async (payload: LoginCredentials): Promise<AuthResponse> => {
     try {
@@ -86,10 +76,7 @@ export const AuthProvider = ({ children }: PropsUrl) => {
   };
 
   /**
-   * Registra a un cliente como usuario.
-   * 
-   * @param {RegisterCredentials} payload Datos de registro.
-   * @returns {Promise<boolean>} `true` si el registro fue exitoso.
+   * Registra un usuario tipo cliente.
    */
   const clientUserRegister = async (payload: RegisterCredentials): Promise<AuthResponse> => {
     try {
@@ -107,12 +94,12 @@ export const AuthProvider = ({ children }: PropsUrl) => {
   };
 
   /**
-   * Cierra la sesión actual del usuario.
+   * Cierra la sesión.
    */
   const logout = () => {
-    logoutUser()
+    logoutUser();
     setIsAuthenticated(false);
-    setUserRole(null);
+    setUser(null);
     setHasClient(null);
   };
 
@@ -120,7 +107,7 @@ export const AuthProvider = ({ children }: PropsUrl) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        userRole,
+        user,
         hasClient,
         login,
         clientUserRegister,

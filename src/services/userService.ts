@@ -1,6 +1,6 @@
 import axiosInstance from "@/common/utils/axios"
 import { API_USERS_GROUP } from "./APIs"
-import { CreateUserDto, UpdateUserDto } from "@/types/user"
+import { CreateUserDto, UpdateUserDto } from "@/types/User"
 
 /**
  * Crea un nuevo usuario.
@@ -70,7 +70,7 @@ export const findByEmail = async (email: string) => {
  */
 export const findOwnUser = async () => {
   const response = await axiosInstance.get(API_USERS_GROUP.findOwnUser)
-  return response.data
+  return response.data.data
 }
 
 /**

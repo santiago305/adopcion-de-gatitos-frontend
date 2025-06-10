@@ -3,12 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-// import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function SidebarFooter({ open }: { open: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  // const { user, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleClickOutside = (e: MouseEvent) => {
     if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -36,9 +36,9 @@ export default function SidebarFooter({ open }: { open: boolean }) {
         {open && (
           <div className="text-left">
             <div className="text-sm font-medium text-gray-900">
-              {/* {user ? `${user.nombre} ${user.apellido}` : "Usuario"} */} usuario
+              {user ? `${user.name}` : "Usuario"}
             </div>
-            <div className="text-xs text-gray-500">Cliente</div>
+            <div className="text-xs text-gray-500">{user ? `${user.rol}` : "cliente"}</div>
           </div>
         )}
       </div>
@@ -63,7 +63,7 @@ export default function SidebarFooter({ open }: { open: boolean }) {
                 Configuración
               </button>
               <button
-                // onClick={logout}
+                onClick={logout}
                 className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
               >
                 <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
