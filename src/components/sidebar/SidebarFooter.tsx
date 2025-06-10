@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { useAuth } from "@/hooks/useAuth";
+import { Link } from "react-router-dom";
+import { RoutesPaths } from "@/router/config/routesPaths";
 
 export default function SidebarFooter({ open }: { open: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,19 +56,23 @@ export default function SidebarFooter({ open }: { open: boolean }) {
             className="absolute bottom-full mb-2 w-full bg-white rounded-md shadow-lg z-50"
           >
             <div className="py-1 text-sm">
-              <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition">
-                <FontAwesomeIcon icon={faUser} className="mr-2" />
-                Ver perfil
+              <button className="flex w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition">
+                <FontAwesomeIcon icon={faUser} className="mr-4" />
+                <Link to={RoutesPaths.Profile} className="w-full flex justify-start">
+                  Ver perfil
+                </Link>
               </button>
               <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition">
-                <FontAwesomeIcon icon={faCog} className="mr-2" />
-                Configuración
+                <FontAwesomeIcon icon={faCog} className="mr-4" />
+                <Link to={RoutesPaths.Settings} className="w-full flex justify-start">
+                  Configuración
+                </Link>
               </button>
               <button
                 onClick={logout}
                 className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
               >
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-4" />
                 Cerrar sesión
               </button>
             </div>

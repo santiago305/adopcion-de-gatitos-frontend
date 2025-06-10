@@ -74,14 +74,14 @@ export const dashboardPublicRoutes: RouteObject[] = [
   },
 
   {
-    path: RoutesPaths.configProfile,
+    path: RoutesPaths.Profile,
     element:
     <Perfil/>,
     errorElement: <ErrorPage />,
   },
 
   {
-    path: RoutesPaths.configGestion,
+    path: RoutesPaths.Settings,
     element:
     <GestionCuenta/>,
     errorElement: <ErrorPage />,

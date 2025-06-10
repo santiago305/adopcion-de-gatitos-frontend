@@ -48,9 +48,9 @@ export const RoutesPaths = {
   usersRegister: "/dashboard/users/register",
 
   // ⚙️ Rutas de Configuración
-  configSettings: "/dashboard/config",
-  configProfile: "/dashboard/config/profile",
-  configGestion: "/dashboard/config/gestion",
+  Settings: "/dashboard/config",
+  Profile: "/dashboard/profile",
+  Gestion: "/dashboard/gestion",
 
 
 } as const;
