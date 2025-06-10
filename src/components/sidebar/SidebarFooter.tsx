@@ -1,4 +1,3 @@
-// components/sidebar/SidebarFooter.tsx
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,55 +23,63 @@ export default function SidebarFooter({ open }: { open: boolean }) {
   }, []);
 
   return (
-    <div className="absolute bottom-0 w-full px-2 py-3 border-t border-gray-200" ref={menuRef}>
+    <div
+      className="absolute bottom-0 w-full px-2 py-3 border-t border-gray-200"
+      ref={menuRef}
+    >
       {/* Usuario */}
       <div
         onClick={() => setMenuOpen((prev) => !prev)}
         className="flex items-center gap-3 cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition"
       >
         <img
-          src="https://i.pravatar.cc/40?img=68"
+          src={`https://ui-avatars.com/api/?name=${user?.name || "U"}&background=random`}
           alt="Avatar"
           className="w-10 h-10 rounded-lg object-cover"
         />
         {open && (
           <div className="text-left">
             <div className="text-sm font-medium text-gray-900">
-              {user ? `${user.name}` : "Usuario"}
+              {user?.name || "Usuario"}
             </div>
-            <div className="text-xs text-gray-500">{user ? `${user.rol}` : "cliente"}</div>
+            <div className="text-xs text-gray-500 capitalize">{user?.rol || "rol desconocido"}</div>
           </div>
         )}
       </div>
 
-      {/* Menú hacia arriba */}
       <AnimatePresence>
-        {menuOpen && open && (
+        {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 5, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 5, scale: 0.98 }}
+            initial={{ opacity: 0, y: 5, x: open ? 0 : 10, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, x: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 5, x: open ? 0 : 10, scale: 0.98 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-full mb-2 w-full bg-white rounded-md shadow-lg z-50"
+            className={`z-50 ${
+              open
+                ? "absolute bottom-full mb-2 w-full bg-white rounded-md shadow-lg"
+                : "absolute left-full bottom-3 ml-2 w-48 bg-white rounded-md shadow-xl"
+            }`}
           >
             <div className="py-1 text-sm">
-              <button className="flex w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition">
-                <FontAwesomeIcon icon={faUser} className="mr-4" />
-                <Link to={RoutesPaths.Profile} className="w-full flex justify-start">
-                  Ver perfil
-                </Link>
-              </button>
-              <button className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition">
-                <FontAwesomeIcon icon={faCog} className="mr-4" />
-                <Link to={RoutesPaths.Settings} className="w-full flex justify-start">
-                  Configuración
-                </Link>
-              </button>
+              <Link
+                to={RoutesPaths.Profile}
+                className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+              >
+                <FontAwesomeIcon icon={faUser} className="mr-3" />
+                Ver perfil
+              </Link>
+              <Link
+                to={RoutesPaths.Settings}
+                className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+              >
+                <FontAwesomeIcon icon={faCog} className="mr-3" />
+                Configuración
+              </Link>
               <button
                 onClick={logout}
                 className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
               >
-                <FontAwesomeIcon icon={faSignOutAlt} className="mr-4" />
+                <FontAwesomeIcon icon={faSignOutAlt} className="mr-3" />
                 Cerrar sesión
               </button>
             </div>
