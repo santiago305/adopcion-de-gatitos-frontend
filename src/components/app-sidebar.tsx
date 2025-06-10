@@ -16,7 +16,6 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            {/*<NavSection links={headerLinks} />*/}
             <SidebarMenuButton asChild className="data-[slot=sidebar-menu-button]:!p-1.5">
               <Link to={RoutesPaths.dashboard} className="flex items-center gap-2">
                 <IconInnerShadowTop className="!size-5" />
@@ -26,14 +25,6 @@ export default function AppSidebar({ ...props }: React.ComponentProps<typeof Sid
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
-      {/* <SidebarContent>
-        <Suspense fallback={<div className="w-full h-full"><ShimmerLoader/></div>}>
-          <NavMain items={data.navMain} />
-          <NavDocuments items={data.documents} />
-          <NavSecondary items={data.navSecondary} className="mt-auto" />
-        </Suspense>
-      </SidebarContent> */}
 
       <SidebarFooter >
         <Suspense fallback={<div className="w-full h-[50px]"><ShimmerLoader /></div>}>

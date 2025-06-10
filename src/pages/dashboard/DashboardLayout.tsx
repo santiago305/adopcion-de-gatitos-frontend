@@ -1,7 +1,8 @@
 import { Outlet} from "react-router-dom";
-import { Suspense,lazy } from "react";
+import { lazy } from "react";
+import Sidebar from "@/components/sidebar/Sidebar";
 
-const AppSidebar = lazy(() => import("@/components/app-sidebar"));
+// const AppSidebar = lazy(() => import("@/components/app-sidebar"));
 const SiteHeader = lazy(() => import("@/components/site-header"));
 const SidebarInset = lazy(() =>
   import("@/components/ui/sidebar").then((module) => ({
@@ -18,7 +19,7 @@ const SidebarProvider = lazy(() =>
 export default function DashboardLayout() {
   return (
       <SidebarProvider>
-        <AppSidebar variant="inset" />
+        <Sidebar />
         <SidebarInset>
           <SiteHeader />
           <div className="flex flex-1 flex-col">
