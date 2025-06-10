@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Mascota = {
@@ -11,39 +12,57 @@ type Mascota = {
   sexo: "Macho" | "Hembra";
 };
 
-const mascotasData: Mascota[] = [
-  {
-    id: 1,
-    nombre: "Luna",
-    tipo: "Gatita",
-    edad: "3 meses",
-    imagen: "https://placekitten.com/300/200",
-    estado: "Disponible",
-    sexo: "Hembra",
-  },
-  {
-    id: 2,
-    nombre: "Max",
-    tipo: "Perrito",
-    edad: "1 año",
-    imagen: "https://placedog.net/300/200?id=2",
-    estado: "Adoptado",
-    sexo: "Macho",
-  },
-  // más mascotas...
-];
-
 const ITEMS_PER_PAGE = 6;
 
 const Mascotas: React.FC = () => {
   const navigate = useNavigate();
+  const [mascotas, setMascotas] = useState<Mascota[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [busqueda, setBusqueda] = useState<string>("");
   const [filtroEstado, setFiltroEstado] = useState<string>("");
   const [filtroTipo, setFiltroTipo] = useState<string>("");
   const [filtroSexo, setFiltroSexo] = useState<string>("");
+  const backendPort = '3000'; // Ajusta si el puerto del backend es diferente
 
-  const mascotasFiltradas = mascotasData.filter((mascota) => {
+  useEffect(() => {
+    const fetchMascotas = async () => {
+      try {
+        // Obtener las rutas de imágenes del backend
+        const responseImages = await fetch(`http://localhost:${backendPort}/api/upload/images`);
+        if (!responseImages.ok) {
+          throw new Error(`Error ${responseImages.status}: ${await responseImages.text()}`);
+        }
+        const imagePaths: string[] = await responseImages.json();
+
+        // Datos base de mascotas (puedes expandirlos o obtenerlos de otro endpoint)
+        const mascotasBase = [
+          { id: 1, nombre: "Luna", tipo: "Gatita", edad: "3 meses", estado: "Disponible", sexo: "Hembra" },
+          { id: 2, nombre: "Max", tipo: "Perrito", edad: "1 año", estado: "Adoptado", sexo: "Macho" },
+          { id: 3, nombre: "Pepe", tipo: "Perrito", edad: "3 meses", estado: "Disponible", sexo:"Macho"},
+          // Agrega más mascotas según necesites
+        ];
+
+        // Asignar imágenes cíclicamente a las mascotas
+        const mascotasConImagenes = mascotasBase.map((mascota, index) => ({
+          ...mascota,
+          imagen: imagePaths[index % imagePaths.length],
+          estado: mascota.estado as "Disponible" | "Adoptado",
+          sexo: mascota.sexo as "Macho" | "Hembra",
+        }));
+
+        setMascotas(mascotasConImagenes);
+        setError(null);
+      } catch (error) {
+        console.error('Error al obtener mascotas o imágenes:', error);
+        setError('Hubo un error al cargar las mascotas. Verifica el puerto del backend o los logs.');
+      }
+    };
+
+    fetchMascotas();
+  }, [backendPort]);
+
+  const mascotasFiltradas = mascotas.filter((mascota) => {
     const coincideBusqueda = `${mascota.nombre} ${mascota.tipo} ${mascota.estado}`
       .toLowerCase()
       .includes(busqueda.toLowerCase());
@@ -83,7 +102,6 @@ const Mascotas: React.FC = () => {
     <div className="p-4 md:p-6 w-full">
       <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-3">
         <h1 className="text-xl font-bold text-gray-800">🐾 Gestión de Mascotas</h1>
-
         <div className="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
           <input
             type="text"
@@ -104,7 +122,6 @@ const Mascotas: React.FC = () => {
         </div>
       </div>
 
-      {/* Filtros adicionales */}
       <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto mb-4">
         <select
           value={filtroEstado}
@@ -118,7 +135,6 @@ const Mascotas: React.FC = () => {
           <option value="Disponible">Disponible</option>
           <option value="Adoptado">Adoptado</option>
         </select>
-
         <input
           type="text"
           value={filtroTipo}
@@ -129,7 +145,6 @@ const Mascotas: React.FC = () => {
           placeholder="Tipo (ej. Gatita)"
           className="px-4 py-2 border border-gray-300 rounded-lg text-sm"
         />
-
         <select
           value={filtroSexo}
           onChange={(e) => {
@@ -161,9 +176,17 @@ const Mascotas: React.FC = () => {
               <tr key={mascota.id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-2">
                   <img
-                    src={mascota.imagen}
+                    src={`http://localhost:${backendPort}/${encodeURI(mascota.imagen)}`}
                     alt={mascota.nombre}
                     className="w-14 h-14 rounded object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      console.error(`Error al cargar ${mascota.imagen}:`, {
+                        target: target.src,
+                        status: target.naturalWidth === 0 ? '404 o CORS' : 'Otro error',
+                      });
+                      setError(`No se pudo cargar la imagen de ${mascota.nombre}. Verifica el archivo o el puerto.`);
+                    }}
                   />
                 </td>
                 <td className="px-4 py-2 font-medium text-gray-900">{mascota.nombre}</td>
@@ -220,11 +243,9 @@ const Mascotas: React.FC = () => {
           >
             ←
           </button>
-
           <div className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold">
             {currentPage}
           </div>
-
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
