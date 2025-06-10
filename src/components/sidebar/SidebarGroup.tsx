@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import clsx from "clsx";
-import { RouteMetadata } from "@/Router/types/RouterTypes";
+import { RouteMetadata } from "@/types/RouterTypes";
 import SidebarGroupItem from "./SidebarGroupItem";
 
 export default function SidebarGroup({

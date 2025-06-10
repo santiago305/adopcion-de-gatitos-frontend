@@ -69,7 +69,7 @@ function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
                 error={errors.password?.message} 
               />
 
-              <Button type="submit" className="w-full" disabled={submitting}>
+              <Button type="submit" className="w-full bg-black" disabled={submitting}>
                 {submitting ? "Cargando..." : "Login"}
               </Button>
             </div>

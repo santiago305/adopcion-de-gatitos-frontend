@@ -89,7 +89,7 @@ function RegisterForm({ className, ...props }: React.ComponentProps<"div">) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-wrap gap-6">
 
               <FormField 
                 name="name" 

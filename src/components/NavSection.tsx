@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { useAuth } from "@/hooks/useAuth";
-import { RouteMetadata } from "@/Router/types/RouterTypes";
+import { RouteMetadata } from "@/types/RouterTypes";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
 interface NavSectionProps {

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import { RouteMetadata } from "@/Router/types/RouterTypes";
+import { RouteMetadata } from "@/types/RouterTypes";
 
 export default function SidebarItem({
   link,

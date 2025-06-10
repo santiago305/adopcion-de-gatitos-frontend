@@ -1,5 +1,5 @@
 import { Home, User, Settings, ShoppingCart, LogOut, PawPrint } from "lucide-react";
-import { RouteMetadata } from "../types/RouterTypes";
+import { RouteMetadata } from "../../types/RouterTypes";
 import { RoutesPaths } from "./routesPaths";
 
 // 📌 Rutas del Header (Top Navigation)
