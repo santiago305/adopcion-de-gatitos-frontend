@@ -29,7 +29,6 @@ export const AuthProvider = ({ children }: PropsUrl) => {
       }
 
       const userData = await findOwnUser();
-      console.log(userData)
       setUser(userData);
       setIsAuthenticated(true);
 
