@@ -1,36 +1,44 @@
+// AnimalForm.tsx
 import { useState } from "react";
 
-export default function AnimalForm() {
+interface AnimalFormProps {
+  onSubmit: (newAnimal: { name: string; species: string }) => void;
+}
+
+export default function AnimalForm({ onSubmit }: AnimalFormProps) {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Lógica para enviar los datos del formulario al backend
-    console.log({ name, species });
+    if (name && species) {
+      onSubmit({ name, species }); // Llamamos a la función onSubmit con los datos del formulario
+      setName(""); // Limpiamos el formulario después de enviarlo
+      setSpecies("");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label htmlFor="name" className="block">Nombre del animal</label>
-        <input 
-          id="name" 
-          value={name} 
-          onChange={(e) => setName(e.target.value)} 
-          className="w-full p-2 border border-gray-300 rounded" 
+        <input
+          id="name"
           type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
           required
         />
       </div>
       <div className="mb-4">
         <label htmlFor="species" className="block">Especie</label>
-        <input 
-          id="species" 
-          value={species} 
-          onChange={(e) => setSpecies(e.target.value)} 
-          className="w-full p-2 border border-gray-300 rounded" 
+        <input
+          id="species"
           type="text"
+          value={species}
+          onChange={(e) => setSpecies(e.target.value)}
+          className="w-full p-2 border border-gray-300 rounded"
           required
         />
       </div>
