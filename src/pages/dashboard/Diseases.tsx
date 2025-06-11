@@ -1,5 +1,10 @@
+import DashboardForm from "@/components/form/DashboardForm";
+import DiseasesForm from "@/components/form/DiseasesForm";
+
 export default function DashboardDiseases (){
   return (
-    'realicemos la pagina completa con enfermedades'
+    <DashboardForm title="Enfermedades">
+      <DiseasesForm />
+    </DashboardForm>
   )
 }
