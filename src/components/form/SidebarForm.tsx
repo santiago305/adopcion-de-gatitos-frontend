@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi"; // Usamos el ícono de cierre
 
 interface SidebarFormProps {
   children: ReactNode;
@@ -31,13 +31,15 @@ export default function SidebarForm({ children, onClose, side }: SidebarFormProp
         exit={{ x: side === "right" ? "100%" : "-100%" }} // Anima fuera de la pantalla cuando se cierra
         transition={{ type: "spring", stiffness: 300, damping: 30 }} // Transición de la animación
       >
+        {/* Área de cierre del sidebar */}
         <div
           className="p-4 flex justify-end cursor-pointer"
           onClick={onClose} // Cierra el sidebar al hacer clic en el área
         >
           <FiX size={24} className="text-gray-600 hover:text-gray-900" /> {/* Ícono de cierre */}
         </div>
-        <div className="px-4 py-8">
+        {/* El formulario ocupará todo el espacio disponible */}
+        <div className="px-4 py-8 h-full overflow-auto">
           {children}
         </div>
       </motion.div>
