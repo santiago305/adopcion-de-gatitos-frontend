@@ -28,30 +28,37 @@ export const RoutesPaths = {
 
   // 📊 Rutas de Dashboard
   dashboard: "/dashboard",
-  dashboardProfile: "/dashboard/profile",
-  dashboardSettings: "/dashboard/settings",
+
 
   // 🐾 Rutas de Animales
-  animalsList: "/dashboard/animals/list",
-  animalsRegister: "/dashboard/animals/register",
+  dashboardAnimals: "/dashboard/animals",
 
-  // 🐶 Rutas de Adopción
-  adopcionList: "/dashboard/adopcion",
-  adopcionSolicitar: "/dashboard/adopcion/solicitar",
-  adopcionVersolicutud: "/dashboard/adopcion/ver-solicitud/:id", // :id for dynamic request ID
-  adopcionEvaluar: "/dashboard/adopcion/evaluar/:id", // :id for dynamic request ID
-  adopcionAprobarRechazar: "/dashboard/adopcion/aprobar-rechazar/:id", // :id for dynamic request ID
-  adopcionExportar: "/dashboard/adopcion/exportar",
+  // rutas de enermedadess
+  dashboardDiseases: '/dashboard/diseases',
 
-  // 👤 Rutas de Usuarios (solo para admin)
-  usersList: "/dashboard/users/list",
-  usersRegister: "/dashboard/users/register",
+  // rutas de especies
+  dashboardSpecies: '/dashboard/species',
+
+  // rutas de razas
+  dashboardBreed: '/dashboard/Breed',
+
+
+  // // 🐶 Rutas de Adopción
+  // adopcionList: "/dashboard/adopcion",
+  // adopcionSolicitar: "/dashboard/adopcion/solicitar",
+  // adopcionVersolicutud: "/dashboard/adopcion/ver-solicitud/:id", // :id for dynamic request ID
+  // adopcionEvaluar: "/dashboard/adopcion/evaluar/:id", // :id for dynamic request ID
+  // adopcionAprobarRechazar: "/dashboard/adopcion/aprobar-rechazar/:id", // :id for dynamic request ID
+  // adopcionExportar: "/dashboard/adopcion/exportar",
+
+  // // 👤 Rutas de Usuarios (solo para admin)
+  // usersList: "/dashboard/users/list",
+  // usersRegister: "/dashboard/users/register",
 
   // ⚙️ Rutas de Configuración
-  Settings: "/dashboard/config",
-  Profile: "/dashboard/profile",
-  Gestion: "/dashboard/gestion",
-
+  dashboardManagement: "/dashboard/Management",
+  dashboardProfile: "/dashboard/profile",
+  dashboardSettings: "/dashboard/settings",
 
 } as const;
 
