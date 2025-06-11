@@ -1,6 +1,3 @@
-// Table.tsx
-import React, { useState } from "react";
-
 interface TableProps {
   data: any[];
   columns: { label: string; field: string }[]; // Las columnas se definen desde el componente principal
@@ -39,4 +36,3 @@ export default function Table({ data, columns, onRowClick }: TableProps) {
     </div>
   );
 }
-

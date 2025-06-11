@@ -1,6 +1,7 @@
 import React, {  useState } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table"; 
+import Modal from "@/components/Modal"; 
 import { Button } from "../ui/button";
 interface DashboardFormProps {
   title: string;
@@ -11,6 +12,8 @@ interface DashboardFormProps {
 export default function DashboardForm({ title, columns, children }: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
+  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   const handleCreateClick = () => {
@@ -21,6 +24,11 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
   const handleAddData = (newData: any) => {
     setData((prevData) => [...prevData, newData]); 
     setIsSidebarOpen(false);
+  };
+
+   const handleRowClick = (rowData: any) => {
+    setSelectedRow(rowData); 
+    setIsModalOpen(true);
   };
 
   return (
@@ -46,7 +54,7 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
               Crear más {title.toLowerCase()}
             </Button>
           </div>
-          <Table data={data} columns={columns} />
+          <Table data={data} columns={columns} onRowClick={handleRowClick} />
         </>
       )}
 
@@ -57,6 +65,8 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
           })}
         </SidebarForm>
       )}
+
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} data={selectedRow} />
     </div>
   );
 }
