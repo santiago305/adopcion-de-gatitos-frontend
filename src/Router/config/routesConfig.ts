@@ -1,4 +1,4 @@
-import { Home, Leaf, LogOut, PawPrint, Thermometer } from "lucide-react"; 
+import { Home, Leaf, PawPrint, Thermometer } from "lucide-react"; 
 import { FaBeer } from "react-icons/fa"; 
 import { RouteMetadata } from "@/types/RouterTypes";
 import { RoutesPaths } from "./routesPaths";
