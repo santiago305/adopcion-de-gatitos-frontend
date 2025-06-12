@@ -67,6 +67,7 @@ export const API_BREED_GROUP = {
   remove: (id: string) => `/breed/delete/${id}`,
   restore: (id: string) => `/breed/restore/${id}`,
   searchByName: '/breed/searchByName',
+  searchBySpecies: '/breed/searchBySpecies'
 };
 
 export const API_PERSONALITY_GROUP = {

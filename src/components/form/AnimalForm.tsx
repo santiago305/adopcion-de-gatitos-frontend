@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createAnimalSchema } from "@/schemas/animalsSchema";
 import { CreateAnimalDto, AnimalFormValues } from "@/types/Animals";
-import { getBreed } from "@/services/breedService";
+import { searchBreedBySpecies } from "@/services/breedService";
 import { getDiseases } from "@/services/diseasesService";
 import { getAllCharacteristics } from "@/services/characteristicsService";
 import { Button } from "@/components/ui/button";
 import FormField from "@/components/ui/formField";
 import FieldError from "@/components/ui/FieldError";
 import { Label } from "@/components/ui/label";
+import { getSpecies } from "@/services/speciesService";
 
 interface AnimalFormProps {
   onSubmit: (data: CreateAnimalDto) => void;
@@ -18,6 +19,8 @@ interface AnimalFormProps {
 }
 
 export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }: AnimalFormProps) {
+  const [speciesOptions, setSpeciesOptions] = useState<{ id: string; name: string }[]>([]);
+  const [selectedSpecies, setSelectedSpecies] = useState<string>("");
   const [breedOptions, setBreedOptions] = useState<{ id: string; name: string }[]>([]);
   const [diseaseOptions, setDiseaseOptions] = useState<{ id: string; name: string }[]>([]);
   const [characteristicsOptions, setCharacteristicsOptions] = useState<{ id: string; name: string }[]>([]);
@@ -26,6 +29,7 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CreateAnimalDto>({
     resolver: zodResolver(createAnimalSchema),
@@ -37,18 +41,27 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
   }, [defaultValues, reset]);
 
   useEffect(() => {
-    const loadSelects = async () => {
-      const [breeds, diseases, characteristics] = await Promise.all([
-        getBreed(),
+    const loadSpeciesAndOthers = async () => {
+      const [species, diseases, characteristics] = await Promise.all([
+        getSpecies(),
         getDiseases(),
         getAllCharacteristics(),
       ]);
-      setBreedOptions(breeds);
+      setSpeciesOptions(species);
       setDiseaseOptions(diseases);
       setCharacteristicsOptions(characteristics);
     };
-    loadSelects();
+    loadSpeciesAndOthers();
   }, []);
+
+  useEffect(() => {
+    const loadBreedsBySpecies = async () => {
+      if (!selectedSpecies) return;
+      const breeds = await searchBreedBySpecies(selectedSpecies);
+      setBreedOptions(breeds);
+    };
+    loadBreedsBySpecies();
+  }, [selectedSpecies]);
 
   const handleLocalSubmit = (data: CreateAnimalDto) => {
     onSubmit(data);
@@ -56,12 +69,36 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
   };
 
   return (
-    <form onSubmit={handleSubmit(handleLocalSubmit)} className="flex flex-col gap-4 h-full overflow-y-auto">
+    <form onSubmit={handleSubmit(handleLocalSubmit)} className="flex flex-col gap-4">
       <FormField label="Nombre" name="name" register={register} error={errors.name?.message} />
 
       <div className="grid gap-1">
-        <Label>Raza</Label>
-        <select {...register("breedId")} className="p-2 rounded border">
+        <Label htmlFor="speciesId">Especie</Label>
+        <select
+          id="speciesId"
+          value={selectedSpecies}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSelectedSpecies(value);
+            setValue("breedId", ""); // limpiar la raza seleccionada
+          }}
+          className="p-2 rounded border"
+        >
+          <option value="">Seleccione una especie</option>
+          {speciesOptions.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="grid gap-1">
+        <Label htmlFor="breedId">Raza</Label>
+        <select
+          id="breedId"
+          {...register("breedId")}
+          className="p-2 rounded border"
+          disabled={!selectedSpecies}
+        >
           <option value="">Seleccione una raza</option>
           {breedOptions.map((b) => (
             <option key={b.id} value={b.id}>{b.name}</option>
@@ -71,8 +108,8 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
       </div>
 
       <div className="grid gap-1">
-        <Label>Enfermedad</Label>
-        <select {...register("diseaseId")} className="p-2 rounded border">
+        <Label htmlFor="diseaseId">Enfermedad</Label>
+        <select id="diseaseId" {...register("diseaseId" as const)} className="p-2 rounded border">
           <option value="">Seleccione una enfermedad</option>
           {diseaseOptions.map((d) => (
             <option key={d.id} value={d.id}>{d.name}</option>
@@ -82,8 +119,8 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
       </div>
 
       <div className="grid gap-1">
-        <Label>Estado de salud</Label>
-        <select {...register("healthStatus", { setValueAs: v => v === "true" })} className="p-2 rounded border">
+        <Label htmlFor="healthStatus">Estado de salud</Label>
+        <select id="healthStatus" {...register("healthStatus", { setValueAs: v => v === "true" })} className="p-2 rounded border">
           <option value="">Seleccione</option>
           <option value="true">Saludable</option>
           <option value="false">Enfermo</option>
@@ -92,8 +129,8 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
       </div>
 
       <div className="grid gap-1">
-        <Label>¿Adoptado?</Label>
-        <select {...register("adopted", { setValueAs: v => v === "true" })} className="p-2 rounded border">
+        <Label htmlFor="adopted">¿Adoptado?</Label>
+        <select id="adopted" {...register("adopted", { setValueAs: v => v === "true" })} className="p-2 rounded border">
           <option value="">Seleccione</option>
           <option value="true">Sí</option>
           <option value="false">No</option>
@@ -104,8 +141,8 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
       <FormField label="URL de foto" name="photos" register={register} error={errors.photos?.message} />
 
       <div className="grid gap-1">
-        <Label>Características</Label>
-        <select {...register("characteristicsId")} className="p-2 rounded border">
+        <Label htmlFor="characteristicsId">Características</Label>
+        <select id="characteristicsId" {...register("characteristicsId")} className="p-2 rounded border">
           <option value="">Seleccione una opción</option>
           {characteristicsOptions.map((c) => (
             <option key={c.id} value={c.id}>{c.name}</option>
@@ -117,8 +154,8 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
       <FormField label="Información" name="information" register={register} error={errors.information?.message} />
 
       <div className="grid gap-1">
-        <Label>Estado del animal</Label>
-        <select {...register("status", { setValueAs: v => v === "true" })} className="p-2 rounded border">
+        <Label htmlFor="status">Estado del animal</Label>
+        <select id="status" {...register("status", { setValueAs: v => v === "true" })} className="p-2 rounded border">
           <option value="true">Activo</option>
           <option value="false">Inactivo</option>
         </select>

@@ -69,3 +69,16 @@ export const getBreed = async (): Promise<{ id: string; name: string }[]> => {
     return [];
   }
 };
+
+export const searchBreedBySpecies = async (speciesId: string) => {
+  try {
+    const response = await axiosInstance.get(`${API_BREED_GROUP.searchBySpecies}?speciesId=${speciesId}`);
+    if (response.data?.type === "success") {
+      return response.data.data;
+    }
+    return [];
+  } catch (error) {
+    console.error("[searchBreedBySpecies] Error:", error);
+    return [];
+  }
+};
