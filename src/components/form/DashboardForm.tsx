@@ -6,6 +6,7 @@ import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { diseasesService } from "@/services/diseasesService";
+import ConfirmModal from "../ConfirmModal";
 
 interface DashboardFormProps {
   title: string;
@@ -25,6 +26,7 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
   const [selectedRow, setSelectedRow] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -58,17 +60,15 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
     setIsSidebarOpen(false);
   };
 
-  const handleDelete = async () => {
+  const handleConfirmDelete = async () => {
     if (!selectedRow?.id) return;
-    const confirm = window.confirm("¿Estás seguro de que deseas eliminar esta enfermedad?");
-    if (!confirm) return;
-
     try {
       const response = await diseasesService.remove(selectedRow.id);
       if (response?.data?.type === "success") {
         setData((prevData) => prevData.filter((item) => item.id !== selectedRow.id));
         setSelectedRow(null);
         setIsModalOpen(false);
+        setIsConfirmOpen(false);
       } else {
         alert(response?.data?.message || "No se pudo eliminar.");
       }
@@ -140,13 +140,20 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
           </button>
 
           <button
-            onClick={handleDelete}
+            onClick={() => setIsConfirmOpen(true)}
             className="text-red-600 hover:text-red-800 flex items-center gap-1"
           >
             <FiTrash2 /> Eliminar
           </button>
         </div>
       </Modal>
+
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        onCancel={() => setIsConfirmOpen(false)}
+        onConfirm={handleConfirmDelete}
+        message="¿Estás seguro de que deseas eliminar esta enfermedad?"
+      />
     </div>
   );
 }
