@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { diseasesService } from "@/services/diseasesService";
 
@@ -30,7 +30,7 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
     try {
       const response = await diseasesService.findAll();
       if (response?.data?.type === "success") {
-        setData(response.data.data); // asume que viene un array en "data"
+        setData(response.data.data);
       }
     } catch (error) {
       console.error("Error cargando enfermedades:", error);
@@ -56,6 +56,26 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
     }
     setEditingData(null);
     setIsSidebarOpen(false);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedRow?.id) return;
+    const confirm = window.confirm("¿Estás seguro de que deseas eliminar esta enfermedad?");
+    if (!confirm) return;
+
+    try {
+      const response = await diseasesService.remove(selectedRow.id);
+      if (response?.data?.type === "success") {
+        setData((prevData) => prevData.filter((item) => item.id !== selectedRow.id));
+        setSelectedRow(null);
+        setIsModalOpen(false);
+      } else {
+        alert(response?.data?.message || "No se pudo eliminar.");
+      }
+    } catch (error) {
+      alert("Error al eliminar enfermedad.");
+      console.error(error);
+    }
   };
 
   const handleRowClick = (rowData: any) => {
@@ -108,25 +128,23 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
         hiddenFields={modalHiddenFields}
       >
         <div className="flex justify-end gap-2 mb-4">
-          <Button
+          <button
             onClick={() => {
               setEditingData(selectedRow);
               setIsModalOpen(false);
               setIsSidebarOpen(true);
             }}
-            className="bg-white text-blue-600 hover:text-blue-800 flex items-center gap-1"
+            className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
           >
-            <FiEdit /> 
-          </Button>
+            <FiEdit /> Editar
+          </button>
 
-          <Button
-            onClick={() => {
-              alert("Eliminar aún no implementado");
-            }}
-            className="bg-white text-red-600 hover:text-red-800 flex items-center gap-1"
+          <button
+            onClick={handleDelete}
+            className="text-red-600 hover:text-red-800 flex items-center gap-1"
           >
-            <FiTrash2 /> 
-          </Button>
+            <FiTrash2 /> Eliminar
+          </button>
         </div>
       </Modal>
     </div>
