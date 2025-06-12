@@ -57,3 +57,14 @@ export const searchPersonalityByName = async (name: string) => {
     return [];
   }
 };
+
+export const getPersonalities = async (): Promise<{ id: string; name: string }[]> => {
+  try {
+    const res = await axiosInstance.get(`${API_PERSONALITY_GROUP.findAll}?page=1&limit=1000`);
+    return res.data.data?.data || [];
+
+  } catch (error) {
+    console.error("[getPersonalities] Error:", error);
+    return [];
+  }
+};

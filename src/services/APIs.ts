@@ -78,3 +78,13 @@ export const API_PERSONALITY_GROUP = {
   restore: (id: string) => `/personality/restore/${id}`,
   searchByName: '/personality/searchByName',
 };
+
+export const API_CHARACTERISTICS_GROUP = {
+  create:  `/characteristics/create`,
+  findAll:  `/characteristics/findAll`,
+  findOne: (id: string) => `/characteristics/search/${id}`,
+  update: (id: string) => `/characteristics/update/${id}`,
+  remove: (id: string) => `/characteristics/remove/${id}`,
+  restore: (id: string) => `/characteristics/restore/${id}`,
+  searchByPersonality: (name: string) => `/characteristics/searchByPersonality?name=${name}`,
+};
