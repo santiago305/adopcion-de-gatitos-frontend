@@ -48,3 +48,13 @@ export const API_DISEASES_GROUP = {
   remove: (id: string) => `/diseases/remove/${id}`,
   restore: (id: string) => `/diseases/restore/${id}`,
 };
+
+export const API_SPECIES_GROUP = {
+  create: '/species/create',
+  findAll: '/species/findAll',
+  findById: (id: string) => `/species/search/${id}`,
+  update: (id: string) => `/species/update/${id}`,
+  remove: (id: string) => `/species/delete/${id}`,
+  restore: (id: string) => `/species/restore/${id}`,
+  searchByName: '/species/searchByName',
+};
