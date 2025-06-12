@@ -14,6 +14,8 @@ export default function DashboardDiseases() {
   const fieldLabels = {
     diseases: "Enfermedad",
     severity: "Gravedad",
+    createdAt: "Creado el",
+    updatedAt: "Modificado el"
   };
 
   const hiddenFields = ["id"];

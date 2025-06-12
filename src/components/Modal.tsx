@@ -4,8 +4,8 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: Record<string, string | number>;
-  fieldLabels?: Record<string, string>; // 👈 nuevo
-  hiddenFields?: string[];              // 👈 nuevo
+  fieldLabels?: Record<string, string>;
+  hiddenFields?: string[];
   children?: ReactNode;
 }
 
@@ -23,6 +23,20 @@ export default function Modal({
     if (e.target === e.currentTarget) {
       onClose();
     }
+  };
+
+  const formatValue = (key: string, value: string | number) => {
+    // Formatea fechas ISO si detecta "at" en la key y el valor es fecha válida
+    if (typeof value === "string" && key.toLowerCase().includes("at")) {
+      const date = new Date(value);
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleString("es-PE", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        });
+      }
+    }
+    return String(value);
   };
 
   return (
@@ -47,11 +61,12 @@ export default function Modal({
         <div className="space-y-4">
           {Object.entries(data).map(([key, value], index) => {
             if (hiddenFields.includes(key)) return null;
-
-            const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1);
+            const label = fieldLabels[key] 
+            ?? fieldLabels[key.toLowerCase()] 
+            ?? key.charAt(0).toUpperCase() + key.slice(1);
             return (
               <div key={index}>
-                <strong>{label}:</strong> {String(value)}
+                <strong>{label}:</strong> {formatValue(key, value)}
               </div>
             );
           })}
