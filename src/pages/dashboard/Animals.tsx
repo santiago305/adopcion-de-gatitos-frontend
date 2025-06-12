@@ -6,7 +6,6 @@ import {
   searchAnimalsByName,
 } from "@/services/animalsService";
 import { CreateAnimalDto } from "@/types/Animals";
-import { Button } from "@/components/ui/button";
 
 export default function DashboardAnimals() {
   const columns = [
@@ -59,8 +58,7 @@ export default function DashboardAnimals() {
       modalHiddenFields={hiddenFields}
       limit={15}
     >
-      {/* <AnimalForm onSubmit={handleSubmit} />
-       */}<Button >hola</Button>
+       <AnimalForm onSubmit={handleSubmit} />
     </DashboardForm>
   );
 }
