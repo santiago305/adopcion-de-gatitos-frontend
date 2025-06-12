@@ -6,7 +6,6 @@ import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import ConfirmModal from "../ConfirmModal";
-import { diseasesService } from "@/services/diseasesService";
 
 interface DashboardFormProps {
   title: string;
@@ -18,6 +17,8 @@ interface DashboardFormProps {
   }>;
   modalFieldLabels?: Record<string, string>;
   modalHiddenFields?: string[];
+  fetchDataFn: () => Promise<any[]>; // nuevo prop
+  deleteFn: (id: string) => Promise<any>; // nuevo prop
 }
 
 export default function DashboardForm({
@@ -26,6 +27,8 @@ export default function DashboardForm({
   children,
   modalFieldLabels,
   modalHiddenFields,
+  fetchDataFn,
+  deleteFn,
 }: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
@@ -36,12 +39,10 @@ export default function DashboardForm({
 
   const fetchData = async () => {
     try {
-      const response = await diseasesService.findAll();
-      if (response?.data?.type === "success") {
-        setData(response.data.data);
-      }
+      const result = await fetchDataFn();
+      setData(result);
     } catch (error) {
-      console.error("Error cargando enfermedades:", error);
+      console.error("Error cargando datos:", error);
     }
   };
 
@@ -56,12 +57,10 @@ export default function DashboardForm({
 
   const handleAddData = async (newData: any) => {
     if (editingData) {
-      // Edición directa sin fetch
       setData((prevData) =>
         prevData.map((item) => (item.id === editingData.id ? { ...item, ...newData } : item))
       );
     } else {
-      // ⚠️ Nuevo dato, hacemos fetch para asegurar formato correcto
       await fetchData();
     }
     setEditingData(null);
@@ -71,17 +70,13 @@ export default function DashboardForm({
   const handleConfirmDelete = async () => {
     if (!selectedRow?.id) return;
     try {
-      const response = await diseasesService.remove(selectedRow.id);
-      if (response?.data?.type === "success") {
-        setData((prevData) => prevData.filter((item) => item.id !== selectedRow.id));
-        setSelectedRow(null);
-        setIsModalOpen(false);
-        setIsConfirmOpen(false);
-      } else {
-        alert(response?.data?.message || "No se pudo eliminar.");
-      }
+      await deleteFn(selectedRow.id);
+      setData((prevData) => prevData.filter((item) => item.id !== selectedRow.id));
+      setSelectedRow(null);
+      setIsModalOpen(false);
+      setIsConfirmOpen(false);
     } catch (error) {
-      alert("Error al eliminar enfermedad.");
+      alert("Error al eliminar.");
       console.error(error);
     }
   };
@@ -160,7 +155,7 @@ export default function DashboardForm({
         isOpen={isConfirmOpen}
         onCancel={() => setIsConfirmOpen(false)}
         onConfirm={handleConfirmDelete}
-        message="¿Estás seguro de que deseas eliminar esta enfermedad?"
+        message={`¿Estás seguro de que deseas eliminar esta ${title.toLowerCase()}?`}
       />
     </div>
   );
