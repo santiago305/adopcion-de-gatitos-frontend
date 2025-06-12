@@ -1,4 +1,3 @@
-// AnimalForm.tsx
 import { useState } from "react";
 
 interface AnimalFormProps {

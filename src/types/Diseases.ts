@@ -1,0 +1,13 @@
+import { z } from 'zod';
+import { createDiseaseSchema, updateDiseaseSchema } from '@/schemas/diseasesSchema';
+
+
+export type CreateDiseaseDto = z.infer<typeof createDiseaseSchema>;
+export type UpdateDiseaseDto = z.infer<typeof updateDiseaseSchema>;
+
+export interface Disease {
+  id: string;
+  name: string;
+  severity: 'ninguna' | 'leve' | 'media' | 'grave';
+  deleted: boolean;
+}

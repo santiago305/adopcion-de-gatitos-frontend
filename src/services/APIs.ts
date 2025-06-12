@@ -38,3 +38,13 @@ export const API_CLIENTS_GROUP = {
   updateUser: (id: string) => `/clients/update/${id}`,
   deleteUser: (id: string) => `/clients/delete/${id}`,
 };
+
+
+export const API_DISEASES_GROUP = {
+  create: '/diseases/create',
+  findAll: '/diseases/findAll',
+  findById: (id: string) => `/diseases/search/${id}`,
+  update: (id: string) => `/diseases/update/${id}`,
+  remove: (id: string) => `/diseases/remove/${id}`,
+  restore: (id: string) => `/diseases/restore/${id}`,
+};
