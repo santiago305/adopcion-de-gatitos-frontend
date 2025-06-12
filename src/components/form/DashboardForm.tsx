@@ -1,4 +1,3 @@
-// src/components/form/DashboardForm.tsx
 import React, { useEffect, useState } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table";
@@ -10,15 +9,12 @@ import ConfirmModal from "../ConfirmModal";
 interface DashboardFormProps {
   title: string;
   columns: { label: string; field: string }[];
-  children: React.ReactElement<{
-    onSubmit: (newData: any) => void;
-    defaultValues?: any;
-    mode?: "create" | "edit";
-  }>;
+  children: React.ReactElement<any>;
   modalFieldLabels?: Record<string, string>;
   modalHiddenFields?: string[];
-  fetchDataFn: () => Promise<any[]>; // nuevo prop
-  deleteFn: (id: string) => Promise<any>; // nuevo prop
+  fetchDataFn: (page: number, limit: number) => Promise<any>;
+  deleteFn: (id: string) => Promise<any>;
+  limit?: number;
 }
 
 export default function DashboardForm({
@@ -29,6 +25,7 @@ export default function DashboardForm({
   modalHiddenFields,
   fetchDataFn,
   deleteFn,
+  limit = 15,
 }: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
@@ -36,11 +33,13 @@ export default function DashboardForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1 });
 
-  const fetchData = async () => {
+  const fetchData = async (page: number = 1) => {
     try {
-      const result = await fetchDataFn();
-      setData(result);
+      const response = await fetchDataFn(page, limit);
+      setData(response.data);
+      setPagination(response.pagination);
     } catch (error) {
       console.error("Error cargando datos:", error);
     }
@@ -55,14 +54,8 @@ export default function DashboardForm({
     setIsSidebarOpen(true);
   };
 
-  const handleAddData = async (newData: any) => {
-    if (editingData) {
-      setData((prevData) =>
-        prevData.map((item) => (item.id === editingData.id ? { ...item, ...newData } : item))
-      );
-    } else {
-      await fetchData();
-    }
+  const handleAddData = async () => {
+    await fetchData(pagination.currentPage);
     setEditingData(null);
     setIsSidebarOpen(false);
   };
@@ -71,7 +64,7 @@ export default function DashboardForm({
     if (!selectedRow?.id) return;
     try {
       await deleteFn(selectedRow.id);
-      setData((prevData) => prevData.filter((item) => item.id !== selectedRow.id));
+      await fetchData(pagination.currentPage);
       setSelectedRow(null);
       setIsModalOpen(false);
       setIsConfirmOpen(false);
@@ -90,31 +83,21 @@ export default function DashboardForm({
     <div className="flex flex-col w-full h-full">
       <h1 className="text-4xl font-bold">{title}</h1>
 
-      {data.length === 0 ? (
-        <div className="flex flex-1 justify-center items-center">
-          <Button onClick={handleCreateClick} className="cursor-pointer">
-            Crear {title.toLowerCase()}
-          </Button>
-        </div>
-      ) : (
-        <>
-          <div className="flex justify-end mt-4">
-            <Button onClick={handleCreateClick} className="cursor-pointer">
-              Crear más {title.toLowerCase()}
-            </Button>
-          </div>
-          <Table data={data} columns={columns} onRowClick={handleRowClick} />
-        </>
-      )}
+      <div className="flex justify-end mt-4">
+        <Button onClick={handleCreateClick}>Crear {title.toLowerCase()}</Button>
+      </div>
+
+      <Table
+        data={data}
+        columns={columns}
+        onRowClick={handleRowClick}
+        currentPage={pagination?.currentPage || 1}
+        totalPages={pagination?.totalPages || 1}
+        onPageChange={(page) => fetchData(page)}
+      />
 
       {isSidebarOpen && (
-        <SidebarForm
-          onClose={() => {
-            setIsSidebarOpen(false);
-            setEditingData(null);
-          }}
-          side="right"
-        >
+        <SidebarForm onClose={() => setIsSidebarOpen(false)} side="right">
           {React.cloneElement(children, {
             onSubmit: handleAddData,
             defaultValues: editingData,

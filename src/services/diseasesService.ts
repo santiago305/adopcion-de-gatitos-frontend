@@ -16,11 +16,10 @@ export const createDisease = async (payload: CreateDiseaseDto): Promise<ApiDisea
  * Obtiene todas las enfermedades.
  * @returns {Promise<any[]>} Lista de enfermedades.
  */
-export const findAllDiseases  = async () => {
-  const response = await axiosInstance.get(API_DISEASES_GROUP.findAll);
-  return response.data?.data || [];
-};
-
+export async function findAllDiseases(page = 1, limit = 15) {
+  const response = await axiosInstance.get(`/diseases/findAll?page=${page}&limit=${limit}`);
+  return response.data.data;
+}
 /**
  * Busca una enfermedad por ID.
  * @param {string} id - ID de la enfermedad.

@@ -32,6 +32,7 @@ export default function DashboardDiseases() {
     deleteFn={removeDiseases}
     modalFieldLabels={fieldLabels}
     modalHiddenFields={hiddenFields}
+    limit={15} 
     >
       <DiseasesForm onSubmit={handleSubmit} />
     </DashboardForm>
