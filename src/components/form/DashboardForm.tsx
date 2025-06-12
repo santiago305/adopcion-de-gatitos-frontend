@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
@@ -14,6 +14,7 @@ interface DashboardFormProps {
   modalHiddenFields?: string[];
   fetchDataFn: (page: number, limit: number) => Promise<any>;
   deleteFn: (id: string) => Promise<any>;
+  findOneFn?: (name: string) => Promise<any[]>; // 👈 nuevo parámetro opcional
   limit?: number;
 }
 
@@ -25,6 +26,7 @@ export default function DashboardForm({
   modalHiddenFields,
   fetchDataFn,
   deleteFn,
+  findOneFn,
   limit = 15,
 }: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -34,6 +36,9 @@ export default function DashboardForm({
   const [editingData, setEditingData] = useState<any>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1 });
+  const [search, setSearch] = useState("");
+
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchData = async (page: number = 1) => {
     try {
@@ -42,6 +47,17 @@ export default function DashboardForm({
       setPagination(response.pagination);
     } catch (error) {
       console.error("Error cargando datos:", error);
+    }
+  };
+
+  const fetchByName = async (name: string) => {
+    if (!findOneFn || !name.trim()) return fetchData(1); // fallback a todos
+    try {
+      const result = await findOneFn(name.trim());
+      setData(result || []);
+      setPagination({ currentPage: 1, totalPages: 1 }); // sin paginación cuando se busca
+    } catch (error) {
+      console.error("Error en búsqueda:", error);
     }
   };
 
@@ -79,11 +95,32 @@ export default function DashboardForm({
     setIsModalOpen(true);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      if (value.trim().length === 0) {
+        fetchData(1);
+      } else {
+        fetchByName(value);
+      }
+    }, 500);
+  };
+
   return (
     <div className="flex flex-col w-full h-full">
       <h1 className="text-4xl font-bold">{title}</h1>
 
-      <div className="flex justify-end mt-4">
+      <div className="flex justify-between mt-4 gap-2">
+        <input
+          type="text"
+          value={search}
+          onChange={handleSearchChange}
+          placeholder={`Buscar ${title.toLowerCase()} por nombre...`}
+          className="w-full max-w-sm border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
         <Button onClick={handleCreateClick}>Crear {title.toLowerCase()}</Button>
       </div>
 

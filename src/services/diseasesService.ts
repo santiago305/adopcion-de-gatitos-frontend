@@ -60,3 +60,8 @@ export const restoreDisease = async (id: string) => {
   const response = await axiosInstance.patch(API_DISEASES_GROUP.restore(id));
   return response.data;
 };
+
+export const findOneDiseaseByName = async (name: string) => {
+  const response = await axiosInstance.get(`/diseases/searchByName?name=${name}`);
+  return response.data.data ? [response.data.data] : [];
+};
