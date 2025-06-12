@@ -1,4 +1,4 @@
-import { Home, Leaf, PawPrint, Thermometer } from "lucide-react"; 
+import { Home, Leaf, PawPrint, Smile, Thermometer } from "lucide-react"; 
 import { FaBeer } from "react-icons/fa"; 
 import { RouteMetadata } from "@/types/RouterTypes";
 import { RoutesPaths } from "./routesPaths";
@@ -42,6 +42,14 @@ export const headerLinks: RouteMetadata[] = [
     isProtected: true, 
     roles: ["admin", "moderator"], 
     icon: FaBeer,  
+  },
+
+  { 
+    path: RoutesPaths.dashboardPersonality, 
+    name: "Personalidades", 
+    isProtected: true, 
+    roles: ["admin", "moderator"], 
+    icon: Smile,  
   },
 ];
 

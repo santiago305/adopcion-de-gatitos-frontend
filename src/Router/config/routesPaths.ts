@@ -42,6 +42,8 @@ export const RoutesPaths = {
   // rutas de razas
   dashboardBreed: '/dashboard/Breed',
 
+  //ruta de personalidad
+  dashboardPersonality: '/dashboard/personality',
 
   // // 🐶 Rutas de Adopción
   // adopcionList: "/dashboard/adopcion",
