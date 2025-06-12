@@ -46,14 +46,13 @@ export default function DashboardAnimals() {
 
   const handleSubmit = async (animal: CreateAnimalDto) => {
     try {
-      console.log("📦 Datos recibidos en DashboardAnimals:", animal); // 👈 NUEVO
+      console.log("📦 Datos recibidos en DashboardAnimals:", animal);
       const response = await createAnimal(animal);
-      console.log("✅ Animal creado:", response); // 👈 ESTE DEBE APARECER
+      console.log("✅ Animal creado:", response);
     } catch (error) {
       console.error("❌ Error al crear animal:", error);
     }
   };
-
 
   return (
     <DashboardForm
@@ -66,7 +65,7 @@ export default function DashboardAnimals() {
       modalHiddenFields={hiddenFields}
       limit={15}
     >
-       <AnimalForm onSubmit={handleSubmit} />
+      <AnimalForm onSubmit={handleSubmit} />
     </DashboardForm>
   );
 }

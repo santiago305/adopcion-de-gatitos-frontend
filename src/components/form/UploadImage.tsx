@@ -1,70 +1,43 @@
-import React, { useState } from "react";
+import axiosInstance from "@/common/utils/axios";
+import { useState } from "react";
 
-const UploadImage = ({ onUpload }: { onUpload: (imageUrl: string) => void }) => {
-  const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null); // Para previsualizar la imagen
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedImage = e.target.files[0];
-      setImage(selectedImage);
-      setImageUrl(URL.createObjectURL(selectedImage)); // Previsualiza la imagen
-    }
-  };
+interface UploadImageProps {
+  onUploadSuccess: (url: string) => void;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+export default function UploadImage({ onUploadSuccess }: UploadImageProps) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-    if (!image) {
-      setError("Por favor selecciona una imagen.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
     const formData = new FormData();
-    formData.append("photo", image);
+    formData.append("photo", file);
 
     try {
-      const response = await fetch("http://localhost:3000/animals/upload", {
-        method: "POST",
-        body: formData,
+      setLoading(true);
+      const res = await axiosInstance.post("/animals/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        // Aquí construimos la URL completa de la imagen
-        const fullImageUrl = `http://localhost:3000/uploads/animals/${data.file}`;
-        onUpload(fullImageUrl); // Llamamos a onUpload para pasar la URL completa
-      } else {
-        setError("Error al cargar la imagen.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setError("Hubo un error al intentar cargar la imagen.");
+      const imageUrl = res.data.file;
+      setPreview(imageUrl);
+      onUploadSuccess(imageUrl);
+    } catch (err) {
+      console.error("Error al subir imagen:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h2>Cargar Imagen del Animal</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
-        {imageUrl && <img src={imageUrl} alt="Previsualización" width="100" />}
-        <br />
-        <button type="submit" disabled={loading}>
-          {loading ? "Cargando..." : "Subir Imagen"}
-        </button>
-      </form>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="flex flex-col gap-2">
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      {loading && <span>Subiendo imagen...</span>}
+      {preview && <img src={preview} alt="Preview" className="h-32 w-auto mt-2 rounded" />}
     </div>
   );
-};
-
-export default UploadImage;
+}

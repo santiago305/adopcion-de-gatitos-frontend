@@ -6,11 +6,16 @@ import { CreateAnimalDto, AnimalFormValues } from "@/types/Animals";
 import { searchBreedBySpecies } from "@/services/breedService";
 import { getDiseases } from "@/services/diseasesService";
 import { getAllCharacteristics } from "@/services/characteristicsService";
+import { getSpecies } from "@/services/speciesService";
+import { createAnimal, updateAnimal } from "@/services/animalsService";
+import { useFlashMessage } from "@/hooks/useFlashMessage";
+import { successResponse, errorResponse } from "@/common/utils/response";
+
 import { Button } from "@/components/ui/button";
 import FormField from "@/components/ui/formField";
 import FieldError from "@/components/ui/FieldError";
 import { Label } from "@/components/ui/label";
-import { getSpecies } from "@/services/speciesService";
+import UploadImage from "@/components/form/UploadImage"; // 👈 Importar componente
 
 interface AnimalFormProps {
   onSubmit: (data: CreateAnimalDto) => void;
@@ -20,19 +25,21 @@ interface AnimalFormProps {
 
 export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }: AnimalFormProps) {
   const [speciesOptions, setSpeciesOptions] = useState<{ id: string; name: string }[]>([]);
-  const [selectedSpecies, setSelectedSpecies] = useState<string>("");
+  const [selectedSpecies, setSelectedSpecies] = useState<string>(defaultValues?.speciesId || "");
   const [breedOptions, setBreedOptions] = useState<{ id: string; name: string }[]>([]);
   const [diseaseOptions, setDiseaseOptions] = useState<{ id: string; name: string }[]>([]);
   const [characteristicsOptions, setCharacteristicsOptions] = useState<
     { id: string; color?: string; size?: string; sex?: string }[]
   >([]);
-
+  const [submitting, setSubmitting] = useState(false);
+  const { showFlash, clearFlash } = useFlashMessage();
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<CreateAnimalDto>({
     resolver: zodResolver(createAnimalSchema),
@@ -58,18 +65,41 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
   }, []);
 
   useEffect(() => {
-    const loadBreedsBySpecies = async () => {
+    const loadBreeds = async () => {
       if (!selectedSpecies) return;
       const breeds = await searchBreedBySpecies(selectedSpecies);
       setBreedOptions(breeds);
     };
-    loadBreedsBySpecies();
+    loadBreeds();
   }, [selectedSpecies]);
 
-  const handleLocalSubmit = (data: CreateAnimalDto) => {
-    onSubmit(data);
-    reset();
+  const handleLocalSubmit = async (data: CreateAnimalDto) => {
+    clearFlash();
+    setSubmitting(true);
+    try {
+      let response;
+      if (mode === "edit" && defaultValues?.id) {
+        response = await updateAnimal(defaultValues.id, data);
+      } else {
+        response = await createAnimal(data);
+      }
+
+      if (response?.type === "success") {
+        showFlash(successResponse(response.message));
+        onSubmit(data);
+        reset();
+      } else {
+        showFlash(errorResponse(response?.data?.message || "Error al registrar animal"));
+      }
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Error inesperado";
+      showFlash(errorResponse(message));
+    } finally {
+      setSubmitting(false);
+    }
   };
+
+  const currentPhoto = watch("photos");
 
   return (
     <form onSubmit={handleSubmit(handleLocalSubmit)} className="flex flex-col gap-4">
@@ -83,7 +113,7 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
           onChange={(e) => {
             const value = e.target.value;
             setSelectedSpecies(value);
-            setValue("breedId", ""); // limpiar la raza seleccionada
+            setValue("breedId", ""); // reset raza
           }}
           className="p-2 rounded border"
         >
@@ -96,12 +126,7 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
 
       <div className="grid gap-1">
         <Label htmlFor="breedId">Raza</Label>
-        <select
-          id="breedId"
-          {...register("breedId")}
-          className="p-2 rounded border"
-          disabled={!selectedSpecies}
-        >
+        <select id="breedId" {...register("breedId")} className="p-2 rounded border" disabled={!selectedSpecies}>
           <option value="">Seleccione una raza</option>
           {breedOptions.map((b) => (
             <option key={b.id} value={b.id}>{b.name}</option>
@@ -112,7 +137,7 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
 
       <div className="grid gap-1">
         <Label htmlFor="diseaseId">Enfermedad</Label>
-        <select id="diseaseId" {...register("diseaseId" as const)} className="p-2 rounded border">
+        <select id="diseaseId" {...register("diseaseId")} className="p-2 rounded border">
           <option value="">Seleccione una enfermedad</option>
           {diseaseOptions.map((d) => (
             <option key={d.id} value={d.id}>{d.name}</option>
@@ -141,7 +166,12 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
         <FieldError error={errors.adopted?.message} />
       </div>
 
-      <FormField label="URL de foto" name="photos" register={register} error={errors.photos?.message} />
+      <div className="grid gap-1">
+        <Label>Foto del animal</Label>
+        <UploadImage onUploadSuccess={(url) => setValue("photos", url)} />
+        {currentPhoto && <img src={currentPhoto} alt="Preview" className="h-32 w-auto rounded mt-2" />}
+        <FieldError error={errors.photos?.message} />
+      </div>
 
       <div className="grid gap-1">
         <Label htmlFor="characteristicsId">Características</Label>
@@ -156,7 +186,6 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
         <FieldError error={errors.characteristicsId?.message} />
       </div>
 
-
       <FormField label="Información" name="information" register={register} error={errors.information?.message} />
 
       <div className="grid gap-1">
@@ -168,8 +197,14 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
         <FieldError error={errors.status?.message} />
       </div>
 
-      <Button type="submit" className="w-full">
-        {mode === "edit" ? "Actualizar animal" : "Registrar animal"}
+      <Button type="submit" className="w-full" disabled={submitting}>
+        {submitting
+          ? mode === "edit"
+            ? "Actualizando..."
+            : "Registrando..."
+          : mode === "edit"
+          ? "Actualizar animal"
+          : "Registrar animal"}
       </Button>
     </form>
   );
