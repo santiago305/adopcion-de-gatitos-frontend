@@ -1,6 +1,6 @@
 import DashboardForm from "@/components/form/DashboardForm";
 import DiseasesForm from "@/components/form/DiseasesForm";
-import { diseasesService } from "@/services/diseasesService";
+import { findAllDiseases, removeDiseases } from "@/services/diseasesService";
 import { CreateDiseaseDto } from "@/types/Diseases";
 
 
@@ -10,14 +10,6 @@ export default function DashboardDiseases() {
     { label: "Gravedad", field: "severity" },
   ];
 
-  const fetchDiseasesData = async () => {
-    const response = await diseasesService.findAll();
-    return response?.data?.data || [];
-  };
-
-  const deleteDisease = async (id: string) => {
-    return await diseasesService.remove(id);
-  };
 
   const fieldLabels = {
     diseases: "Enfermedad",
@@ -34,8 +26,8 @@ export default function DashboardDiseases() {
     <DashboardForm 
     title="Enfermedades"
     columns={columns}
-    fetchDataFn={fetchDiseasesData}
-    deleteFn={deleteDisease}
+    fetchDataFn={findAllDiseases}
+    deleteFn={removeDiseases}
     modalFieldLabels={fieldLabels}
     modalHiddenFields={hiddenFields}
     >

@@ -1,13 +1,63 @@
 import axiosInstance from "@/common/utils/axios";
-import { CreateDiseaseDto, UpdateDiseaseDto } from "@/types/Diseases";
 import { API_DISEASES_GROUP } from "./APIs";
+import { CreateDiseaseDto, UpdateDiseaseDto } from "@/types/Diseases";
 
+/**
+ * Crea una nueva enfermedad.
+ * @param {CreateDiseaseDto} payload - Datos de la enfermedad.
+ * @returns {Promise<any>} Respuesta del servidor.
+ */
+export const createDisease = async (payload: CreateDiseaseDto) => {
+  const response = await axiosInstance.post(API_DISEASES_GROUP.create, payload);
+  return response.data;
+};
 
-export const diseasesService = {
-  create: (data: CreateDiseaseDto) => axiosInstance.post(API_DISEASES_GROUP.create, data),
-  findAll: () => axiosInstance.get(API_DISEASES_GROUP.findAll),
-  findById: (id: string) => axiosInstance.get(API_DISEASES_GROUP.findById(id)),
-  update: (id: string, data: UpdateDiseaseDto) => axiosInstance.patch(API_DISEASES_GROUP.update(id), data),
-  remove: (id: string) => axiosInstance.patch(API_DISEASES_GROUP.remove(id)),
-  restore: (id: string) => axiosInstance.patch(API_DISEASES_GROUP.restore(id)),
+/**
+ * Obtiene todas las enfermedades.
+ * @returns {Promise<any[]>} Lista de enfermedades.
+ */
+export const findAllDiseases = async () => {
+  const response = await axiosInstance.get(API_DISEASES_GROUP.findAll);
+  return response.data?.data || [];
+};
+
+/**
+ * Busca una enfermedad por ID.
+ * @param {string} id - ID de la enfermedad.
+ * @returns {Promise<any>} Datos de la enfermedad.
+ */
+export const findDiseaseById = async (id: string) => {
+  const response = await axiosInstance.get(API_DISEASES_GROUP.findById(id));
+  return response.data;
+};
+
+/**
+ * Actualiza una enfermedad.
+ * @param {string} id - ID de la enfermedad.
+ * @param {UpdateDiseaseDto} payload - Datos actualizados.
+ * @returns {Promise<any>} Respuesta del servidor.
+ */
+export const updateDisease = async (id: string, payload: UpdateDiseaseDto) => {
+  const response = await axiosInstance.patch(API_DISEASES_GROUP.update(id), payload);
+  return response.data;
+};
+
+/**
+ * Elimina (soft delete) una enfermedad.
+ * @param {string} id - ID de la enfermedad.
+ * @returns {Promise<any>} Respuesta del servidor.
+ */
+export const removeDiseases = async (id: string) => {
+  const response = await axiosInstance.patch(API_DISEASES_GROUP.remove(id));
+  return response.data;
+};
+
+/**
+ * Restaura una enfermedad eliminada.
+ * @param {string} id - ID de la enfermedad.
+ * @returns {Promise<any>} Respuesta del servidor.
+ */
+export const restoreDisease = async (id: string) => {
+  const response = await axiosInstance.patch(API_DISEASES_GROUP.restore(id));
+  return response.data;
 };
