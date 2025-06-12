@@ -13,10 +13,17 @@ import { createDiseaseSchema } from "@/schemas/diseasesSchema";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
 import FormField from "../ui/formField";
 import FieldError from "../ui/FieldError";
+import { errorResponse, successResponse } from "@/common/utils/response";
 
 const severityOptions = ['ninguna', 'leve', 'media', 'grave'] as const;
 
-export default function DiseaseForm({ className, ...props }: React.ComponentProps<"div">) {
+interface DiseasesFormProps {
+  onSubmit: (data: CreateDiseaseDto) => void;
+  defaultValues?: Partial<CreateDiseaseDto>;
+  mode?: "create" | "edit";
+}
+export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" }: DiseasesFormProps) {
+// export default function DiseaseForm({ className, ...props }: React.ComponentProps<"div">) {
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
 
@@ -27,65 +34,69 @@ export default function DiseaseForm({ className, ...props }: React.ComponentProp
     formState: { errors },
   } = useForm<CreateDiseaseDto>({
     resolver: zodResolver(createDiseaseSchema),
+    defaultValues,
   });
 
-  const onSubmit = async (data: CreateDiseaseDto) => {
+  const handleLocalSubmit = async (data: CreateDiseaseDto) => {
     clearFlash();
     setSubmitting(true);
     try {
       const response = await diseasesService.create(data);
       if (response?.data?.type === 'success') {
-        showFlash({ type: 'success', message: response.data.message });
+        showFlash(successResponse(response.data.message));
+        onSubmit(data);
         reset();
       } else {
-        showFlash({ type: 'error', message: response?.data?.message || 'Error al registrar enfermedad' });
+        showFlash(errorResponse(response?.data?.message || "Error al registrar enfermedad"));
       }
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Error inesperado';
-      showFlash({ type: 'error', message });
+      const message = error.response?.data?.message || "Error inesperado";
+      showFlash(errorResponse(message));
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn("flex flex-col gap-6")} >
       <Card>
         <CardHeader>
-          <CardTitle className="text-center text-2xl">Registrar nueva enfermedad</CardTitle>
+          <CardTitle className="text-center text-2xl">
+            {mode === "edit" ? "Editar enfermedad" : "Registrar nueva enfermedad"}
+          </CardTitle>
           <CardDescription className="text-center">
-            Añade una enfermedad con su respectivo nivel de gravedad
+            {mode === "edit"
+              ? "Modifica los datos de la enfermedad"
+              : "Añade una enfermedad con su gravedad"}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-wrap gap-6">
-              <FormField
-                name="name"
-                label="Nombre de la enfermedad"
-                placeholder="Ej. Parvovirus"
-                register={register}
-                error={errors.name?.message}
-              />
+          <form onSubmit={handleSubmit(handleLocalSubmit)} className="flex flex-col gap-6">
+            <FormField
+              name="name"
+              label="Nombre de la enfermedad"
+              placeholder="Ej. Parvovirus"
+              register={register}
+              error={errors.name?.message}
+            />
 
-              <div className="grid gap-1 flex-1 min-w-[250px]">
-                <Label htmlFor="severity">Gravedad</Label>
-                <select {...register('severity')} className="border p-2 rounded">
-                  {severityOptions.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt.charAt(0).toUpperCase() + opt.slice(1)}
-                    </option>
-                  ))}
-                </select>
-                <div className="min-h-3 h-auto">
-                  <FieldError error={errors.severity?.message} />
-                </div>
+            <div className="grid gap-1 flex-1 min-w-[250px]">
+              <Label htmlFor="severity">Gravedad</Label>
+              <select {...register("severity")} className="p-2 rounded">
+                {severityOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                  </option>
+                ))}
+              </select>
+              <div className="min-h-3 h-auto">
+                <FieldError error={errors.severity?.message} />
               </div>
-
-              <Button type="submit" className="w-full" disabled={submitting}>
-                {submitting ? "Registrando..." : "Registrar Enfermedad"}
-              </Button>
             </div>
+
+            <Button type="submit" className="w-full" disabled={submitting}>
+              {submitting ? (mode === "edit" ? "Actualizando..." : "Registrando...") : mode === "edit" ? "Actualizar Enfermedad" : "Registrar Enfermedad"}
+            </Button>
           </form>
         </CardContent>
       </Card>
