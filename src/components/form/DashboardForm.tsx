@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+// src/components/form/DashboardForm.tsx
+import React, { useEffect, useState } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { diseasesService } from "@/services/diseasesService";
 
 interface DashboardFormProps {
   title: string;
@@ -22,8 +24,23 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingData, setEditingData] = useState<any>(null);
 
+  const fetchData = async () => {
+    try {
+      const response = await diseasesService.findAll();
+      if (response?.data?.type === "success") {
+        setData(response.data.data); // asume que viene un array en "data"
+      }
+    } catch (error) {
+      console.error("Error cargando enfermedades:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const handleCreateClick = () => {
-    setEditingData(null); // limpiamos si venimos de edición
+    setEditingData(null);
     setIsSidebarOpen(true);
   };
 
@@ -84,7 +101,7 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        data={selectedRow}
+        data={selectedRow || {}}
       >
         <div className="flex justify-end gap-2 mb-4">
           <button

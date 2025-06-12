@@ -5,7 +5,7 @@ import { CreateDiseaseDto } from "@/types/Diseases";
 
 export default function DashboardDiseases() {
   const columns = [
-    { label: "Nombre", field: "name" },
+    { label: "Nombre", field: "diseases" },
     { label: "Gravedad", field: "severity" },
   ];
 
