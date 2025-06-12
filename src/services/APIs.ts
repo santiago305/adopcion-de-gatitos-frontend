@@ -68,3 +68,13 @@ export const API_BREED_GROUP = {
   restore: (id: string) => `/breed/restore/${id}`,
   searchByName: '/breed/searchByName',
 };
+
+export const API_PERSONALITY_GROUP = {
+  create: '/personality/create',
+  findAll: '/personality/findAll',
+  findById: (id: string) => `/personality/search/${id}`,
+  update: (id: string) => `/personality/update/${id}`,
+  remove: (id: string) => `/personality/remove/${id}`,
+  restore: (id: string) => `/personality/restore/${id}`,
+  searchByName: '/personality/searchByName',
+};
