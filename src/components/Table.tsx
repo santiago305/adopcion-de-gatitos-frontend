@@ -10,7 +10,7 @@ interface TableProps {
 export default function Table({ data, columns, onRowClick, currentPage, totalPages, onPageChange }: TableProps) {
   return (
     <div className="overflow-x-auto mt-6 select-none">
-      <table className="min-w-full table-auto border-collapse shadow-lg bg-white rounded-lg">
+      <table className="min-w-full table-auto border-collapse bg-white rounded-lg">
         <thead className="bg-gray-200">
           <tr>
             {columns.map((col, idx) => (
