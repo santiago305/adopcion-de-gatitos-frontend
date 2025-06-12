@@ -11,6 +11,13 @@ export default function Home() {
         <IndexHome />
 
         <AboutHome /> 
+        <img
+          src="http://localhost:3000/uploads/animals/1749748579599.jpg"
+          alt="Animal"
+          className="h-32 w-32 object-cover rounded"
+        />
+
+
       </> 
     );
 }
