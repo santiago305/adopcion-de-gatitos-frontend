@@ -9,12 +9,24 @@ export default function DashboardDiseases() {
     { label: "Gravedad", field: "severity" },
   ];
 
+  const fieldLabels = {
+    diseases: "Enfermedad",
+    severity: "Gravedad",
+  };
+
+  const hiddenFields = ["id"];
+
   const handleSubmit = (disease: CreateDiseaseDto) => {
     console.log("Acción completada sobre enfermedad:", disease);
   };
 
   return (
-    <DashboardForm title="Enfermedades" columns={columns}>
+    <DashboardForm 
+    title="Enfermedades"
+    columns={columns}
+    modalFieldLabels={fieldLabels}
+    modalHiddenFields={hiddenFields}
+    >
       <DiseasesForm onSubmit={handleSubmit} />
     </DashboardForm>
   );

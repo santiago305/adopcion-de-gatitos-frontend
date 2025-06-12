@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import SidebarForm from "@/components/form/SidebarForm";
 import Table from "@/components/Table";
 import Modal from "@/components/Modal";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { diseasesService } from "@/services/diseasesService";
 
@@ -15,9 +15,11 @@ interface DashboardFormProps {
     defaultValues?: any;
     mode?: "create" | "edit";
   }>;
+  modalFieldLabels?: Record<string, string>;
+  modalHiddenFields?: string[];
 }
 
-export default function DashboardForm({ title, columns, children }: DashboardFormProps) {
+export default function DashboardForm({ title, columns, children, modalFieldLabels, modalHiddenFields }: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [selectedRow, setSelectedRow] = useState<any>(null);
@@ -102,27 +104,29 @@ export default function DashboardForm({ title, columns, children }: DashboardFor
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         data={selectedRow || {}}
+        fieldLabels={modalFieldLabels}
+        hiddenFields={modalHiddenFields}
       >
         <div className="flex justify-end gap-2 mb-4">
-          <button
+          <Button
             onClick={() => {
               setEditingData(selectedRow);
               setIsModalOpen(false);
               setIsSidebarOpen(true);
             }}
-            className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+            className="bg-white text-blue-600 hover:text-blue-800 flex items-center gap-1"
           >
-            <FiEdit /> Editar
-          </button>
+            <FiEdit /> 
+          </Button>
 
-          <button
+          <Button
             onClick={() => {
               alert("Eliminar aún no implementado");
             }}
-            className="text-red-600 hover:text-red-800 flex items-center gap-1"
+            className="bg-white text-red-600 hover:text-red-800 flex items-center gap-1"
           >
-            <FiTrash2 /> Eliminar
-          </button>
+            <FiTrash2 /> 
+          </Button>
         </div>
       </Modal>
     </div>

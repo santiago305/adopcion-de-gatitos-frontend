@@ -4,10 +4,19 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   data: Record<string, string | number>;
+  fieldLabels?: Record<string, string>; // 👈 nuevo
+  hiddenFields?: string[];              // 👈 nuevo
   children?: ReactNode;
 }
 
-export default function Modal({ isOpen, onClose, data, children }: ModalProps) {
+export default function Modal({
+  isOpen,
+  onClose,
+  data,
+  fieldLabels = {},
+  hiddenFields = [],
+  children,
+}: ModalProps) {
   if (!isOpen) return null;
 
   const handleClickOutside = (e: React.MouseEvent) => {
@@ -27,21 +36,25 @@ export default function Modal({ isOpen, onClose, data, children }: ModalProps) {
       >
         <button
           onClick={onClose}
-          className="text-gray-600 hover:text-gray-900 absolute top-4 right-4"
+          className="text-gray-600 hover:text-gray-900 absolute top-4 left-4"
         >
           X
         </button>
 
-        {/* Botones u otros elementos opcionales */}
         {children && <div className="mb-4">{children}</div>}
 
         <h2 className="text-xl font-semibold mb-4">Detalles</h2>
         <div className="space-y-4">
-          {Object.entries(data).map(([key, value], index) => (
-            <div key={index}>
-              <strong>{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {String(value)}
-            </div>
-          ))}
+          {Object.entries(data).map(([key, value], index) => {
+            if (hiddenFields.includes(key)) return null;
+
+            const label = fieldLabels[key] || key.charAt(0).toUpperCase() + key.slice(1);
+            return (
+              <div key={index}>
+                <strong>{label}:</strong> {String(value)}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
