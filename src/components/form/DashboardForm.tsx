@@ -128,23 +128,23 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
         hiddenFields={modalHiddenFields}
       >
         <div className="flex justify-end gap-2 mb-4">
-          <button
+          <Button
             onClick={() => {
               setEditingData(selectedRow);
               setIsModalOpen(false);
               setIsSidebarOpen(true);
             }}
-            className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
+            className="bg-white text-blue-600 hover:text-blue-800 flex items-center gap-1 hover:bg-gray-100"
           >
-            <FiEdit /> Editar
-          </button>
+            <FiEdit />
+          </Button>
 
-          <button
+          <Button
             onClick={() => setIsConfirmOpen(true)}
-            className="text-red-600 hover:text-red-800 flex items-center gap-1"
+            className="bg-white text-red-600 hover:text-red-800 flex items-center gap-1 hover:bg-gray-100"
           >
-            <FiTrash2 /> Eliminar
-          </button>
+            <FiTrash2 />
+          </Button>
         </div>
       </Modal>
 
