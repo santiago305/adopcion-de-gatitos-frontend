@@ -45,6 +45,9 @@ export const RoutesPaths = {
   //ruta de personalidad
   dashboardPersonality: '/dashboard/personality',
 
+  //ruta de caracteristicas
+  dashboardCharacteristics: '/dashboard/characteristics',
+
   // // 🐶 Rutas de Adopción
   // adopcionList: "/dashboard/adopcion",
   // adopcionSolicitar: "/dashboard/adopcion/solicitar",

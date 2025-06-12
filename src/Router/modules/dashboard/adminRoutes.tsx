@@ -1,6 +1,7 @@
 
 import DashboardAnimals from "@/pages/dashboard/Animals";
 import DashboardBreed from "@/pages/dashboard/Breed";
+import DashboardCharacteristics from "@/pages/dashboard/characteristics";
 import DashboardDiseases from "@/pages/dashboard/Diseases";
 import DashboardPersonality from "@/pages/dashboard/Personality";
 import DashboardSpecies from "@/pages/dashboard/Species";
@@ -42,6 +43,13 @@ export const adminRoutes: RouteObject[] = [
     path: RoutesPaths.dashboardPersonality,
     element: (
         <DashboardPersonality/>
+    ),
+    errorElement: <ErrorPage />
+  },
+  {
+    path: RoutesPaths.dashboardCharacteristics,
+    element: (
+        <DashboardCharacteristics/>
     ),
     errorElement: <ErrorPage />
   },
