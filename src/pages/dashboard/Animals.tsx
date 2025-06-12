@@ -4,6 +4,7 @@ import {
   getAnimalsPaginated,
   deleteAnimal,
   searchAnimalsByName,
+  createAnimal,
 } from "@/services/animalsService";
 import { CreateAnimalDto } from "@/types/Animals";
 
@@ -43,9 +44,16 @@ export default function DashboardAnimals() {
     "characteristicsId",
   ];
 
-  const handleSubmit = (animal: CreateAnimalDto) => {
-    console.log("Acción completada sobre animal:", animal);
+  const handleSubmit = async (animal: CreateAnimalDto) => {
+    try {
+      console.log("📦 Datos recibidos en DashboardAnimals:", animal); // 👈 NUEVO
+      const response = await createAnimal(animal);
+      console.log("✅ Animal creado:", response); // 👈 ESTE DEBE APARECER
+    } catch (error) {
+      console.error("❌ Error al crear animal:", error);
+    }
   };
+
 
   return (
     <DashboardForm

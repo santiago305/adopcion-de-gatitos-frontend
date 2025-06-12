@@ -23,7 +23,10 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
   const [selectedSpecies, setSelectedSpecies] = useState<string>("");
   const [breedOptions, setBreedOptions] = useState<{ id: string; name: string }[]>([]);
   const [diseaseOptions, setDiseaseOptions] = useState<{ id: string; name: string }[]>([]);
-  const [characteristicsOptions, setCharacteristicsOptions] = useState<{ id: string; name: string }[]>([]);
+  const [characteristicsOptions, setCharacteristicsOptions] = useState<
+    { id: string; color?: string; size?: string; sex?: string }[]
+  >([]);
+
 
   const {
     register,
@@ -145,11 +148,14 @@ export default function AnimalForm({ onSubmit, defaultValues, mode = "create" }:
         <select id="characteristicsId" {...register("characteristicsId")} className="p-2 rounded border">
           <option value="">Seleccione una opción</option>
           {characteristicsOptions.map((c) => (
-            <option key={c.id} value={c.id}>{c.name}</option>
+            <option key={c.id} value={c.id}>
+              {`${c.color || ""} / ${c.size || ""} / ${c.sex || ""}`.trim()}
+            </option>
           ))}
         </select>
         <FieldError error={errors.characteristicsId?.message} />
       </div>
+
 
       <FormField label="Información" name="information" register={register} error={errors.information?.message} />
 
