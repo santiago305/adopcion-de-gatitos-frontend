@@ -3,6 +3,7 @@ import { createDiseaseSchema, updateDiseaseSchema } from '@/schemas/diseasesSche
 
 
 export type CreateDiseaseDto = z.infer<typeof createDiseaseSchema>;
+export type DiseaseFormValues = CreateDiseaseDto & { id?: string };
 export type UpdateDiseaseDto = z.infer<typeof updateDiseaseSchema>;
 
 export interface Disease {

@@ -6,19 +6,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { CreateDiseaseDto } from "@/types/Diseases";
+import { CreateDiseaseDto, DiseaseFormValues } from "@/types/Diseases";
 import { createDiseaseSchema } from "@/schemas/diseasesSchema";
 import { useFlashMessage } from "@/hooks/useFlashMessage";
 import FormField from "../ui/formField";
 import FieldError from "../ui/FieldError";
 import { errorResponse, successResponse } from "@/common/utils/response";
-import { createDisease } from "@/services/diseasesService";
+import { createDisease, updateDisease } from "@/services/diseasesService";
 
 const severityOptions = ['ninguna', 'leve', 'media', 'grave'] as const;
 
 interface DiseasesFormProps {
   onSubmit: (data: CreateDiseaseDto) => void;
-  defaultValues?: Partial<CreateDiseaseDto>;
+  defaultValues?: Partial<DiseaseFormValues>;
   mode?: "create" | "edit";
 }
 
@@ -31,7 +31,7 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<CreateDiseaseDto>({
+  } = useForm<DiseaseFormValues>({
     resolver: zodResolver(createDiseaseSchema),
     defaultValues,
   });
@@ -43,11 +43,18 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
     }
   }, [defaultValues, reset]);
 
-  const handleLocalSubmit = async (data: CreateDiseaseDto) => {
+  const handleLocalSubmit = async (data: DiseaseFormValues) => {
     clearFlash();
     setSubmitting(true);
     try {
-      const response = await createDisease(data);
+      let response;
+
+    // 👇 Si es edición, y hay ID, actualizamos en lugar de crear
+      if (mode === "edit" && defaultValues?.id) {
+        response = await updateDisease(defaultValues.id, data);
+      } else {
+      response = await createDisease(data);
+    }
       if (response?.type === 'success') {
         showFlash(successResponse(response.message));
         onSubmit(data);

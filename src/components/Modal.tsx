@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { getRelativeTime } from "@/common/utils/dateRelative";
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,14 +27,10 @@ export default function Modal({
   };
 
   const formatValue = (key: string, value: string | number) => {
-    // Formatea fechas ISO si detecta "at" en la key y el valor es fecha válida
     if (typeof value === "string" && key.toLowerCase().includes("at")) {
       const date = new Date(value);
       if (!isNaN(date.getTime())) {
-        return date.toLocaleString("es-PE", {
-          dateStyle: "medium",
-          timeStyle: "short",
-        });
+        return getRelativeTime(value); // 👈 Se muestra como "hace 3 horas"
       }
     }
     return String(value);
@@ -61,9 +58,10 @@ export default function Modal({
         <div className="space-y-4">
           {Object.entries(data).map(([key, value], index) => {
             if (hiddenFields.includes(key)) return null;
-            const label = fieldLabels[key] 
-            ?? fieldLabels[key.toLowerCase()] 
-            ?? key.charAt(0).toUpperCase() + key.slice(1);
+            const label =
+              fieldLabels[key] ||
+              fieldLabels[key.toLowerCase()] ||
+              key.charAt(0).toUpperCase() + key.slice(1);
             return (
               <div key={index}>
                 <strong>{label}:</strong> {formatValue(key, value)}
