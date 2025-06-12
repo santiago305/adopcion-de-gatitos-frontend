@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { diseasesService } from "@/services/diseasesService";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import { useFlashMessage } from "@/hooks/useFlashMessage";
 import FormField from "../ui/formField";
 import FieldError from "../ui/FieldError";
 import { errorResponse, successResponse } from "@/common/utils/response";
+import { createDisease } from "@/services/diseasesService";
 
 const severityOptions = ['ninguna', 'leve', 'media', 'grave'] as const;
 
@@ -23,7 +24,6 @@ interface DiseasesFormProps {
   mode?: "create" | "edit";
 }
 export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" }: DiseasesFormProps) {
-// export default function DiseaseForm({ className, ...props }: React.ComponentProps<"div">) {
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
 
@@ -41,7 +41,7 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
     clearFlash();
     setSubmitting(true);
     try {
-      const response = await diseasesService.create(data);
+      const response = await createDisease(data);
       if (response?.data?.type === 'success') {
         showFlash(successResponse(response.data.message));
         onSubmit(data);
