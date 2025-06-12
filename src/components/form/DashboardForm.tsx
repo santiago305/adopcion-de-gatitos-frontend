@@ -5,8 +5,8 @@ import Table from "@/components/Table";
 import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { diseasesService } from "@/services/diseasesService";
 import ConfirmModal from "../ConfirmModal";
+import { diseasesService } from "@/services/diseasesService";
 
 interface DashboardFormProps {
   title: string;
@@ -20,7 +20,13 @@ interface DashboardFormProps {
   modalHiddenFields?: string[];
 }
 
-export default function DashboardForm({ title, columns, children, modalFieldLabels, modalHiddenFields }: DashboardFormProps) {
+export default function DashboardForm({
+  title,
+  columns,
+  children,
+  modalFieldLabels,
+  modalHiddenFields,
+}: DashboardFormProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [selectedRow, setSelectedRow] = useState<any>(null);
@@ -48,13 +54,15 @@ export default function DashboardForm({ title, columns, children, modalFieldLabe
     setIsSidebarOpen(true);
   };
 
-  const handleAddData = (newData: any) => {
+  const handleAddData = async (newData: any) => {
     if (editingData) {
+      // Edición directa sin fetch
       setData((prevData) =>
         prevData.map((item) => (item.id === editingData.id ? { ...item, ...newData } : item))
       );
     } else {
-      setData((prevData) => [...prevData, newData]);
+      // ⚠️ Nuevo dato, hacemos fetch para asegurar formato correcto
+      await fetchData();
     }
     setEditingData(null);
     setIsSidebarOpen(false);
