@@ -22,7 +22,11 @@ interface CharacteristicsFormProps {
   mode?: "create" | "edit";
 }
 
-export default function CharacteristicsForm({ onSubmit, defaultValues, mode = "create" }: CharacteristicsFormProps) {
+export default function CharacteristicsForm({
+  onSubmit,
+  defaultValues,
+  mode = "create",
+}: CharacteristicsFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const [personalityOptions, setPersonalityOptions] = useState<{ id: string; name: string }[]>([]);
   const { showFlash, clearFlash } = useFlashMessage();
@@ -57,9 +61,10 @@ export default function CharacteristicsForm({ onSubmit, defaultValues, mode = "c
     clearFlash();
     setSubmitting(true);
     try {
-      const response = mode === "edit" && defaultValues?.id
-        ? await updateCharacteristic(defaultValues.id, data)
-        : await createCharacteristic(data);
+      const response =
+        mode === "edit" && defaultValues?.id
+          ? await updateCharacteristic(defaultValues.id, data)
+          : await createCharacteristic(data);
 
       if (response?.type === "success") {
         showFlash(successResponse(response.message));
@@ -95,12 +100,25 @@ export default function CharacteristicsForm({ onSubmit, defaultValues, mode = "c
             <FormField name="size" label="Tamaño" placeholder="Ej. Mediano" register={register} error={errors.size?.message} />
             <FormField name="weight" label="Peso" placeholder="Ej. 5 kg" register={register} error={errors.weight?.message} />
             <FormField name="fur" label="Pelaje" placeholder="Ej. Corto" register={register} error={errors.fur?.message} />
-            <FormField name="sex" label="Sexo" placeholder="Ej. Macho" register={register} error={errors.sex?.message} />
+
+            <div className="grid gap-1">
+              <Label htmlFor="sex">Sexo</Label>
+              <select {...register("sex")} className="p-2 rounded w-full border">
+                <option value="">Seleccione sexo</option>
+                <option value="macho">Macho</option>
+                <option value="hembra">Hembra</option>
+              </select>
+              <div className="min-h-3 h-auto">
+                <FieldError error={errors.sex?.message} />
+              </div>
+            </div>
+
             <FormField name="age" label="Edad" placeholder="Ej. 2 años" register={register} error={errors.age?.message} />
 
             <div className="grid gap-1">
               <Label htmlFor="sterilized">¿Esterilizado?</Label>
               <select {...register("sterilized")} className="p-2 rounded w-full border">
+                <option value="">Seleccione</option>
                 <option value="true">Sí</option>
                 <option value="false">No</option>
               </select>
