@@ -11,3 +11,9 @@ export interface Disease {
   severity: 'ninguna' | 'leve' | 'media' | 'grave';
   deleted: boolean;
 }
+
+export interface ApiDiseasesResponse {
+  type: 'success' | 'error';
+  message: string;
+  data?: any;
+}

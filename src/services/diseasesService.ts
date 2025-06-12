@@ -1,13 +1,13 @@
 import axiosInstance from "@/common/utils/axios";
 import { API_DISEASES_GROUP } from "./APIs";
-import { CreateDiseaseDto, UpdateDiseaseDto } from "@/types/Diseases";
+import { ApiDiseasesResponse, CreateDiseaseDto, UpdateDiseaseDto } from "@/types/Diseases";
 
 /**
  * Crea una nueva enfermedad.
  * @param {CreateDiseaseDto} payload - Datos de la enfermedad.
  * @returns {Promise<any>} Respuesta del servidor.
  */
-export const createDisease = async (payload: CreateDiseaseDto) => {
+export const createDisease = async (payload: CreateDiseaseDto): Promise<ApiDiseasesResponse> => {
   const response = await axiosInstance.post(API_DISEASES_GROUP.create, payload);
   return response.data;
 };
@@ -16,7 +16,7 @@ export const createDisease = async (payload: CreateDiseaseDto) => {
  * Obtiene todas las enfermedades.
  * @returns {Promise<any[]>} Lista de enfermedades.
  */
-export const findAllDiseases = async () => {
+export const findAllDiseases  = async () => {
   const response = await axiosInstance.get(API_DISEASES_GROUP.findAll);
   return response.data?.data || [];
 };

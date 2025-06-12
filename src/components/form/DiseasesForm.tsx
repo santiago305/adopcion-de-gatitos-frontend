@@ -1,9 +1,7 @@
-// src/components/forms/DiseaseForm.tsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +21,7 @@ interface DiseasesFormProps {
   defaultValues?: Partial<CreateDiseaseDto>;
   mode?: "create" | "edit";
 }
+
 export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" }: DiseasesFormProps) {
   const [submitting, setSubmitting] = useState(false);
   const { showFlash, clearFlash } = useFlashMessage();
@@ -37,13 +36,20 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
     defaultValues,
   });
 
+  // 👉 Aquí está la clave para que los valores se pinten al editar
+  useEffect(() => {
+    if (defaultValues) {
+      reset(defaultValues);
+    }
+  }, [defaultValues, reset]);
+
   const handleLocalSubmit = async (data: CreateDiseaseDto) => {
     clearFlash();
     setSubmitting(true);
     try {
       const response = await createDisease(data);
-      if (response?.data?.type === 'success') {
-        showFlash(successResponse(response.data.message));
+      if (response?.type === 'success') {
+        showFlash(successResponse(response.message));
         onSubmit(data);
         reset();
       } else {
@@ -58,7 +64,7 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
   };
 
   return (
-    <div className={cn("flex flex-col gap-6")} >
+    <div className={cn("flex flex-col gap-6")}>
       <Card>
         <CardHeader>
           <CardTitle className="text-center text-2xl">
@@ -95,7 +101,13 @@ export default function DiseasesForm({ onSubmit, defaultValues, mode = "create" 
             </div>
 
             <Button type="submit" className="w-full" disabled={submitting}>
-              {submitting ? (mode === "edit" ? "Actualizando..." : "Registrando...") : mode === "edit" ? "Actualizar Enfermedad" : "Registrar Enfermedad"}
+              {submitting
+                ? mode === "edit"
+                  ? "Actualizando..."
+                  : "Registrando..."
+                : mode === "edit"
+                ? "Actualizar Enfermedad"
+                : "Registrar Enfermedad"}
             </Button>
           </form>
         </CardContent>
