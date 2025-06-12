@@ -19,6 +19,15 @@ export const findAllSpecies = async (page = 1, limit = 15) => {
   return response.data.data;
 };
 
+export const getAllSpeciesForSelect = async (): Promise<{ id: string; name: string }[]> => {
+  try {
+    const response = await axiosInstance.get(`${API_SPECIES_GROUP.findAll}?page=1&limit=1000`);
+    return response.data?.data?.data || [];
+  } catch (error) {
+    console.error("[getAllSpeciesForSelect] Error:", error);
+    return [];
+  }
+};
 /**
  * Actualiza una especie.
  */

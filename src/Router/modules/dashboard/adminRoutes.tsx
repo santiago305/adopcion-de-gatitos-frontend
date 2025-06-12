@@ -1,6 +1,6 @@
 
 import DashboardAnimals from "@/pages/dashboard/Animals";
-import DashboardBreed from "@/pages/dashboard/Breeed";
+import DashboardBreed from "@/pages/dashboard/Breed";
 import DashboardDiseases from "@/pages/dashboard/Diseases";
 import DashboardSpecies from "@/pages/dashboard/Species";
 import ErrorPage from "@/pages/Error404";

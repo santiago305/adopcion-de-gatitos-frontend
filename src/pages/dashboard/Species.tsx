@@ -10,8 +10,6 @@ import { CreateSpeciesDto } from "@/types/Species";
 export default function DashboardSpecies() {
   const columns = [
     { label: "Nombre", field: "name" },
-    { label: "Creado", field: "createdAt" },
-    { label: "Modificado", field: "updatedAt" },
   ];
 
   const fieldLabels = {

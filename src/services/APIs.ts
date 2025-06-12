@@ -58,3 +58,13 @@ export const API_SPECIES_GROUP = {
   restore: (id: string) => `/species/restore/${id}`,
   searchByName: '/species/searchByName',
 };
+
+export const API_BREED_GROUP = {
+  create: '/breed/create',
+  findAll: '/breed/findAll',
+  findById: (id: string) => `/breed/search/${id}`,
+  update: (id: string) => `/breed/update/${id}`,
+  remove: (id: string) => `/breed/delete/${id}`,
+  restore: (id: string) => `/breed/restore/${id}`,
+  searchByName: '/breed/searchByName',
+};
