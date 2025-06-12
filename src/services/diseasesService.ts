@@ -61,7 +61,15 @@ export const restoreDisease = async (id: string) => {
   return response.data;
 };
 
-export const findOneDiseaseByName = async (name: string) => {
-  const response = await axiosInstance.get(`/diseases/searchByName?name=${name}`);
-  return response.data.data ? [response.data.data] : [];
+export const searchDiseasesByName = async (name: string) => {
+  try {
+    const res = await axiosInstance.get(`/diseases/searchByName?name=${name}`);
+    if (res.data?.type === "success") {
+      return res.data.data;
+    }
+    return [];
+  } catch (error) {
+    console.error("[searchDiseasesByName] Error:", error);
+    return [];
+  }
 };

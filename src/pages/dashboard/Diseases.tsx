@@ -1,6 +1,6 @@
 import DashboardForm from "@/components/form/DashboardForm";
 import DiseasesForm from "@/components/form/DiseasesForm";
-import { findAllDiseases, removeDiseases, findOneDiseaseByName } from "@/services/diseasesService";
+import { findAllDiseases, removeDiseases, searchDiseasesByName } from "@/services/diseasesService";
 import { CreateDiseaseDto } from "@/types/Diseases";
 
 export default function DashboardDiseases() {
@@ -27,11 +27,11 @@ export default function DashboardDiseases() {
       title="Enfermedades"
       columns={columns}
       fetchDataFn={findAllDiseases}
-      findOneFn={findOneDiseaseByName}
       deleteFn={removeDiseases}
+      findOneFn={searchDiseasesByName} // 👈 nueva función para búsqueda flexible
       modalFieldLabels={fieldLabels}
       modalHiddenFields={hiddenFields}
-      limit={15} 
+      limit={15}
     >
       <DiseasesForm onSubmit={handleSubmit} />
     </DashboardForm>
