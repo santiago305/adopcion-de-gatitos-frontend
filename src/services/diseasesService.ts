@@ -17,7 +17,7 @@ export const createDisease = async (payload: CreateDiseaseDto): Promise<ApiDisea
  * @returns {Promise<any[]>} Lista de enfermedades.
  */
 export async function findAllDiseases(page = 1, limit = 15) {
-  const response = await axiosInstance.get(`/diseases/findAll?page=${page}&limit=${limit}`);
+  const response = await axiosInstance.get(`${API_DISEASES_GROUP.findAll}/?page=${page}&limit=${limit}`);
   return response.data.data;
 }
 /**
@@ -70,6 +70,17 @@ export const searchDiseasesByName = async (name: string) => {
     return [];
   } catch (error) {
     console.error("[searchDiseasesByName] Error:", error);
+    return [];
+  }
+};
+
+export const getDiseases = async (): Promise<{ id: string; name: string }[]> => {
+  try {
+    const res = await axiosInstance.get(`${API_DISEASES_GROUP.findAll}?page=1&limit=1000`);
+    return res.data.data?.data || [];
+
+  } catch (error) {
+    console.error("[getDiseases] Error:", error);
     return [];
   }
 };

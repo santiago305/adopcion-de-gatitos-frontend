@@ -88,3 +88,14 @@ export const API_CHARACTERISTICS_GROUP = {
   restore: (id: string) => `/characteristics/restore/${id}`,
   searchByPersonality: (name: string) => `/characteristics/searchByPersonality?name=${name}`,
 };
+
+export const API_ANIMALS_GROUP = {
+  create: '/animals/create',
+  findAll: '/animals',
+  findById: (id: string) => `/animals/search/${id}`,
+  searchByName: (name: string) => `/animals/searchByName?name=${name}`,
+  update: (id: string) => `/animals/update/${id}`,
+  remove: (id: string) => `/animals/remove/${id}`,
+  restore: (id: string) => `/animals/restore/${id}`,
+  uploadImage: '/animals/upload',
+};

@@ -67,3 +67,14 @@ export const searchSpeciesByName = async (name: string) => {
     return [];
   }
 };
+
+export const getSpecies = async (): Promise<{ id: string; name: string }[]> => {
+  try {
+    const res = await axiosInstance.get(`${API_SPECIES_GROUP.findAll}?page=1&limit=1000`);
+    return res.data.data?.data || [];
+
+  } catch (error) {
+    console.error("[getSpecies] Error:", error);
+    return [];
+  }
+};
