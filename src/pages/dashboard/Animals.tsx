@@ -1,17 +1,52 @@
-import AnimalForm from "@/components/form/AnimalForm";
 import DashboardForm from "@/components/form/DashboardForm";
+import AnimalForm from "@/components/form/AnimalForm";
 import {
   getAnimalsPaginated,
   deleteAnimal,
-  searchAnimalByName,
-} from "@/services/animalsService"
+  searchAnimalsByName,
+} from "@/services/animalsService";
+import { CreateAnimalDto } from "@/types/Animals";
+import { Button } from "@/components/ui/button";
 
 export default function DashboardAnimals() {
   const columns = [
     { label: "Nombre", field: "name" },
-    { label: "Especie", field: "speciesName" }, // Asegúrate que tu backend devuelva este campo
+    { label: "Raza", field: "breed" },
+    { label: "Enfermedad", field: "disease" },
     { label: "Adoptado", field: "adopted" },
+    { label: "Estado", field: "status" },
   ];
+
+  const fieldLabels = {
+    name: "Nombre",
+    breed: "Raza",
+    disease: "Enfermedad",
+    healthStatus: "Salud",
+    adopted: "Adoptado",
+    photos: "Foto",
+    information: "Información",
+    status: "Estado",
+    color: "Color",
+    size: "Tamaño",
+    weight: "Peso",
+    fur: "Pelaje",
+    sex: "Sexo",
+    age: "Edad",
+    sterilized: "Esterilizado",
+  };
+
+  const hiddenFields = [
+    "id",
+    "photos",
+    "createdAt",
+    "updatedAt",
+    "deleted",
+    "characteristicsId",
+  ];
+
+  const handleSubmit = (animal: CreateAnimalDto) => {
+    console.log("Acción completada sobre animal:", animal);
+  };
 
   return (
     <DashboardForm
@@ -19,15 +54,13 @@ export default function DashboardAnimals() {
       columns={columns}
       fetchDataFn={getAnimalsPaginated}
       deleteFn={deleteAnimal}
-      findOneFn={searchAnimalByName}
-      modalFieldLabels={{
-        name: "Nombre",
-        speciesName: "Especie",
-        adopted: "Adoptado",
-      }}
-      modalHiddenFields={["id", "photos", "createdAt", "updatedAt"]}
+      findOneFn={searchAnimalsByName}
+      modalFieldLabels={fieldLabels}
+      modalHiddenFields={hiddenFields}
+      limit={15}
     >
-      <AnimalForm />
+      {/* <AnimalForm onSubmit={handleSubmit} />
+       */}<Button >hola</Button>
     </DashboardForm>
   );
 }

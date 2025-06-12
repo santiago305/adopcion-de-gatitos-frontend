@@ -10,7 +10,7 @@ export const getAnimalsPaginated = async (page = 1, limit = 15) => {
 // 🔍 Buscar animales por nombre
 export const searchAnimalsByName = async (name: string) => {
   const response = await axiosInstance.get(API_ANIMALS_GROUP.searchByName(name));
-  return response.data;
+  return response.data.data || []; // Devuelve solo el array directamente
 };
 
 // 🔍 Obtener un animal por ID
