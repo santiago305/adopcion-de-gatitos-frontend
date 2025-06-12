@@ -4,7 +4,7 @@ import { getRelativeTime } from "@/common/utils/dateRelative";
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  data: Record<string, string | number>;
+  data: Record<string, string | number | boolean>; 
   fieldLabels?: Record<string, string>;
   hiddenFields?: string[];
   children?: ReactNode;
@@ -26,13 +26,18 @@ export default function Modal({
     }
   };
 
-  const formatValue = (key: string, value: string | number) => {
+  const formatValue = (key: string, value: string | number | boolean) => {
+    if (typeof value === "boolean") {
+      return value ? "Sí" : "No"; // ✅ Mostrar Sí/No en lugar de true/false
+    }
+
     if (typeof value === "string" && key.toLowerCase().includes("at")) {
       const date = new Date(value);
       if (!isNaN(date.getTime())) {
-        return getRelativeTime(value); // 👈 Se muestra como "hace 3 horas"
+        return getRelativeTime(value); // ✅ Ej. "hace 3 horas"
       }
     }
+
     return String(value);
   };
 
@@ -62,6 +67,7 @@ export default function Modal({
               fieldLabels[key] ||
               fieldLabels[key.toLowerCase()] ||
               key.charAt(0).toUpperCase() + key.slice(1);
+
             return (
               <div key={index}>
                 <strong>{label}:</strong> {formatValue(key, value)}

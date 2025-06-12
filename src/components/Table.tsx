@@ -1,4 +1,4 @@
-interface TableProps { 
+interface TableProps {
   data: any[];
   columns: { label: string; field: string }[];
   onRowClick: (rowData: any) => void;
@@ -7,7 +7,21 @@ interface TableProps {
   onPageChange: (page: number) => void;
 }
 
-export default function Table({ data, columns, onRowClick, currentPage, totalPages, onPageChange }: TableProps) {
+export default function Table({
+  data,
+  columns,
+  onRowClick,
+  currentPage,
+  totalPages,
+  onPageChange,
+}: TableProps) {
+  const formatCellValue = (value: any) => {
+    if (typeof value === "boolean") {
+      return value ? "Sí" : "No";
+    }
+    return value;
+  };
+
   return (
     <div className="overflow-x-auto mt-6 select-none">
       <table className="min-w-full table-auto border-collapse bg-white rounded-lg">
@@ -25,7 +39,7 @@ export default function Table({ data, columns, onRowClick, currentPage, totalPag
             <tr key={rowIndex} className="border-b hover:bg-gray-50 cursor-pointer" onClick={() => onRowClick(row)}>
               {columns.map((col, colIndex) => (
                 <td key={colIndex} className="px-6 py-3 text-sm text-gray-600 border-b">
-                  {row[col.field]}
+                  {formatCellValue(row[col.field])}
                 </td>
               ))}
             </tr>

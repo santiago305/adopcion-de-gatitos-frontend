@@ -14,8 +14,8 @@ export default function DashboardCharacteristics() {
     { label: "Peso", field: "weight" },
     { label: "Pelaje", field: "fur" },
     { label: "Sexo", field: "sex" },
-    { label: "Edad", field: "age" },
     { label: "Esterilizado", field: "sterilized" },
+    { label: "Edad", field: "age" },
     { label: "Personalidad", field: "personality" },
   ];
 
@@ -28,8 +28,8 @@ export default function DashboardCharacteristics() {
     age: "Edad",
     sterilized: "Esterilizado",
     personality: "Personalidad",
-    createdAt: "Creado el",
-    updatedAt: "Modificado el",
+    createdat: "Creado el",
+    updatedat: "Modificado el",
   };
 
   const hiddenFields = ["id", "personalityId"];

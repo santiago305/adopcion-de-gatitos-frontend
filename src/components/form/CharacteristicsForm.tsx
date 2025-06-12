@@ -117,7 +117,12 @@ export default function CharacteristicsForm({
 
             <div className="grid gap-1">
               <Label htmlFor="sterilized">¿Esterilizado?</Label>
-              <select {...register("sterilized")} className="p-2 rounded w-full border">
+              <select
+                {...register("sterilized", {
+                  setValueAs: (v) => v === "true", // 👈 conversión aquí
+                })}
+                className="p-2 rounded w-full border"
+              >
                 <option value="">Seleccione</option>
                 <option value="true">Sí</option>
                 <option value="false">No</option>
